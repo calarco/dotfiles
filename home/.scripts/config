@@ -1,0 +1,7 @@
+screen_width=$(sres -W)
+font='terminus-8'
+icons=$HOME/.xbm
+color_fg='#555555'
+color_bg='#dedede'
+color_se='#d64937'
+color_sf='#f9f9f9'

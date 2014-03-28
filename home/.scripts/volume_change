@@ -1,0 +1,7 @@
+# !/bin/bash
+
+if [[ $1 = "up" ]] ; then
+echo "T^i($HOME/.xbm/spkr_01.xbm) "`ponymix increase 5 | gdbar -bg "#555555" -fg "#d64937" -w 83 -h 8 -s o -ss 1 -sw 3 -nonl` > "$PANEL_FIFO"
+elif [[ $1 = "down" ]] ; then
+echo "T^i($HOME/.xbm/spkr_01.xbm) "`ponymix decrease 5 | gdbar -bg "#555555" -fg "#d64937" -w 83 -h 8 -s o -ss 1 -sw 3 -nonl` > "$PANEL_FIFO"
+fi

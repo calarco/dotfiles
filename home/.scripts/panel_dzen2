@@ -1,0 +1,140 @@
+#! /bin/bash
+#
+# Example panel for dzen2
+
+font_family='Terminus'
+font_size=11
+
+. config
+
+adaptive_centering=0
+NORMIFS=$IFS
+FIELDIFS=':'
+PADDING=' '
+
+while getopts 'af:s:' opt ; do
+	case "$opt" in
+		a)
+			adaptive_centering=1
+			;;
+		f)
+			font_family=$OPTARG
+			;;
+		s)
+			font_size=$OPTARG
+			;;
+	esac
+done
+
+shift $((OPTIND - 1))
+
+while read -r line ; do
+	case $line in
+		M*)
+			# mpd output
+			mpd="^fg($color_fg)^bg($color_bg)^ca(1, popup_music)^ca(2, mpc toggle)${line#?}^ca()^ca()"
+			;;
+		S*)
+			# pulseaudio volume controls
+			#vol=$(pacmd list-sinks|grep -A 15 '* index'| awk '/volume: front/{ print $5 }' | sed 's/%//g')
+			#if [ $vol == "0" ]; then 
+			#    icon="^i($icons/spkr_02.xbm)"
+			#    percbar=`echo 0 | gdbar -bg "#393939" -fg "#d6d6d6" -h 1 -w 60`
+			#else
+			#    icon="^i($icons/spkr_01.xbm)"
+			#    percbar=`echo -e "$vol" | gdbar -bg "f9f9f9" -fg "dedede" -w 63 -h 1 -s o -ss 1 -sw 5 -nonl`
+			#fi
+			# clock output
+			sys_infos="^fg($color_fg)^bg($color_bg)^ca(1, popup_calendar)^i($icons/clock.xbm) ${line#?}^ca()  "
+			;;
+		T*)
+			# xtitle output
+			# title="^fg($color_fg)^bg($color_bg)^ca(2, bspc window -c)  ${line#?}  ^ca(1, bspc window -c)| ^i($icons/close.xbm)^ca()^ca()^fg()^bg()"
+			title="^fg($color_fg)^bg($color_bg)^ca(2, ponymix toggle)^ca(4, volume_change up)^ca(5, volume_change down)${line#?}^ca()^ca()^ca()^fg()^bg()"
+			;;
+		W*)
+			# bspwm internal state
+			wm_infos="$PADDING"
+			IFS=$FIELDIFS
+			set -- ${line#?}
+			while [ $# -gt 0 ] ; do
+				item=$1
+				case $item in
+					[OoFfUu]*)
+						# desktops
+						name=${item#?}
+						case $item in
+							O*)
+								# focused occupied desktop
+								WS="^i($icons/full.xbm)"
+								FG=$color_se
+								BG=$color_bg
+								;;
+							F*)
+								# focused free desktop
+								WS="^i($icons/empty.xbm)"
+								FG=$color_se
+								BG=$color_bg
+								;;
+							U*)
+								# focused urgent desktop
+								WS="^i($icons/full.xbm)"
+								FG=$color_bg
+								BG=$color_se
+								;;
+							o*)
+								# occupied desktop
+								WS="^i($icons/full.xbm)"
+								FG=$color_fg
+								BG=$color_bg
+								;;
+							f*)
+								# free desktop
+								WS="^i($icons/empty.xbm)"
+								FG=$color_fg
+								BG=$color_bg
+								;;
+							u*)
+								# urgent desktop
+								WS="^i($icons/u.xbm)"
+								FG=$color_fg
+								BG=$color_bg
+								;;
+						esac
+						wm_infos="${wm_infos}^fg(${FG})^bg(${BG})^ca(1, bspc desktop -f ${name})^ca(2, bspc window -d ${name}) ${WS} ^ca()^ca()"
+						;;
+					L*)
+						# layout
+						layout=$(printf "%s" "${item#?}" | sed 's/^\(.\).*/\U\1/')
+						
+						if [ "$layout" != 'T' ]; then
+							li="^i($icons/wm_tall.xbm)"
+						elif [ "$layout" != 'M' ]; then
+							li="^i($icons/wm_full.xbm)"
+						fi
+						wm_infos="^ca(1, popup_menu)  ^i($icons/arch_10x10.xbm)  ^ca()| ${wm_infos}^fg()^bg() ^fg($color_fg)^bg($color_bg)^ca(1, bspc desktop -l next)  $li  ^ca()"
+						;;
+				esac
+				shift
+			done
+			IFS=$NORMIFS
+			;;
+	esac
+	set -- $(printf '%s\0%s\0%s' "$wm_infos" "$mpd" "$title    $sys_infos" | sed 's/\^[a-z]\+([^)]*)//g' | xargs -0 txtw -f "$font_family" -s "$font_size")
+	left_width=$1
+	center_width=$(expr $2 + 25)
+	right_width=$3
+	left_indent=0
+	right_indent=$((screen_width - (right_width + 120)))
+	available_center=$((screen_width - (left_width + right_width)))
+	if [ $available_center -lt $center_width ] ; then
+		center_indent=$((left_indent + left_width))
+	else
+		if [ $adaptive_centering -eq 1 ] ; then
+			center_indent=$((left_width + (available_center - center_width) / 2))
+		else
+			center_indent=$(( (screen_width - center_width) / 2 ))
+		fi
+	fi
+	printf "%s\n" "^pa($center_indent)$mpd^pa($left_indent)$wm_infos^pa($right_indent) $title  |  $sys_infos"
+done

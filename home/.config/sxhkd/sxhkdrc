@@ -1,0 +1,131 @@
+#
+# bspwm hotkeys
+#
+
+super + alt + Escape
+	bspc quit
+
+# Close window
+super + q
+	bspc window -c
+
+# Kill window
+super {_,shift + }q
+	bspc  window -k
+
+# Rotate leaves of tree
+super + shift + {comma,period}
+	bspc desktop -R {90,270}
+
+# Toggle monocle
+super + t
+	bspc desktop -l next
+
+# Balance tree
+super + b
+	bspc desktop -B
+
+# Toggle floating, pseudotiled, fullscreen
+super + {s,d,f}
+	bspc window -t {floating,pseudo_tiled,fullscreen}
+
+super + {grave,Tab}
+	bspc {window,desktop} -f last
+
+super + apostrophe
+	bspc window -s last
+
+super + {tab,masculine}
+	bspc control --record-history off; \
+	bspc window {older,newer} -f; \
+	bspc control --record-history on
+
+super + y
+	bspc window -w last.manual
+
+# Move current window to largest space
+super + m
+	bspc window -s biggest
+
+super + {_,shift + }{h,j,k,l}
+	bspc window -{f,s} {left,down,up,right}
+
+super + {_,shift + }c
+	bspc window -f {next,prev}
+
+super + bracket{left,right}
+	bspc desktop -f {prev,next}
+
+super + ctrl + {h,j,k,l}
+	bspc window -p {left,down,up,right}
+
+super + ctrl + {_,shift + }space
+	bspc {window -p cancel,desktop -c}
+
+super + alt + {h,j,k,l}
+	bspc window -e {left -10,down +10,up -10,right +10}
+
+super + alt + shift + {h,j,k,l}
+	bspc window -e {right -10,up +10,down -10,left +10}
+
+super + ctrl + {1-9}
+	bspc window -r 0.{1-9}
+
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,window -d} ^{1-9,10}
+
+#
+# mouse bindings
+#
+
+~button1
+	bspc pointer -g focus
+
+# Move or resize window
+super + button{1-3}
+	bspc pointer -g {move,resize_side,resize_corner}
+
+super + !button{1-3}
+	bspc pointer -t %i %i
+
+super + @button{1-3}
+	bspc pointer -u
+
+# Change window gap
+super + {comma,period}
+	bspc config -d focused window_gap $((`bspc config -d focused window_gap` {+,-} 2 ))
+
+#
+# exec
+#
+
+super + Return
+	urxvtc
+
+super + shift + Return
+	 bspc rule -a urxvt -o pseudo_tiled=on && urxvtc
+
+super + space
+	dmenu_launch
+
+Print
+	scrot -q 100 -e 'mv $f ~/Imágenes/'
+
+XF86AudioPrev
+	 mpc prev
+
+XF86AudioNext
+	 mpc next
+
+XF86AudioPlay
+	 mpc toggle
+
+XF86AudioStop
+	 mpc stop
+
+XF86Audio{Lower,Raise}Volume
+	 volume_change {down,up}
+
+# make sxhkd reload its configuration files:
+super + Escape
+	pkill -USR1 -x sxhkd

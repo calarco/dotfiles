@@ -1,0 +1,35 @@
+#!/bin/bash
+cachedir=${XDG_CACHE_HOME:-"$HOME/.cache"}
+if [ -d "$cachedir" ]; then
+	cache=$cachedir/dmenu_run
+else
+	cache=$HOME/.dmenu_cache # if no xdg dir, fall back to dotfile in ~
+fi
+cmd=`(
+	IFS=:
+	aliases="$HOME/.bashrc"
+# || stest -fqr -n "$cache" "$aliases"
+	if stest -dqr -n "$cache" $PATH; then
+         	(
+		stest -flx $PATH
+           	source $aliases
+           	alias | sed 's/alias \([[:alnum:]]\+\)=.*/\1/'
+		) | (
+		echo -e "\
+chromium
+nautilus
+gedit
+brackets
+filezilla
+transmission-gtk
+gimp
+inkscape
+blender
+easytag"
+		sort -u
+		) | tee "$cache" | dmenu -p ' > ' -nb '#dedede' -nf '#555555' -sb '#D64937' -sf '#f9f9f9' -h $PANEL_HEIGHT -w 300 -l 9 -fn 'terminus-8' "$@"
+	else
+		dmenu -p ' > ' -nb '#dedede' -nf '#555555' -sb '#D64937' -sf '#f9f9f9' -h $PANEL_HEIGHT -w 300 -l 9 -fn 'terminus-8' "$@" < "$cache"
+	fi
+)`
+echo -e "source ~/.bashrc \n $cmd" | bash -O expand_aliases &

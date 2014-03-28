@@ -1,0 +1,80 @@
+#n settings #####
+
+mpd_host = "localhost"
+mpd_music_dir = "/media/Data/Música"
+mpd_connection_timeout = "5"
+mpd_crossfade_time = "0"
+
+##### delays #####
+
+playlist_disable_highlight_delay = "5"
+
+##### song format #####
+
+song_status_format = "$8%t $3❭❭ $2%a $3❭❭{ $5%b $3❭❭ }$4%y$2"
+song_library_format = "{%n - }{%t}|{%f}"
+now_playing_prefix = "$r$b"
+now_playing_suffix = "$/b$/r"
+song_columns_list_format = "(7f)[white]{l} (25)[white]{a} (40)[]{b} (30)[white]{t}"
+
+##### various settings #####
+
+execute_on_song_change = "song_change"
+playlist_shorten_total_times = "yes"
+playlist_display_mode = "columns" (classic/columns)
+browser_display_mode = "columns" (classic/columns)
+user_interface = "alternative"
+discard_colors_if_item_is_selected = "yes"
+incremental_seeking = "yes"
+seek_time = "1"
+autocenter_mode = "yes"
+centered_cursor = "yes"
+progressbar_look = "━■"
+media_library_left_column = "a" (possible values: a,y,g,c,p, legend above)
+default_find_mode = "wrapped" (wrapped/normal)
+default_space_mode = "add" (add/select)
+default_tag_editor_left_col = "albums" (albums/dirs)
+default_tag_editor_pattern = "%n. %t"
+header_visibility = "yes"
+statusbar_visibility = "yes"
+titles_visibility = "yes"
+header_text_scrolling = "yes"
+fancy_scrolling = "yes"
+cyclic_scrolling = "no"
+lines_scrolled = "1"
+mouse_list_scroll_whole_page = "yes"
+startup_screen = "2"
+jump_to_now_playing_song_at_start = "yes"
+ask_before_clearing_main_playlist = "no"
+ignore_leading_the = "yes"
+mouse_support = "yes"
+mouse_list_scroll_whole_page = "no"
+display_screens_numbers_on_start = "no"
+display_bitrate = "yes"
+
+##### colors definitions #####
+
+colors_enabled = "yes"
+empty_tag_color = "cyan"
+discard_colors_if_item_is_selected = "yes"
+header_window_color = "green"
+volume_color = "cyan"
+state_line_color = "white"
+state_flags_color = "green"
+main_window_color = "red"
+main_window_highlight_color = "yellow"
+progressbar_color = "blue"
+statusbar_color = "white"
+alternative_ui_separator_color = "white"
+active_column_color = "red"
+visualizer_color = "white"
+
+visualizer_in_stereo = "yes"
+visualizer_fifo_path = "/tmp/mpd.fifo"
+visualizer_output_name = "my_fifo"
+visualizer_sync_interval = "1"
+#visualizer_type = "wave" (spectrum/wave)
+visualizer_type = "spectrum" (spectrum/wave)
+
+#Separate Albums in Playlist
+playlist_separate_albums = "yes"

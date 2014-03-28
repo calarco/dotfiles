@@ -1,0 +1,59 @@
+#!/bin/sh
+
+if [ $(pgrep -cx popup_menu) -gt 1 ] ; then
+	printf "%s\n" "The panel is already running." >&2
+	exit 1
+fi
+
+. config
+
+MENUFILE=$HOME/.scripts/popup_menu_apps
+
+w=150
+
+# Width of the graphical separator (default 80% of window's width)
+SEPARATOR_WIDTH=`expr $w - 15`
+
+# number of visible menu entries (access the others through scrolling up/down)
+LINES=`wc -l "$MENUFILE"|sed -e 's/ .*//'`
+[ $LINES -gt 20 ] && LINES=20
+
+execute () {
+	read PROG
+
+	while read LINE; do 
+		LBL=;APP=
+		LBL=$(echo $LINE|sed -e 's/:.*$//' -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+		APP=$(echo $LINE|sed -e 's/^.*://' -e 's/^[ \t]*//' -e 's/[ \t]*$//')
+
+		if [ x"$APP" = x"exit" ]; then
+			exit
+		elif [ x"$LBL" = x"$PROG" ]; then
+			if [ x"$APP" = x"" ]; then
+				$LBL&
+			else
+				$APP&
+			fi
+			exit
+		fi
+	done < "$MENUFILE"
+}
+
+
+(
+echo "^bg($color_se)^fg($color_sf)  ^i($HOME/.xbm/arch_10x10.xbm)  ^fg()^bg()"   
+sed -e 's/:.*$//' \
+    -e 's/^.--*/ ^r('${SEPARATOR_WIDTH}'x1)/' "$MENUFILE" 
+) | \
+	dzen2 -l $LINES -h $PANEL_HEIGHT -tw 34 -w $w -fn $font -bg $color_bg -fg $color_fg -p -m -ta c -sa l -e 'onstart=uncollapse,scrollhome;leaveslave=exit;button1=menuprint_noparse;button2=exit' | execute
+#'onstart=uncollapse,scrollhome,raise;\
+#enterslave=grabkeys;\
+#leaveslave=exit;\
+#button4=scrollup;\
+#button5=scrolldown;\
+#key_Left=scrollup;\
+#key_Right=scrolldown;\
+#key_Escape=ungrabkeys,exit;\
+#button1=menuprint_noparse,exit;\
+#button2=exit;\
+#button3=exit' | execute

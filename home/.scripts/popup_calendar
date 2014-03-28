@@ -1,0 +1,28 @@
+#!/bin/sh
+
+if [ $(pgrep -cx popup_calendar) -gt 1 ] ; then
+	printf "%s\n" "The panel is already running." >&2
+	exit 1
+fi
+
+. config
+
+x=$((screen_width - 63))
+#x=$((screen_width / 2 - 22))
+
+TODAY=$(expr `date +'%d'` + 0)
+MONTH=`date +'%m'`
+YEAR=`date +'%Y'`
+
+(
+echo "^bg($color_se)^fg($color_sf) ^i($icons/clock.xbm)" `date +'%H:%M'` " ^fg()^bg()";
+echo `date +'%A %d/%m/%y %n'`
+
+cal | sed -re "s/^(.*[A-Za-z][A-Za-z]*.*)$/^fg($color_se)^bg($color_bg)\1/;s/(^|[ ])($TODAY)($|[ ])/\1^bg($color_se)^fg($color_sf)\2^fg($color_fg)^bg($color_bg)\3/"
+
+# next month, hilight header
+#[ $MONTH -eq 12 ] && YEAR=`expr $YEAR + 1`
+#cal `expr \( $MONTH + 1 \) % 12` $YEAR \
+#    | sed -e 's/^\(.*[A-Za-z][A-Za-z]*.*\)$/^fg($color_se)^bg($color_bg)\1/'
+
+) | dzen2 -fg "$color_fg" -bg "$color_bg" -fn $font -x $x -h $PANEL_HEIGHT -tw 56 -w 160 -l 9 -ta c -sa c -p -e 'button1=exit;button2=exit;onstart=uncollapse;'

@@ -1,0 +1,36 @@
+#! /bin/sh
+
+if [ $(pgrep -cx popup_music) -gt 1 ] ; then
+	printf "%s\n" "The panel is already running." >&2
+	exit 1
+fi
+
+. config
+
+mpd=$(mpc -f " %artist% - %album% - %title% " current)
+
+font_family='terminus'
+font_size=11
+set -- $(printf '%s\0%s\0%s' "$mpd" | sed 's/\^[a-z]\+([^)]*)//g' | xargs -0 txtw -f "$font_family" -s "$font_size")
+
+title_width=$(expr $1 + 37)
+x=$((screen_width / 2 - (title_width / 2)))
+
+w=400
+bw=$(expr $w - 75)
+
+position(){
+	curr=$(mpc | awk 'NR==2' | awk '{print $3}' | sed 's/\/.*//')
+	tot=$(mpc | awk 'NR==2' | awk '{print $3}' | sed 's/^.*\///')
+	pos=$(mpc | awk 'NR==2' | awk '{print $4}' | sed 's/(//' | sed 's/%)//')
+	bar=$(echo $pos | gdbar -w $bw -h 3 -fg "$color_se" -bg "$color_sf")
+	echo -n " $curr $bar $tot"
+	return
+}
+
+while :; do
+echo "^bg($color_se)^fg($color_sf) ^i($icons/note.xbm)$mpd^fg()^bg()
+^p(65)^ca(1, mpc prev)^i($icons/prev.xbm)^ca()   ^ca(1, mpc toggle)^i($icons/play.xbm)^ca()   ^ca(1, mpc stop)^i($icons/stop.xbm)^ca()   ^ca(1, mpc next)^i($icons/next.xbm)^ca()
+$(position)"
+sleep 1s 
+done | dzen2 -p -x $x -l 1 -tw $title_width -w $w -h $PANEL_HEIGHT -ta c -fn $font -bg $color_bg -fg $color_fg -e 'button1=exit;button2=exit;onstart=uncollapse;'

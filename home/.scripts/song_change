@@ -1,0 +1,5 @@
+#!/bin/bash
+
+current=$(mpc -f "%artist%\n%album%\n%title%" current)
+
+notify-send "$current" -t 5000
