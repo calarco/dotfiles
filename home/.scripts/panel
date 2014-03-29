@@ -14,7 +14,7 @@ flavor=${1:-bar}
 [ -e "$PANEL_FIFO" ] && rm "$PANEL_FIFO"
 mkfifo "$PANEL_FIFO"
 
-bspc config top_padding $PANEL_HEIGHT
+bspc config top_padding $panel_height
 
 bspc control --subscribe > "$PANEL_FIFO" &
 #xtitle -sf 'T%s' > "$PANEL_FIFO" &
@@ -37,7 +37,7 @@ case "$flavor" in
 	dzen2)
 		FONT_FAMILY='Terminus'
 		FONT_SIZE=11
-		cat "$PANEL_FIFO" | panel_dzen2 -f "$FONT_FAMILY" -s "$FONT_SIZE" | dzen2 -h $PANEL_HEIGHT -dock -ta l -title-name panel -fn "$font" -fg "$color_fg" -bg "$color_bg" -e 'button2=;' &
+		cat "$PANEL_FIFO" | panel_dzen2 -f "$FONT_FAMILY" -s "$FONT_SIZE" | dzen2 -h $panel_height -dock -ta l -title-name panel -fn "$font" -fg "$color_fg" -bg "$color_bg" -e 'button2=;' &
 		;;
 esac
 

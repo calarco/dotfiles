@@ -5,6 +5,9 @@ if [ -d "$cachedir" ]; then
 else
 	cache=$HOME/.dmenu_cache # if no xdg dir, fall back to dotfile in ~
 fi
+
+. config
+
 cmd=`(
 	IFS=:
 	aliases="$HOME/.bashrc"
@@ -27,9 +30,9 @@ inkscape
 blender
 easytag"
 		sort -u
-		) | tee "$cache" | dmenu -p ' > ' -nb '#dedede' -nf '#555555' -sb '#D64937' -sf '#f9f9f9' -h $PANEL_HEIGHT -w 300 -l 9 -fn 'terminus-8' "$@"
+		) | tee "$cache" | dmenu -p ' > ' -nb '#dedede' -nf '#555555' -sb '#D64937' -sf '#f9f9f9' -h $panel_height -w 300 -l 9 -fn 'terminus-8' "$@"
 	else
-		dmenu -p ' > ' -nb '#dedede' -nf '#555555' -sb '#D64937' -sf '#f9f9f9' -h $PANEL_HEIGHT -w 300 -l 9 -fn 'terminus-8' "$@" < "$cache"
+		dmenu -p ' > ' -nb '#dedede' -nf '#555555' -sb '#D64937' -sf '#f9f9f9' -h $panel_height -w 300 -l 9 -fn 'terminus-8' "$@" < "$cache"
 	fi
 )`
 echo -e "source ~/.bashrc \n $cmd" | bash -O expand_aliases &

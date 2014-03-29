@@ -33,4 +33,4 @@ echo "^bg($color_se)^fg($color_sf) ^i($icons/note.xbm)$mpd^fg()^bg()
 ^p(65)^ca(1, mpc prev)^i($icons/prev.xbm)^ca()   ^ca(1, mpc toggle)^i($icons/play.xbm)^ca()   ^ca(1, mpc stop)^i($icons/stop.xbm)^ca()   ^ca(1, mpc next)^i($icons/next.xbm)^ca()
 $(position)"
 sleep 1s 
-done | dzen2 -p -x $x -l 1 -tw $title_width -w $w -h $PANEL_HEIGHT -ta c -fn $font -bg $color_bg -fg $color_fg -e 'button1=exit;button2=exit;onstart=uncollapse;'
+done | dzen2 -p -x $x -l 1 -tw $title_width -w $w -h $panel_height -ta c -fn $font -bg $color_bg -fg $color_fg -e 'button1=exit;button2=exit;onstart=uncollapse;'

@@ -15,8 +15,10 @@ setxkbmap -layout es
 xsetroot -cursor_name left_ptr
 xsetroot -solid "#333333"
 nitrogen --restore
-compton --config .compton.conf -b &
 sxhkd &
 urxvtd &
 /usr/lib/lxpolkit/lxpolkit &
+export PANEL_FIFO="/tmp/panel-fifo"
+export PATH=$PATH:$HOME/.scripts
+compton --config .compton.conf -b &
 exec bspwm

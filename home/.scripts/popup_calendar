@@ -25,4 +25,4 @@ cal | sed -re "s/^(.*[A-Za-z][A-Za-z]*.*)$/^fg($color_se)^bg($color_bg)\1/;s/(^|
 #cal `expr \( $MONTH + 1 \) % 12` $YEAR \
 #    | sed -e 's/^\(.*[A-Za-z][A-Za-z]*.*\)$/^fg($color_se)^bg($color_bg)\1/'
 
-) | dzen2 -fg "$color_fg" -bg "$color_bg" -fn $font -x $x -h $PANEL_HEIGHT -tw 56 -w 160 -l 9 -ta c -sa c -p -e 'button1=exit;button2=exit;onstart=uncollapse;'
+) | dzen2 -fg "$color_fg" -bg "$color_bg" -fn $font -x $x -h $panel_height -tw 56 -w 160 -l 9 -ta c -sa c -p -e 'button1=exit;button2=exit;onstart=uncollapse;'
