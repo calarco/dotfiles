@@ -1,5 +1,5 @@
 dotfiles
 ========
-dzen2 terminus-font rxvt-unicode zsh nitrogen polkit 
+dzen2 terminus-font rxvt-unicode zsh nitrogen polkit scrot vim mpd mpc ncmpcpp
 
-AUR: bspwm sxhkd sres-git sutils-git txtw-git gksu-polkit-git dmenu-q-xywh-xft-master compton-git
+AUR: bspwm sxhkd sres-git sutils-git txtw-git gksu-polkit-git dmenu-q-xywh-xft-master compton-git python-powerline-git
