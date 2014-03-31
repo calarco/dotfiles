@@ -41,7 +41,7 @@ execute () {
 
 
 (
-echo "^bg($color_se)^fg($color_sf)  ^i($HOME/.xbm/arch_10x10.xbm)  ^fg()^bg()"   
+echo "^bg($color_se)^fg($color_sf)  ^i($HOME/.xbm/arch.xbm)  ^fg()^bg()"   
 sed -e 's/:.*$//' \
     -e 's/^.--*/ ^r('${SEPARATOR_WIDTH}'x1)/' "$MENUFILE" 
 ) | \

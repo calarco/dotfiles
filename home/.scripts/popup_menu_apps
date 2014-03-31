@@ -1,15 +1,15 @@
  ^i(/home/calarco/.xbm/google-chrome.xbm) Web:chromium
- ^i(/home/calarco/.xbm/thunar.xbm) Archivos:nautilus
+ ^i(/home/calarco/.xbm/folder.xbm) Archivos:nautilus
  ^i(/home/calarco/.xbm/text.xbm) Texto:gedit
  ^i(/home/calarco/.xbm/prompt.xbm) VIM:urxvtc -e vim
  ^i(/home/calarco/.xbm/prompt.xbm) Brackets:brackets
  ^i(/home/calarco/.xbm/pcman.xbm) Filezilla:filezilla
- ^i(/home/calarco/.xbm/net_down_02.xbm) Torrents:transmission-gtk
+ ^i(/home/calarco/.xbm/transmission.xbm) Torrents:transmission-gtk
  ^i(/home/calarco/.xbm/fox.xbm) Gimp:gimp
  ^i(/home/calarco/.xbm/mem.xbm) Inkscape:inkscape
  ^i(/home/calarco/.xbm/3d.xbm) Blender:blender
- ^i(/home/calarco/.xbm/note.xbm) Música:urxvtc -e ncmpcpp
- ^i(/home/calarco/.xbm/urxvt.xbm) Terminal:urxvtc
+ ^i(/home/calarco/.xbm/music.xbm) Música:urxvtc -e ncmpcpp
+ ^i(/home/calarco/.xbm/term.xbm) Terminal:urxvtc
  ----------
  ^i(/home/calarco/.xbm/play.xbm) cerrar sesión:bspc quit
  ^i(/home/calarco/.xbm/full.xbm) suspender:systemctl suspend

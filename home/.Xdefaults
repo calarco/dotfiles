@@ -16,7 +16,7 @@ urxvt*font: xft:Terminess Powerline-9
 URxvt*geometry: 150x50
 ! transparency
 URxvt.transparent: true
-urxvt*depth: 32
+#urxvt*depth: 32
 !URxvt.tintColor: #2d2d2d
 URxvt.shading: 40
 URxvt.blurRadius: 30
@@ -88,7 +88,7 @@ Xft.hintstyle:  hintslight
 *color11:   #F3B43A
 
 !blue
-*color4:    #0087af
+*color4:    #4A90D9
 *color12:   #0D68A8
 
 !Magenta

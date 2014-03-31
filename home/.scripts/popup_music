@@ -9,7 +9,7 @@ fi
 
 mpd=$(mpc -f " %artist% - %album% - %title% " current)
 
-font_family='terminus'
+font_family='terminesspowerline'
 font_size=11
 set -- $(printf '%s\0%s\0%s' "$mpd" | sed 's/\^[a-z]\+([^)]*)//g' | xargs -0 txtw -f "$font_family" -s "$font_size")
 
@@ -29,7 +29,7 @@ position(){
 }
 
 while :; do
-echo "^bg($color_se)^fg($color_sf) ^i($icons/note.xbm)$mpd^fg()^bg()
+echo "^bg($color_se)^fg($color_sf) ^i($icons/music.xbm)$mpd^fg()^bg()
 ^p(65)^ca(1, mpc prev)^i($icons/prev.xbm)^ca()   ^ca(1, mpc toggle)^i($icons/play.xbm)^ca()   ^ca(1, mpc stop)^i($icons/stop.xbm)^ca()   ^ca(1, mpc next)^i($icons/next.xbm)^ca()
 $(position)"
 sleep 1s 

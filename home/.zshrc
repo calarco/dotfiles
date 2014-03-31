@@ -6,6 +6,7 @@ SAVEHIST=1000
 setopt appendhistory
 setopt HIST_IGNORE_DUPS
 
+export EDITOR=vim
 bindkey -v
 
 # create a zkbd compatible hash;

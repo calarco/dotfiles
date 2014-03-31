@@ -84,7 +84,7 @@ while read -r line ; do
 								;;
 							o*)
 								# occupied desktop
-								WS="^i($icons/full.xbm)"
+								WS="^i($icons/half.xbm)"
 								FG=$color_fg
 								BG=$color_bg
 								;;
@@ -112,7 +112,7 @@ while read -r line ; do
 						elif [ "$layout" != 'M' ]; then
 							li="^i($icons/wm_full.xbm)"
 						fi
-						wm_infos="^ca(1, popup_menu)  ^i($icons/arch_10x10.xbm)  ^ca()| ${wm_infos}^fg()^bg() ^fg($color_fg)^bg($color_bg)^ca(1, bspc desktop -l next)  $li  ^ca()"
+						wm_infos="^ca(1, popup_menu)  ^i($icons/arch.xbm)  ^ca()| ${wm_infos}^fg()^bg() ^fg($color_fg)^bg($color_bg)^ca(1, bspc desktop -l next)  $li  ^ca()"
 						;;
 				esac
 				shift
@@ -125,7 +125,7 @@ while read -r line ; do
 	center_width=$(expr $2 + 25)
 	right_width=$3
 	left_indent=0
-	right_indent=$((screen_width - (right_width + 120)))
+	right_indent=$((screen_width - (right_width + 122)))
 	available_center=$((screen_width - (left_width + right_width)))
 	if [ $available_center -lt $center_width ] ; then
 		center_indent=$((left_indent + left_width))
