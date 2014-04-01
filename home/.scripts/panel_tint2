@@ -1,10 +1,18 @@
 #! /bin/sh
 
+. config
+
 if [ $(pgrep -cx tint2) -gt 1 ] ; then
 	printf "%s\n" "The panel is already running." >&2
 	exit 1
 fi
 
+if [[ $1 = "kill" ]] ; then
+bspc config focus_follows_pointer true
+bspc config bottom_padding 0
+killall tint2
+else
 bspc config focus_follows_pointer false
-bspc config bottom_padding $PANEL_HEIGHT
+bspc config bottom_padding $panel_height
 tint2
+fi
