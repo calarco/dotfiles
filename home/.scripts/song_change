@@ -1,5 +1,6 @@
 #!/bin/bash
 
 current=$(mpc -f "%artist%\n%album%\n%title%" current)
-
-notify-send "$current" -t 5000
+notify-send "$current"z -t 5000
+pkill -P $(pgrep song_art)
+song_art &
