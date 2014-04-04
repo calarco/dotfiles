@@ -59,7 +59,7 @@ compinit
 autoload -U promptinit
 promptinit
 
-vim_ins_mode="%F{black}%K{green} INSERT%F{green}'"
+vim_ins_mode="%F{black}%K{yellow} INSERT%F{yellow}'"
 vim_cmd_mode="%F{black}%K{white} COMMND%F{white}'"
 vim_mode=$vim_ins_mode
 
@@ -86,7 +86,6 @@ last="%(?,%F{green}"$'\ue0b2'"%F{black}%K{green} ✔ %K{green},%F{red}"$'\ue0b2'
 
 PROMPT='${vim_mode}'"%K{blue}"$'\ue0b0'\
 "%F{white}%K{blue} %n %F{blue}%K{black}"$'\ue0b0'\
-"%F{white}%K{black} %~ %F{black}%K{yellow}"$'\ue0b0'\
-"%F{black}%K{yellow} %# %F{yellow}%k"$'\ue0b0'"%f "
+"%F{white}%K{black} %~ %F{black}%k"$'\ue0b0'"%f "
 RPROMPT='${last}'\
 "%F{white}"$'\ue0b2'"%F{black}%K{white} %T %K{white}"

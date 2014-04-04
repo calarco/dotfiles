@@ -1,21 +1,30 @@
 #! /bin/sh
 
 if [ $(pgrep -cx popup_music) -gt 1 ] ; then
-	killall popup_music
+	printf "%s\n" "The panel is already running." >&2
+	exit 1
 fi
 
 . config
 
-mpt=$(mpc -f "%title% " current)
+mpt=$(mpc -f "%track%" current)
+mps=$(mpc -f "%title%" current)
 mpa=$(mpc -f "%album%" current)
 mpb=$(mpc -f "%artist%" current)
-art=$(mpc current -f %file% | sed 's_\(.*\)/\(.*\)/\(.*\)_\1/\2/_')
+art=$(mpc current -f "%file%" | sed 's_\(.*\)/\(.*\)/\(.*\)_\1/\2/_')
 
 w=300
 bw=$(expr $w - 75)
 
 x=$((screen_width / 2 - w / 2 + 60))
 ax=$((screen_width / 2 - w / 2 - 60))
+cx=$((w / 2 - 60))
+
+if [ "`mpc | grep "^\[paused\]"`" != "" ]; then
+	si="play.xbm"
+elif [ "`mpc | grep "^\[playing\]"`" != "" ]; then
+	si="pause.xbm"
+fi
 
 position(){
 	curr=$(mpc | awk 'NR==2' | awk '{print $3}' | sed 's/\/.*//')
@@ -23,15 +32,13 @@ position(){
 	pos=$(mpc | awk 'NR==2' | awk '{print $4}' | sed 's/(//' | sed 's/%)//')
 	bar=$(echo $pos | gdbar -w $bw -h 3 -fg "$color_se" -bg "$color_sf")
 	echo -n " $curr $bar $tot"
-	return
 }
 
-while :; do
-echo " $mpt
- $mpa
- $mpb
-^p(65)^ca(1, mpc prev)^i($icons/prev.xbm)^ca()   ^ca(1, mpc toggle)^i($icons/play.xbm)^ca()   ^ca(1, mpc stop)^i($icons/stop.xbm)^ca()   ^ca(1, mpc next)^i($icons/next.xbm)^ca()
-$(position)"
-sleep 1s 
-done | dzen2 -p -x $x -l 4 -tw $w -w $w -h $panel_height -ta l -fn $font -bg $color_bg -fg $color_fg -e 'button1=exit;button2=exit;onstart=uncollapse;' &
-bspc rule -a feh -o floating=on follow=on focus=off sticky=on borderless=yes && feh -Z -g 110x110+$ax+0 -^ art "/media/Data/Música/$art"
+echo "\
+^fg($color_se)$mps
+$mpa
+$mpb
+^fg($color_se)^bg($color_se)^fg($color_sf)^ca(1, mpc prev)  ^i($icons/prev.xbm)^ca()  | ^ca(1, mpc toggle) ^i($icons/$si) ^ca() | ^ca(1, mpc next) ^i($icons/next.xbm)  ^ca()^bg()^fg($color_se)
+$(position)\
+" | dzen2 -p -x $x -l 4 -tw $w -w $w -h $panel_height -ta c -sa c -fn $font -bg $color_bg -fg $color_fg -e 'button1=exit,exec:pkill -P $(pgrep popup_music);button2=exit;onstart=uncollapse;' &
+bspc rule -a feh -o floating=on follow=on focus=off sticky=on border_width=0 && feh -B black -Z -g 110x110+$ax+0 -^ art "/media/Data/Música/$art"
