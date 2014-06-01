@@ -1,0 +1,83 @@
+#!/usr/bin/env python
+import threading
+from os import system
+from sys import stderr
+from gi.repository import Gtk, Gio
+
+padding = 5
+spacing = 10
+widgets = []
+
+def remove(action, err):
+	buttons.pop(buttons.index(action))
+	stderr.write(action + ' not ' + err + "\n")
+
+class LogoutWindow(Gtk.Window):
+
+	def action(self, button):
+		win.hide()
+		threading.Thread(target=commands[button.get_label().replace('_', '')]).start()
+		Gtk.main_quit()
+
+	def logout(self, button):
+		system('bspc quit')
+
+	def suspend(self, button):
+		system('systemctl suspend')
+
+	def restart(self, button):
+		system('systemctl reboot')
+
+	def shutdown(self, button):
+		system('systemctl poweroff')
+
+	def __init__(self):
+		Gtk.Window.__init__(self, title="Logout")
+		self.set_border_width(spacing)
+		self.set_has_resize_grip(False)
+		self.set_resizable(False)
+		self.set_keep_above(True)
+		self.set_urgency_hint(True)
+		self.set_position(Gtk.WindowPosition.CENTER)
+		self.stick()
+		self.connect("delete-event", Gtk.main_quit)
+		box = Gtk.Box(True, 5)
+		self.add(box)
+
+		hb = Gtk.HeaderBar()
+		hb.props.show_close_button = False
+		hb.props.title = "Apagar equipo"
+		self.set_titlebar(hb)
+		
+		cancel = Gtk.Button('_Cancelar', use_underline=True)
+		cancel.connect('clicked', Gtk.main_quit)
+		#cancel.get_style_context().add_class('suggested-action')
+		hb.pack_end(cancel)
+
+		logout = Gtk.Button('_Cerrar sesión', use_underline=True)
+		logout.connect('clicked', self.logout)
+		box.pack_start(logout, True, True, padding)
+		widgets.append(logout)
+		
+		suspend = Gtk.Button('_Suspender', use_underline=True)
+		suspend.connect('clicked', self.suspend)
+		box.pack_start(suspend, True, True, padding)
+		widgets.append(suspend)
+		
+		restart = Gtk.Button('_Reiniciar', use_underline=True)
+		restart.connect('clicked', self.restart)
+		box.pack_start(restart, True, True, padding)
+		widgets.append(restart)
+		
+		shutdown = Gtk.Button('_Apagar', use_underline=True)
+		shutdown.connect('clicked', self.shutdown)
+		box.pack_start(shutdown, True, True, padding)
+		#icon = Gio.ThemedIcon(name="system-shutdown-symbolic")
+		#image = Gtk.Image.new_from_gicon(icon, Gtk.IconSize.BUTTON)
+		#shutdown.add(image)
+		shutdown.get_style_context().add_class('destructive-action')
+		widgets.append(shutdown)
+
+win = LogoutWindow()
+win.show_all()
+Gtk.main()
