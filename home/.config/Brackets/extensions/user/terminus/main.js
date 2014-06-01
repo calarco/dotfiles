@@ -3,5 +3,5 @@ define(function (require, exports, module) {
 
     var ExtensionUtils = brackets.getModule("utils/ExtensionUtils");
 
-    ExtensionUtils.addEmbeddedStyleSheet(".CodeMirror { font-family: 'Terminus (TTF)'; }");
+    ExtensionUtils.addEmbeddedStyleSheet(".CodeMirror { font-family: 'Envy Code R'; }");
 });

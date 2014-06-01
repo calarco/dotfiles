@@ -1,0 +1,43 @@
+#
+# Openbox shutdown dialog
+# This is example obshutdown rc file
+# Copy this file to ~/.obshutdown.rc and customise
+#
+
+[general]
+version =        0.1-rc1
+verbose =        false
+default_action = shutdown
+composite =      true
+theme =          faenza
+buttons =        cancel logout suspend restart shutdown
+
+[actions]
+logout =         killall compton && killall panel && bspc quit
+shutdown =       systemctl poweroff
+restart =        systemctl reboot
+lock = 
+switch = 
+suspend =        systemctl suspend
+hibernate =      dbus-send --system --print-reply --dest="org.freedesktop.UPower" /org/freedesktop/UPower org.freedesktop.UPower.Hibernate
+custom = 
+
+[shortcuts]
+logout =         l
+shutdown =       s
+restart =        r
+lock = 
+switch = 
+suspend =        u
+hibernate =      h
+custom = 
+
+[labels]
+cancel =         CANCELAR
+logout =         SALIR
+restart =        REINICIAR
+shutdown =       APAGAR
+lock =           LOCK
+switch =         SWITCH USER
+suspend =        SUSPENDER
+hibernate =      HIBERNATE
