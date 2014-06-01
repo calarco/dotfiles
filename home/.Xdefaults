@@ -10,7 +10,7 @@ URxvt.internalBorder: 10
 URxvt.scrollBar: true
 URxvt.scrollBar_right: true
 URxvt.scrollstyle: plain
-URxvt*scrollBar_floating:   true
+URxvt*scrollBar_floating: true
 Urxvt.secondaryScroll: true
 urxvt*font: xft:Terminess Powerline-9
 URxvt*geometry: 150x50
@@ -68,7 +68,7 @@ Xft.hintstyle:  hintslight
 !!cyan      #2aa198  6/6 cyan      37 #00afaf 60 -35 -05  42 161 152 175  74  63
 !!green     #859900  2/2 green     64 #5f8700 60 -20  65 133 153   0  68 100  60
  
-*background: #282828
+*background: #002B36
 *foreground: #A2A2A2
 
 !Black
@@ -84,11 +84,11 @@ Xft.hintstyle:  hintslight
 *color10:   #61BC3B
 
 !yellow
-*color3:    #FDD75A
+*color3:    #FFD93A
 *color11:   #F3B43A
 
 !blue
-*color4:    #4A90D9
+*color4:    #00A1D7
 *color12:   #0D68A8
 
 !Magenta

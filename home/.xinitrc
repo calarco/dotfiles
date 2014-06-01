@@ -20,5 +20,7 @@ urxvtd &
 /usr/lib/lxpolkit/lxpolkit &
 export PANEL_FIFO="/tmp/panel-fifo"
 export PATH=$PATH:$HOME/.scripts
+mpDris2 &
 compton --config .compton.conf -b &
 exec bspwm
+#exec gnome-session

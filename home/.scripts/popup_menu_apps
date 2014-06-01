@@ -11,7 +11,3 @@
  ^i(/home/calarco/.xbm/music.xbm) Música:urxvtc -e ncmpcpp
  ^i(/home/calarco/.xbm/term.xbm) Terminal:urxvtc
  ----------
- ^i(/home/calarco/.xbm/play.xbm) cerrar sesión:bspc quit
- ^i(/home/calarco/.xbm/full.xbm) suspender:systemctl suspend
- ^i(/home/calarco/.xbm/half.xbm) reiniciar:systemctl reboot
- ^i(/home/calarco/.xbm/empty.xbm) apagar:systemctl poweroff

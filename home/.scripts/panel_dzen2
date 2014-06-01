@@ -45,7 +45,7 @@ while read -r line ; do
 			#    percbar=`echo -e "$vol" | gdbar -bg "f9f9f9" -fg "dedede" -w 63 -h 1 -s o -ss 1 -sw 5 -nonl`
 			#fi
 			# clock output
-			sys_infos="^fg($color_fg)^bg($color_bg)^ca(1, popup_calendar)^i($icons/clock.xbm) ${line#?}^ca()  "
+			sys_infos="^fg($color_fg)^bg($color_bg)^ca(1, popup_calendar)^i($icons/clock.xbm) ${line#?}^ca()"
 			;;
 		T*)
 			# xtitle output
@@ -96,8 +96,8 @@ while read -r line ; do
 								;;
 							u*)
 								# urgent desktop
-								WS="^i($icons/u.xbm)"
-								FG=$color_fg
+								WS="^i($icons/half.xbm)"
+								FG=$color_se
 								BG=$color_bg
 								;;
 						esac
@@ -125,7 +125,7 @@ while read -r line ; do
 	center_width=$(expr $2 + 25)
 	right_width=$3
 	left_indent=0
-	right_indent=$((screen_width - (right_width + 122)))
+	right_indent=$((screen_width - (right_width + 175)))
 	available_center=$((screen_width - (left_width + right_width)))
 	if [ $available_center -lt $center_width ] ; then
 		center_indent=$((left_indent + left_width))
@@ -136,5 +136,5 @@ while read -r line ; do
 			center_indent=$(( (screen_width - center_width) / 2 ))
 		fi
 	fi
-	printf "%s\n" "^pa($center_indent)$mpd^pa($left_indent)$wm_infos^pa($right_indent) $title  |  $sys_infos"
+	printf "%s\n" "^pa($center_indent)$mpd^pa($left_indent)$wm_infos^pa($right_indent) $title  |  $sys_infos  |  ^ca(1, bspc rule -a obshutdown -o floating=on && obshutdown)^i($icons/power.xbm)^ca()"
 done

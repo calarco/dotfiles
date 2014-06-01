@@ -7,7 +7,7 @@ fi
 
 . config
 
-x=$((screen_width - 63))
+x=$((screen_width - 105))
 #x=$((screen_width / 2 - 22))
 
 TODAY=$(expr `date +'%d'` + 0)
@@ -18,7 +18,7 @@ YEAR=`date +'%Y'`
 echo "^bg($color_se)^fg($color_sf) ^i($icons/clock.xbm)" `date +'%H:%M'` " ^fg()^bg()";
 echo `date +'%A %d/%m/%y %n'`
 
-cal | sed -re "s/^(.*[A-Za-z][A-Za-z]*.*)$/^fg($color_se)^bg($color_bg)\1/;s/(^|[ ])($TODAY)($|[ ])/\1^bg($color_se)^fg($color_sf)\2^fg($color_fg)^bg($color_bg)\3/"
+cal | sed -re "s/^(.*[A-Za-z][A-Za-z]*.*)$/^fg($color_se)^bg($color_bg)\1/;s/(^|[ ])($TODAY)($|[ ])/\1^bg($color_se) ^fg($color_sf)\2^fg($color_fg) ^bg($color_bg)\3/"
 
 # next month, hilight header
 #[ $MONTH -eq 12 ] && YEAR=`expr $YEAR + 1`

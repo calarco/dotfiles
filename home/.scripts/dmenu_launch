@@ -28,7 +28,9 @@ transmission-gtk
 gimp
 inkscape
 blender
-easytag"
+firefox
+easytag
+atom"
 		sort -u
 		) | tee "$cache" | dmenu -p ' > ' -nb $color_bg -nf $color_fg -sb $color_se -sf $color_sf -h $panel_height -w 300 -l 9 -fn $font "$@"
 	else

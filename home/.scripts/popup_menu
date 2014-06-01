@@ -34,9 +34,9 @@ execute () {
 			else
 				$APP&
 			fi
-			exit
 		fi
 	done < "$MENUFILE"
+	exit
 }
 
 
