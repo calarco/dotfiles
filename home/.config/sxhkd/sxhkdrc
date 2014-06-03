@@ -103,7 +103,7 @@ super + Return
 	urxvtc
 
 super + shift + Return
-	 bspc rule -a urxvt -o pseudo_tiled=on && urxvtc
+	 bspc rule -a urxvt -o floating=on && urxvtc
 
 super + space
 	dmenu_launch

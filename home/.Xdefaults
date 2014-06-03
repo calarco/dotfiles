@@ -1,5 +1,6 @@
 ! urxvt
 URxvt.background: #2d2d2d
+URxvt.background: rgba:0000/0000/0000/9999
 URxvt.foreground: #999993
 URxvt.cursorColor: #395573
 URxvt.borderColor: #2d2d2d
@@ -15,8 +16,8 @@ Urxvt.secondaryScroll: true
 urxvt*font: xft:Terminess Powerline-9
 URxvt*geometry: 150x50
 ! transparency
-URxvt.transparent: true
-#urxvt*depth: 32
+!URxvt.transparent: true
+urxvt*depth: 32
 !URxvt.tintColor: #2d2d2d
 URxvt.shading: 40
 URxvt.blurRadius: 30
