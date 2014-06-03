@@ -22,5 +22,5 @@ export PANEL_FIFO="/tmp/panel-fifo"
 export PATH=$PATH:$HOME/.scripts
 mpDris2 &
 compton --config .compton.conf -b
-exec bspwm
+sleep 1 && exec bspwm
 #exec gnome-session

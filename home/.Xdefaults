@@ -7,7 +7,7 @@ URxvt.borderColor: #2d2d2d
 URxvt.colorUL: #31658C
 URxvt.cursorBlink: true
 URxvt.borderless: false
-URxvt.internalBorder: 10
+URxvt.internalBorder: 0
 URxvt.scrollBar: true
 URxvt.scrollBar_right: true
 URxvt.scrollstyle: plain
