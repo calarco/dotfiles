@@ -24,3 +24,4 @@ mpDris2 &
 compton --config .compton.conf -b
 sleep 1 && exec bspwm
 #exec gnome-session
+#exec enlightenment_start

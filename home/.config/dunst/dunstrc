@@ -59,16 +59,16 @@
     # right side of the screen.  Y is measured from the top and down respectevly.
     # The width can be negative. In this case the actual width is the
     # screen width minus the width defined in within the geometry option.
-    geometry = "350x24+785+24"
+    geometry = "350x5+785+24"
 
     # The transparency of the window. range: [0; 100]
     # This option will only work if a compositing windowmanager is present (e.g. xcompmgr, compiz, etc..)
-    transparency = 0
+    transparency = 50
 
     # Don't remove messages, if the user is idle (no mouse or keyboard input)
     # for longer than idle_threshold seconds.
     # Set to 0 to disable.
-    idle_threshold = 120
+    idle_threshold = 10
 
     # Which monitor should the notifications be displayed on.
     monitor = 0
@@ -92,17 +92,17 @@
     # The height of a single line. If the height is smaller than the font height,
     # it will get raised to the font height.
     # This adds empty space above and under the text.
-    line_height = 4
+    line_height = 9
 
     # Draw a line of 'separatpr_height' pixel height between two notifications.
     # Set to 0 to disable
-    separator_height = 2
+    separator_height = 5
 
     # padding between text and separator
-    padding = 8
+    padding = 15
 
     # horizontal padding
-    horizontal_padding = 6
+    horizontal_padding = 15
 
     # Define a color for the separator.
     # possible values are:
@@ -124,7 +124,7 @@
     browser = /usr/bin/firefox -new-tab
 
 [frame]
-    width = 0
+    width = 5
     color = "#4A90D9"
 
 [shortcuts]
@@ -149,12 +149,12 @@
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
     # Otherwise the '#' and following  would be interpreted as a comment.
-    background = "#4A90D9"
+    background = "#000000"
     foreground = "#f9f9f9"
     timeout = 10
 
 [urgency_normal]
-    background = "#4A90D9"
+    background = "#000000"
     foreground = "#f9f9f9"
     timeout = 10
 

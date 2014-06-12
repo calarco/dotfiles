@@ -6,19 +6,19 @@
 # ID 1
 rounded = 0
 border_width = 0
-background_color = #EDEDED 100
+background_color = #2d2d2d 20
 border_color = #FFFFFF 16
 
 # ID 2
 rounded = 0
 border_width = 0
-background_color = #4A90D9 100
+background_color = #4A90D9 20
 border_color = #FFFFFF 48
 
 # ID 3
 rounded = 0
 border_width = 0
-background_color = #EDEDED 100
+background_color = #2d2d2d 20
 border_color = #FFFFFF 68
 
 # Panel

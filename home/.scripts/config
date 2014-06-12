@@ -8,9 +8,9 @@ color_se='#4A90D9'
 color_sf='#f9f9f9'
 
 # Light theme
-color_fg='#555555'
-color_bg='#EDEDED'
+#color_fg='#555555'
+#color_bg='#EDEDED'
 
 # Dark theme
-#color_fg='#EDEDED'
-#color_bg='#2d2d2d'
+color_fg='#ffffff'
+color_bg='#2d2d2d'
