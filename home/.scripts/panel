@@ -19,10 +19,14 @@ bspc control --subscribe > "$PANEL_FIFO" &
 #conky > "$PANEL_FIFO" &
 panel_mpd()
 {
-        mpc -f "M^i($icons/music.xbm) %artist% - %album% - %title%" current
+        mpc -f "%artist% - %album% - %title%" current
 }
 while true; do
-	echo "$(panel_mpd)" > "$PANEL_FIFO"
+	si="play.xbm"
+	if [ "`mpc | grep "^\[playing\]"`" != "" ]; then
+		si="pause.xbm"
+	fi
+	echo "M^ca(1, popup_music)^i($icons/music.xbm) $(panel_mpd)^ca()^ca(1, mpc prev)  ^i($icons/prev.xbm)^ca()  | ^ca(1, mpc toggle) ^i($icons/$si) ^ca() | ^ca(1, mpc next) ^i($icons/next.xbm)  ^ca()" > "$PANEL_FIFO"
         sleep 2s
 done &
 echo "T^i($icons/spkr_01.xbm) "`ponymix get-volume | gdbar -bg $color_fg -fg $color_se -w 83 -h 8 -s o -ss 1 -sw 3 -nonl` > "$PANEL_FIFO" &

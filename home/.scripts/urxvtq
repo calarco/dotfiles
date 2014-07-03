@@ -1,0 +1,16 @@
+#!/bin/bash
+
+wid=$(xdotool search --classname urxvtq)
+if [ -z "$wid" ]; then
+  bspc rule -a urxvtq floating=on focus=on sticky=on && urxvtc -name urxvtq -geometry 316x20
+  wid=$(xdotool search --classname urxvtq | head -1)
+  xdotool windowfocus "$wid"
+  xdotool key Control_L+l
+else
+  if [ -z "$(xdotool search --onlyvisible --classname urxvtq 2>/dev/null)" ]; then
+    xdotool windowmap "$wid"
+    xdotool windowfocus "$wid"
+  else
+    xdotool windowunmap "$wid"
+  fi
+fi

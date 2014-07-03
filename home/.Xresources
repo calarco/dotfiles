@@ -1,3 +1,6 @@
+Xcursor.theme: Deepin-Cursor
+Xcursor.size:  22
+
 ! urxvt
 URxvt.background: rgba:2400/2c00/3000/dddd
 URxvt.foreground: #999993
