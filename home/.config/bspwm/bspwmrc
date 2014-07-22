@@ -2,8 +2,6 @@
 
 bspc monitor -d I II III IV V VI VII VIII IX X
 
-panel &
-
 desktop_config() {
 	bspc config $1 $2
 	for M in $(bspc query -M); do
@@ -30,4 +28,5 @@ bspc config focus_follows_pointer true
 #bspc rule -a Kupfer.py focus=on
 #bspc rule -a Screenkey manage=off
 
+panel &
 bspc rule -a urxvt -o pseudo_tiled=on desktop=^10 && urxvtc -e ncmpcpp -name ncmpcpp &

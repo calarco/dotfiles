@@ -13,6 +13,7 @@ trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
 mkfifo "$PANEL_FIFO"
 
 bspc config top_padding $panel_height
+slingshot-launcher --silent &
 
 bspc control --subscribe > "$PANEL_FIFO" &
 #xtitle -sf 'T%s' > "$PANEL_FIFO" &

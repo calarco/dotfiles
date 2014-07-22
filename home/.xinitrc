@@ -16,9 +16,8 @@ fi
 xsetroot -cursor_name left_ptr
 xsetroot -solid "#333333"
 nitrogen --restore
-sxhkd &
 urxvtd &
-#/usr/lib/lxpolkit/lxpolkit &
+sxhkd &
 export PANEL_FIFO="/tmp/panel-fifo"
 export PATH=$PATH:$HOME/.scripts
 mpDris2 &
@@ -32,7 +31,7 @@ xdg-user-dirs-gtk-update &
 eval $(gnome-keyring-daemon --start --components=pkcs11,secrets,ssh,gpg)
 export GNOME_KEYRING_CONTROL GNOME_KEYRING_PID GPG_AGENT_INFO SSH_AUTH_SOCK
 #exec cerbere
-sleep 1 && exec bspwm
+exec bspwm
 #exec gnome-session
 #exec enlightenment_start
 #exec startdde
