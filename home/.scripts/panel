@@ -13,6 +13,7 @@ trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
 mkfifo "$PANEL_FIFO"
 
 bspc config top_padding $panel_height
+#GTK_THEME=elementary slingshot-launcher --silent &
 slingshot-launcher --silent &
 
 bspc control --subscribe > "$PANEL_FIFO" &
@@ -35,6 +36,6 @@ clock -sf 'S%H:%M' > "$PANEL_FIFO" &
 
 FONT_FAMILY='Terminus'
 FONT_SIZE=11
-cat "$PANEL_FIFO" | panel_dzen2 -f "$FONT_FAMILY" -s "$FONT_SIZE" | dzen2 -o 70 -h $panel_height -dock -ta l -title-name panel -fn "$font" -fg "$color_fg" -bg "$color_bg" -e 'button2=;' &
+cat "$PANEL_FIFO" | panel_dzen2 -f "$FONT_FAMILY" -s "$FONT_SIZE" | dzen2 -o 60 -h $panel_height -dock -ta l -title-name panel -fn "$font" -fg "$color_fg" -bg "$color_bg" -e 'button2=;' &
 
 wait
