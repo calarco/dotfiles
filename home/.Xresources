@@ -2,10 +2,10 @@ Xcursor.theme: Deepin-Cursor
 Xcursor.size:  22
 
 ! urxvt
-URxvt.background: rgba:2400/2c00/3000/dddd
+URxvt.background: rgba:2500/2e00/3200/dddd
 URxvt.foreground: #999993
 URxvt.cursorColor: #395573
-URxvt.borderColor: rgba:2400/2c00/3000/dddd
+URxvt.borderColor: rgba:2500/2e00/3200/dddd
 URxvt.colorUL: #4A90D9
 URxvt.cursorBlink: true
 URxvt.borderless: false
@@ -20,7 +20,7 @@ URxvt*scrollWithBuffer: true
 URxvt*scrollTtyKeypress: true
 urxvt*font: xft:Terminess Powerline-9
 URxvt.letterSpace: 0
-URxvt*geometry: 150x50
+URxvt*geometry: 150x40
 ! transparency
 !URxvt.transparent: true
 urxvt*depth: 32

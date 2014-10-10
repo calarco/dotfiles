@@ -14,6 +14,7 @@ fi
 [[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources
 #setxkbmap -layout es
 xsetroot -cursor_name left_ptr
+#xinput set-prop 9 277 -1 -1 -1
 xsetroot -solid "#333333"
 nitrogen --restore
 #wallpaper &
@@ -36,4 +37,5 @@ export GNOME_KEYRING_CONTROL GNOME_KEYRING_PID GPG_AGENT_INFO SSH_AUTH_SOCK
 exec bspwm
 #exec budgie-session
 #exec gnome-session
+#exec gnome-session --session gnome-wayland
 #exec startdde
