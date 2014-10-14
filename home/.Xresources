@@ -2,6 +2,7 @@ Xcursor.theme: Deepin-Cursor
 Xcursor.size:  22
 
 ! urxvt
+URxvt*depth: 32
 URxvt.background: rgba:2500/2e00/3200/dddd
 URxvt.foreground: #999993
 URxvt.cursorColor: #395573
@@ -23,7 +24,6 @@ URxvt.letterSpace: 0
 URxvt*geometry: 150x40
 ! transparency
 !URxvt.transparent: true
-urxvt*depth: 32
 !URxvt.tintColor: #2d2d2d
 URxvt.shading: 40
 URxvt.blurRadius: 30
@@ -111,3 +111,51 @@ Xft.hintstyle:  hintslight
 !White
 *color7:    #f9f9f9
 *color15:   #A2A2A2
+
+! urxvtq
+urxvtq*depth: 32
+urxvtq.background: rgba:2500/2e00/3200/aaaa
+urxvtq.foreground: #999993
+urxvtq.cursorColor: #395573
+urxvtq.borderColor: rgba:2500/2e00/3200/aaaa
+urxvtq.colorUL: #4A90D9
+urxvtq.cursorBlink: true
+urxvtq.borderless: false
+urxvtq.internalBorder: 10
+urxvtq.scrollBar: true
+urxvtq.scrollBar_right: true
+urxvtq.scrollstyle: plain
+urxvtq*scrollBar_floating: true
+urxvtq.secondaryScroll: true
+urxvtq*scrollTtyOutput: false
+urxvtq*scrollWithBuffer: true
+urxvtq*scrollTtyKeypress: true
+urxvtq*font: xft:Terminess Powerline-9
+urxvtq.letterSpace: 0
+urxvtq*geometry: 317x20+0+24
+! transparency
+!urxvtq.transparent: true
+!urxvtq.tintColor: #2d2d2d
+urxvtq.shading: 40
+urxvtq.blurRadius: 30
+! perl extensions (tabs, clickable URLs, yankable URLs)
+urxvtq.perl-ext:
+!urxvtq.perl-ext-common: default,tabbed,matcher,url-select
+urxvtq.perl-ext-common:
+! tabs
+urxvtq.tabbed.tabbar-bg: -1
+urxvtq.tabbed.tabbar-fg: -2
+urxvtq.tabbed.tab-bg: -2
+urxvtq.tabbed.tab-fg: -1
+urxvtq.tabbed.title-bg: -1
+urxvtq.tabbed.title-fg: -2
+urxvtq.tabbed.autohide: true
+urxvtq.tabbed.new-button: false
+urxvtq.tabbed.title: true
+! clickable URLs
+urxvtq.matcher.button: 1
+urxvtq.urlLauncher: /usr/bin/xdg-open
+! yankable URLs
+urxvtq.underlineURLs: true
+urxvtq.keysym.M-u: perl:url-select:select_next
+urxvtq.url-select.launcher: /usr/bin/xdg-open

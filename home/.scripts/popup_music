@@ -30,7 +30,7 @@ position(){
 	curr=$(mpc | awk 'NR==2' | awk '{print $3}' | sed 's/\/.*//')
 	tot=$(mpc | awk 'NR==2' | awk '{print $3}' | sed 's/^.*\///')
 	pos=$(mpc | awk 'NR==2' | awk '{print $4}' | sed 's/(//' | sed 's/%)//')
-	bar=$(echo $pos | gdbar -w $bw -h 3 -fg "$color_se" -bg "$color_sf")
+	bar=$(echo $pos | gdbar -w $bw -h 3 -fg "$color_se" -bg "#000000")
 	echo -n " $curr $bar $tot"
 }
 

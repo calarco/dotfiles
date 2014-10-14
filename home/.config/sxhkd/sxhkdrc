@@ -98,12 +98,13 @@ super + {comma,period}
 #
 # exec
 #
+	#bspc rule -a urxvt -o floating=on && urxvtc
 
 super + Return
 	urxvtc
 
 super + shift + Return
-	 bspc rule -a urxvt -o floating=on && urxvtc
+	urxvtq
 
 super + space
 	dmenu_launch
