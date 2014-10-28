@@ -16,13 +16,12 @@ fi
 xsetroot -cursor_name left_ptr
 #xinput set-prop 9 277 -1 -1 -1
 xsetroot -solid "#333333"
+export PATH=$PATH:$HOME/.scripts
+export PATH=$PATH:/home/calarco/.gem/ruby/2.1.0/bin
 nitrogen --restore
 #wallpaper &
 urxvtd &
 sxhkd &
-export PANEL_FIFO="/tmp/panel-fifo"
-export PATH=$PATH:$HOME/.scripts
-export PATH=$PATH:/home/calarco/.gem/ruby/2.1.0/bin
 mpDris2 &
 compton --config .compton.conf -b
 

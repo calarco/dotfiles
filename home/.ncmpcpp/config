@@ -7,7 +7,7 @@ mpd_crossfade_time = "0"
 
 ##### delays #####
 
-playlist_disable_highlight_delay = "5"
+playlist_disable_highlight_delay = "2"
 
 ##### song format #####
 
@@ -29,7 +29,8 @@ incremental_seeking = "yes"
 seek_time = "1"
 autocenter_mode = "yes"
 centered_cursor = "yes"
-progressbar_look = "━■"
+#progressbar_look = "━■"
+progressbar_look = "▄▄▄"
 #media_library_left_column = "a" (possible values: a,y,g,c,p, legend above)
 default_find_mode = "wrapped" (wrapped/normal)
 default_space_mode = "add" (add/select)
@@ -63,7 +64,8 @@ state_line_color = "white"
 state_flags_color = "green"
 main_window_color = "blue"
 main_window_highlight_color = "yellow"
-progressbar_color = "blue"
+progressbar_color = "white"
+progressbar_elapsed_color = "yellow"
 statusbar_color = "white"
 alternative_ui_separator_color = "white"
 active_column_color = "red"
@@ -73,8 +75,9 @@ visualizer_in_stereo = "yes"
 visualizer_fifo_path = "/tmp/mpd.fifo"
 visualizer_output_name = "my_fifo"
 visualizer_sync_interval = "1"
-#visualizer_type = "wave" (spectrum/wave)
-#visualizer_type = "spectrum" (spectrum/wave)
+visualizer_look = ●║
+#visualizer_type = "wave"
+visualizer_type = "spectrum"
 
 #Separate Albums in Playlist
 playlist_separate_albums = "yes"

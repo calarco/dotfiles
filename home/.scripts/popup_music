@@ -11,6 +11,7 @@ mpt=$(mpc -f "%track%" current)
 mps=$(mpc -f "%title%" current)
 mpa=$(mpc -f "%album%" current)
 mpb=$(mpc -f "%artist%" current)
+mpy=$(mpc -f "%date%" current)
 art=$(mpc current -f "%file%" | sed 's_\(.*\)/\(.*\)/\(.*\)_\1/\2/_')
 
 w=300
@@ -34,11 +35,13 @@ position(){
 	echo -n " $curr $bar $tot"
 }
 
+#^fg($color_se)^bg($color_se)^fg($color_sf)^ca(1, mpc prev)  ^i($icons/prev.xbm)^ca()  | ^ca(1, mpc toggle) ^i($icons/$si) ^ca() | ^ca(1, mpc next) ^i($icons/next.xbm)  ^ca()^bg()^fg($color_se)
+
 echo "\
 ^fg($color_se)$mps
 $mpa
 $mpb
-^fg($color_se)^bg($color_se)^fg($color_sf)^ca(1, mpc prev)  ^i($icons/prev.xbm)^ca()  | ^ca(1, mpc toggle) ^i($icons/$si) ^ca() | ^ca(1, mpc next) ^i($icons/next.xbm)  ^ca()^bg()^fg($color_se)
+$mpy
 $(position)\
 " | dzen2 -p -x $x -l 4 -tw $w -w $w -h $panel_height -ta c -sa c -fn $font -bg $color_bg -fg $color_fg -e 'button1=exit,exec:pkill -P $(pgrep popup_music);button2=exit;onstart=uncollapse;' &
 bspc rule -a feh -o floating=on follow=on focus=off sticky=on border_width=0 && feh -B black -Z -g 120x120+$ax+0 -^ art "/media/Data/Música/$art"

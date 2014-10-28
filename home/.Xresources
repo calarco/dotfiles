@@ -1,8 +1,7 @@
-Xcursor.theme: Deepin-Cursor
 Xcursor.size:  22
 
 ! urxvt
-URxvt*depth: 32
+URxvt.depth: 32
 URxvt.background: rgba:2500/2e00/3200/dddd
 URxvt.foreground: #999993
 URxvt.cursorColor: #395573
@@ -14,14 +13,14 @@ URxvt.internalBorder: 10
 URxvt.scrollBar: true
 URxvt.scrollBar_right: true
 URxvt.scrollstyle: plain
-URxvt*scrollBar_floating: true
+URxvt.scrollBar_floating: true
 Urxvt.secondaryScroll: true
-URxvt*scrollTtyOutput: false
-URxvt*scrollWithBuffer: true
-URxvt*scrollTtyKeypress: true
-urxvt*font: xft:Terminess Powerline-9
+URxvt.scrollTtyOutput: false
+URxvt.scrollWithBuffer: true
+URxvt.scrollTtyKeypress: true
+urxvt.font: xft:Terminess Powerline-9
 URxvt.letterSpace: 0
-URxvt*geometry: 150x40
+URxvt.geometry: 150x40
 ! transparency
 !URxvt.transparent: true
 !URxvt.tintColor: #2d2d2d
@@ -113,7 +112,7 @@ Xft.hintstyle:  hintslight
 *color15:   #A2A2A2
 
 ! urxvtq
-urxvtq*depth: 32
+urxvtq.depth: 32
 urxvtq.background: rgba:2500/2e00/3200/aaaa
 urxvtq.foreground: #999993
 urxvtq.cursorColor: #395573
@@ -125,14 +124,14 @@ urxvtq.internalBorder: 10
 urxvtq.scrollBar: true
 urxvtq.scrollBar_right: true
 urxvtq.scrollstyle: plain
-urxvtq*scrollBar_floating: true
+urxvtq.scrollBar_floating: true
 urxvtq.secondaryScroll: true
-urxvtq*scrollTtyOutput: false
-urxvtq*scrollWithBuffer: true
-urxvtq*scrollTtyKeypress: true
-urxvtq*font: xft:Terminess Powerline-9
+urxvtq.scrollTtyOutput: false
+urxvtq.scrollWithBuffer: true
+urxvtq.scrollTtyKeypress: true
+urxvtq.font: xft:Terminess Powerline-9
 urxvtq.letterSpace: 0
-urxvtq*geometry: 317x20+0+24
+urxvtq.geometry: 317x20+0+24
 ! transparency
 !urxvtq.transparent: true
 !urxvtq.tintColor: #2d2d2d

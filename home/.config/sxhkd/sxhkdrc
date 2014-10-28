@@ -107,6 +107,9 @@ super + shift + Return
 	urxvtq
 
 super + space
+	slingshot-launcher
+
+super + shift + space
 	dmenu_launch
 
 Print

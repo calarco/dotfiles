@@ -125,7 +125,7 @@ while read -r line ; do
 	center_width=$(expr $2 + 55)
 	right_width=$3
 	left_indent=0
-	right_indent=$((screen_width - (right_width + 175)))
+	right_indent=$((screen_width - (right_width + 192)))
 	available_center=$((screen_width - (left_width + right_width)))
 	if [ $available_center -lt $center_width ] ; then
 		center_indent=$((left_indent + left_width))
