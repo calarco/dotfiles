@@ -20,7 +20,7 @@ URxvt.scrollWithBuffer: true
 URxvt.scrollTtyKeypress: true
 urxvt.font: xft:Terminess Powerline-9
 URxvt.letterSpace: 0
-URxvt.geometry: 150x40
+URxvt.geometry: 175x61
 ! transparency
 !URxvt.transparent: true
 !URxvt.tintColor: #2d2d2d

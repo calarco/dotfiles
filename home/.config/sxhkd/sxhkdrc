@@ -101,10 +101,10 @@ super + {comma,period}
 	#bspc rule -a urxvt -o floating=on && urxvtc
 
 super + Return
-	urxvtc
+	urxvtq
 
 super + shift + Return
-	urxvtq
+	urxvtc
 
 super + space
 	slingshot-launcher
