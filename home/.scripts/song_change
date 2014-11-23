@@ -2,5 +2,5 @@
 
 #current=$(mpc -f "%artist%\n%album%\n%title%" current)
 #notify-send "$current" -t 1000
-pkill -P $(pgrep song_art)
+pkill -P $(pgrep song_art) &> /dev/null
 song_art &

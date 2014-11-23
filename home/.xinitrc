@@ -32,9 +32,12 @@ xdg-user-dirs-gtk-update &
 /usr/lib/gnome-user-share/gnome-user-share &
 eval $(gnome-keyring-daemon --start --components=pkcs11,secrets,ssh,gpg)
 export GNOME_KEYRING_CONTROL GNOME_KEYRING_PID GPG_AGENT_INFO SSH_AUTH_SOCK
-#exec cerbere
+export DE=gnome
+export DESKTOP_SESSION=gnome
 exec bspwm
+#exec startkde
 #exec budgie-session
 #exec gnome-session
 #exec gnome-session --session gnome-wayland
+#exec cerbere
 #exec startdde
