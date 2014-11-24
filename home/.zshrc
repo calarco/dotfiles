@@ -85,7 +85,7 @@ function TRAPINT() {
 last="%(?,%F{green}"$'\ue0b2'"%F{black}%K{green} ✔ %K{green},%F{red}"$'\ue0b2'"%F{white}%K{red} ✘ %K{red})"
 
 PROMPT='${vim_mode}'"%K{blue}"$'\ue0b0'\
-"%F{white}%K{blue} %n %F{blue}%K{black}"$'\ue0b0'\
-"%F{white}%K{black} %~ %F{black}%k"$'\ue0b0'"%f "
+"%F{white}%K{blue} %n %F{blue}%K{magenta}"$'\ue0b0'\
+"%F{white}%K{magenta} %~ %F{magenta}%k"$'\ue0b0'"%f "
 RPROMPT='${last}'\
 "%F{white}"$'\ue0b2'"%F{black}%K{white} %T %K{white}"

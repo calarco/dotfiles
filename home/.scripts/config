@@ -1,10 +1,10 @@
 #! /bin/sh
 
 screen_width=$(sres -W)
-panel_height=24
+panel_height=29
 font='-xos4-terminesspowerline-medium-r-normal--12-120-72-72-c-60-iso10646-1'
 icons=$HOME/.xbm
-color_se='#4A90D9'
+color_se='#03A9F4'
 color_sf='#f9f9f9'
 
 # Light theme
@@ -13,4 +13,4 @@ color_sf='#f9f9f9'
 
 # Dark theme
 color_fg='#ffffff'
-color_bg='#242c30'
+color_bg='#263238'
