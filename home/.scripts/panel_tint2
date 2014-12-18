@@ -12,7 +12,7 @@ bspc config focus_follows_pointer true
 bspc config bottom_padding 0
 killall tint2
 else
-bspc config focus_follows_pointer false
+#bspc config focus_follows_pointer false
 bspc config bottom_padding $panel_height
 tint2
 fi

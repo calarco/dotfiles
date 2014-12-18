@@ -1,0 +1,18 @@
+{
+	"bold_folder_labels": true,
+	"color_scheme": "Packages/Theme - Spacegray/base16-ocean.dark.tmTheme",
+	"draw_minimap_border": true,
+	"font_face": "Envy Code R",
+	"font_size": 10,
+	"highlight_line": true,
+	"soda_classic_tabs": false,
+	"tab_size": 4,
+	"theme": "Spacegray.sublime-theme",
+	"translate_spaces_to_tabs": true,
+	"word_wrap": "false",
+	"indent_guide_options":
+    [
+        "draw_normal",
+        "draw_active"
+    ],
+}
