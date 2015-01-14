@@ -43,5 +43,5 @@ $mpa
 $mpb
 $mpy
 $(position)\
-" | dzen2 -p -y 0 -x $x -l 4 -tw $w -w $w -h $panel_height -ta c -sa c -fn $font -bg $color_bg -fg $color_fg -e 'button1=exit,exec:pkill -P $(pgrep popup_music);button2=exit;onstart=uncollapse;' &
+" | dzen2 -p -y 0 -x $x -l 4 -tw $w -w $w -h $panel_height -ta c -sa c -bg $color_bg -fg $color_fg -e 'button1=exit,exec:pkill -P $(pgrep popup_music);button2=exit;onstart=uncollapse;' &
 bspc rule -a feh -o floating=on follow=on focus=off sticky=on border_width=0 && feh -B black -Z -g 143x143+$ax+0 -^ art "/media/Data/Música/$art"

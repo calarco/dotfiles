@@ -1,4 +1,8 @@
+dzen2.font: -xos4-terminesspowerline-medium-r-normal--12-120-72-72-c-60-iso10646-1
+dzen2.foreground: $ffffff
+dzen2.background: #002b36
 ! urxvt
+URxvt.iconFile: /usr/share/icons/elementary/apps/128/utilities-terminal.svg
 URxvt.depth: 32
 !URxvt.background: rgba:2600/3200/3800/dddd
 URxvt.background: rgba:0000/2b00/3600/dddd
@@ -18,7 +22,7 @@ Urxvt.secondaryScroll: true
 URxvt.scrollTtyOutput: false
 URxvt.scrollWithBuffer: true
 URxvt.scrollTtyKeypress: true
-urxvt.font: xft:Terminess Powerline-9
+URxvt.font: xft:Terminess Powerline-9
 URxvt.letterSpace: 0
 URxvt.geometry: 175x61
 ! transparency
@@ -55,85 +59,14 @@ Xft.rgba:       rgb
 Xft.hinting:    true
 Xft.hintstyle:  hintslight
 
-! Solarized color scheme for the X Window System
-!
-! http://ethanschoonover.com/solarized
-
-
-! Common
-
-#define S_yellow        #b58900
-#define S_orange        #cb4b16
-#define S_red           #dc322f
-#define S_magenta       #d33682
-#define S_violet        #6c71c4
-#define S_blue          #268bd2
-#define S_cyan          #2aa198
-#define S_green         #859900
-
-
-! Dark
-
-#define S_base03        #002b36
-#define S_base02        #073642
-#define S_base01        #586e75
-#define S_base00        #657b83
-#define S_base0         #839496
-#define S_base1         #93a1a1
-#define S_base2         #eee8d5
-#define S_base3         #fdf6e3
-
-
-! Light
-
-! #define S_base03        #fdf6e3
-! #define S_base02        #eee8d5
-! #define S_base01        #93a1a1
-! #define S_base00        #839496
-! #define S_base0         #657b83
-! #define S_base1         #586e75
-! #define S_base2         #073642
-! #define S_base3         #002b36
-
-
-! To only apply colors to your terminal, for example, prefix
-! the color assignment statement with its name. Example:
-!
-! URxvt*background:            S_base03
-
-*background:              S_base03
-*foreground:              S_base0
-*fading:                  40
-*fadeColor:               S_base03
-*cursorColor:             S_base1
-*pointerColorBackground:  S_base01
-*pointerColorForeground:  S_base1
-
-*color0:                  S_base02
-*color1:                  S_red
-*color2:                  S_green
-*color3:                  S_yellow
-*color4:                  S_blue
-*color5:                  S_magenta
-*color6:                  S_cyan
-*color7:                  S_base2
-*color8:                  S_base03
-*color9:                  S_orange
-*color10:                 S_base01
-*color11:                 S_base00
-*color12:                 S_base0
-*color13:                 S_violet
-*color14:                 S_base1
-*color15:                 S_base3
-
 ! urxvtq
 urxvtq.depth: 32
 !urxvtq.background: rgba:2600/3200/3800/aaaa
-urxvtq.background: rgba:0000/2b00/3600/aaaa
+urxvtq.background: rgba:0000/2b00/3600/bbbb
 urxvtq.foreground: #BDBDBD
 urxvtq.cursorColor: #E91E63
 !urxvtq.borderColor: rgba:2600/3200/3800/aaaa
-urxvtq.borderColor: rgba:0000/2b00/3600/aaaa
+urxvtq.borderColor: rgba:0000/2b00/3600/bbbb
 urxvtq.colorUL: #4A90D9
 urxvtq.cursorBlink: true
 urxvtq.borderless: false
@@ -149,7 +82,7 @@ urxvtq.scrollTtyKeypress: true
 urxvtq.font: xft:Terminess Powerline-9
 urxvtq.letterSpace: 0
 !urxvtq.geometry: 317x20+0+29
-urxvtq.geometry: 183x20+400+0
+urxvtq.geometry: 183x25+400+0
 ! transparency
 !urxvtq.transparent: true
 !urxvtq.tintColor: #2d2d2d
@@ -176,6 +109,51 @@ urxvtq.urlLauncher: /usr/bin/xdg-open
 urxvtq.underlineURLs: true
 urxvtq.keysym.M-u: perl:url-select:select_next
 urxvtq.url-select.launcher: /usr/bin/xdg-open
+
+! 8 8 8
+! *background: #080808
+! 128 128 128
+! *foreground: #808080
+! black
+! 26 26 26
+*color0:  #1a1a1a
+! 64 64 64
+*color8:  #404040
+! red
+! 215 95 95
+*color1:  #d75f5f
+! 234 132 132
+*color9:  #EA8484
+! green
+! 135 175 95
+*color2:  #87af5f
+! 199 240 159
+*color10: #C7F09F
+! yellow
+! 255 175 95
+*color3:  #ffaf5f
+! 255 204 154
+*color11: #FFCC9A
+! blue
+! 135 175 215
+*color4:  #87afd7
+! 165 202 239
+*color12: #a5caef
+! magenta
+! 135 135 175
+*color5:  #9c77b2
+! 166 166 222
+*color13: #A6A6DE
+! cyan
+! 95 135 135
+*color6:  #2aa198
+! 105 178 178
+*color14: #69b2b2
+! white
+! 128 128 128
+*color7:  #eee8d5
+! 215 215 215
+*color15: #fafafa
 
 Xcursor.theme: Breeze_cursors
 Xcursor.size: 16

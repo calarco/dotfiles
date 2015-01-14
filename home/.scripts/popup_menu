@@ -45,7 +45,7 @@ echo "^bg($color_se)^fg($color_sf)  ^i($HOME/.xbm/arch.xbm)  ^fg()^bg()"
 sed -e 's/:.*$//' \
     -e 's/^.--*/ ^r('${SEPARATOR_WIDTH}'x1)/' "$MENUFILE" 
 ) | \
-	dzen2 -l $LINES -h $panel_height -tw 34 -w $w -fn $font -bg $color_bg -fg $color_fg -p -m -ta c -sa l -e 'onstart=uncollapse,scrollhome;leaveslave=exit;button1=menuprint_noparse;button2=exit' | execute
+	dzen2 -l $LINES -h $panel_height -tw 34 -w $w -bg $color_bg -fg $color_fg -p -m -ta c -sa l -e 'onstart=uncollapse,scrollhome;leaveslave=exit;button1=menuprint_noparse;button2=exit' | execute
 #'onstart=uncollapse,scrollhome,raise;\
 #enterslave=grabkeys;\
 #leaveslave=exit;\

@@ -38,5 +38,12 @@ let NERDTreeMouseMode=2
 let NERDTreeChDirMode=2
 let NERDTreeKeepTreeInNewTab=1
 nmap <silent> <F3> :NERDTreeToggle<CR>
-autocmd VimEnter * NERDTree
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+"autocmd VimEnter * NERDTree
+"autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+set splitbelow
+set splitright
