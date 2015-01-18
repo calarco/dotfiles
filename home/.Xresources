@@ -4,12 +4,12 @@ dzen2.background: #002b36
 ! urxvt
 URxvt.iconFile: /usr/share/icons/elementary/apps/128/utilities-terminal.svg
 URxvt.depth: 32
-!URxvt.background: rgba:2600/3200/3800/dddd
-URxvt.background: rgba:0000/2b00/3600/dddd
+!URxvt.background: rgba:2600/3200/3800/eeee
+URxvt.background: rgba:0000/2b00/3600/eeee
 URxvt.foreground: #BDBDBD
 URxvt.cursorColor: #E91E63
-!URxvt.borderColor: rgba:2600/3200/3800/dddd
-URxvt.borderColor: rgba:0000/2b00/3600/dddd
+!URxvt.borderColor: rgba:2600/3200/3800/eeee
+URxvt.borderColor: rgba:0000/2b00/3600/eeee
 URxvt.colorUL: #4A90D9
 URxvt.cursorBlink: true
 URxvt.borderless: false

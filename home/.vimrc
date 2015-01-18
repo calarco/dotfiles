@@ -1,10 +1,13 @@
 set t_Co=256
 syntax on
 set number
+set list
+set listchars=tab:\|\ ,trail:-,eol:◊,extends:►,precedes:◄
 set mouse=a
+set background=dark
 :filetype plugin on
-let $PYTHONPATH="/usr/lib/python3.3/site-packages"
-set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
+"let $PYTHONPATH="/usr/lib/python3.3/site-packages"
+"set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 set laststatus=2
 set nocompatible
 
@@ -31,15 +34,15 @@ set ignorecase          " case-insensitive search
 set smartcase           " override 'ignorecase' when pattern has upper case characters
 
 "let g:Powerline_symbols = 'unicode'
-let g:Powerline_symbols = 'fancy'
-let NERDTreeShowBookmarks=1
-let NERDTreeMinimalUI=1
-let NERDTreeMouseMode=2
-let NERDTreeChDirMode=2
-let NERDTreeKeepTreeInNewTab=1
+"let g:Powerline_symbols = 'fancy'
+let NERDTreeShowBookmarks = 1
+let NERDTreeMinimalUI = 1
+let NERDTreeMouseMode = 2
+let NERDTreeChDirMode = 2
+let NERDTreeKeepTreeInNewTab = 1
 nmap <silent> <F3> :NERDTreeToggle<CR>
 "autocmd VimEnter * NERDTree
-"autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
@@ -47,3 +50,14 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 set splitbelow
 set splitright
+
+let g:airline_theme = 'powerlineish'
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#whitespace#enabled = 1
+
+set ssop-=options
+set ssop-=folds
+let g:session_autoload = 'yes'
+let g:session_default_to_last = 1
+let g:session_autosave = 'yes'
