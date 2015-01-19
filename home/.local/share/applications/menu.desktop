@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Tint2 Menu
+Comment=Tint2 Menu
+X-GNOME-FullName=Menu
+Exec=slingshot-launcher
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Icon=/home/calarco/.icons/menu.png
+Categories=Menu;
+MimeType=
+StartupNotify=true

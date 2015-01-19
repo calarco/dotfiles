@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Vim
+Icon=accessories-text-editor
+Exec=urxvtc -e vim
+NoDisplay=false
+Categories=TextEditor;
+StartupNotify=false
+Terminal=false

@@ -17,7 +17,7 @@ xsetroot -cursor_name left_ptr
 #xinput set-prop 9 277 -1 -1 -1
 xsetroot -solid "#333333"
 export PATH=$PATH:$HOME/.scripts
-export PATH=$PATH:/home/calarco/.gem/ruby/2.2.0/bin
+export PATH=$PATH:$HOME/.gem/ruby/2.2.0/bin
 nitrogen --restore
 #wallpaper &
 urxvtd &
