@@ -2,7 +2,9 @@ set t_Co=256
 syntax on
 set number
 set list
-set listchars=tab:\|\ ,trail:-,eol:◊,extends:►,precedes:◄
+"set listchars=tab:\|\ ,trail:·,eol:◊,extends:►,precedes:◄
+set listchars=tab:\|\ ,trail:·,extends:►,precedes:◄
+highlight SpecialKey guifg=black ctermfg=black
 set mouse=a
 set background=dark
 :filetype plugin on
@@ -21,6 +23,7 @@ set laststatus=2        " always show the status line
 set tabstop=4           " tabs appear as n number of columns
 set softtabstop=4       " number of spaces in tab when editing
 set shiftwidth=4        " n cols for auto-indenting
+autocmd! bufreadpost * set noexpandtab | retab! 4
 "set expandtab           " insert spaces instead of tabs
 set autoindent          " auto indents next new line
 set backspace=2         " full backspacing capabilities (indent,eol,start)
@@ -61,3 +64,6 @@ set ssop-=folds
 let g:session_autoload = 'yes'
 let g:session_default_to_last = 1
 let g:session_autosave = 'yes'
+
+let g:user_emmet_expandabbr_key = '<c-e>'
+let g:use_emmet_complete_tag = 1

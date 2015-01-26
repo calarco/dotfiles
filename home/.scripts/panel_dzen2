@@ -32,7 +32,7 @@ while read -r line ; do
 	case $line in
 		M*)
 			# mpd output
-			mpd="^fg($color_fg)^bg($color_bg)${line#?}"
+			mpd="${line#?}"
 			;;
 		S*)
 			# pulseaudio volume controls
@@ -45,12 +45,12 @@ while read -r line ; do
 			#    percbar=`echo -e "$vol" | gdbar -bg "f9f9f9" -fg "dedede" -w 63 -h 1 -s o -ss 1 -sw 5 -nonl`
 			#fi
 			# clock output
-			sys_infos="^fg($color_fg)^bg($color_bg)^ca(1, popup_calendar)^i($icons/clock.xbm) ${line#?}^ca()"
+			sys_infos="^ca(1, popup_calendar)^i($icons/clock.xbm) ${line#?}^ca()"
 			;;
 		T*)
 			# xtitle output
 			# title="^fg($color_fg)^bg($color_bg)^ca(2, bspc window -c)  ${line#?}  ^ca(1, bspc window -c)| ^i($icons/close.xbm)^ca()^ca()^fg()^bg()"
-			title="^fg($color_fg)^bg($color_bg)^ca(1, gnome-control-center sound)^ca(4, volume_change up)^ca(5, volume_change down)${line#?}^ca()^ca()^ca()^fg()^bg()"
+			title="^ca(1, gnome-control-center sound)^ca(4, volume_change up)^ca(5, volume_change down)${line#?}^ca()^ca()^ca()"
 			;;
 		W*)
 			# bspwm internal state
@@ -101,7 +101,7 @@ while read -r line ; do
 								BG=$color_bg
 								;;
 						esac
-						wm_infos="${wm_infos}^fg(${FG})^bg(${BG})^ca(1, bspc desktop -f ${name})^ca(2, bspc window -d ${name}) ${WS} ^ca()^ca()"
+						wm_infos="${wm_infos}^fg(${FG})^bg(${BG})^ca(1, bspc desktop -f ${name})^ca(2, bspc window -d ${name}) ${WS} ^ca()^ca()^bg()^fg()"
 						;;
 					L*)
 						# layout
@@ -112,7 +112,7 @@ while read -r line ; do
 						elif [ "$layout" != 'M' ]; then
 							li="^i($icons/wm_full.xbm)"
 						fi
-						wm_infos="^ca(1, slingshot-launcher)   Aplicaciones   ^ca()| ${wm_infos}^fg()^bg() ^fg($color_fg)^bg($color_bg)^ca(1, bspc desktop -l next)  $li  ^ca()"
+						wm_infos="^ca(1, slingshot-launcher)   Aplicaciones   ^ca()| ${wm_infos} ^ca(1, bspc desktop -l next)  $li  ^ca()"
 						;;
 				esac
 				shift
