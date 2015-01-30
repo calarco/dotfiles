@@ -3,17 +3,20 @@ dzen2.foreground: $ffffff
 dzen2.background: #002b36
 ! urxvt
 URxvt.iconFile: /usr/share/icons/elementary/apps/128/utilities-terminal.svg
+URxvt.geometry: 175x61
 URxvt.depth: 32
-!URxvt.background: rgba:2600/3200/3800/eeee
-URxvt.background: rgba:0000/2b00/3600/eeee
+URxvt.background: rgba:2c00/3e00/5000/f5f5
+!URxvt.background: rgba:2600/3200/3800/f5f5
+!URxvt.background: rgba:0000/2b00/3600/eeee
 URxvt.foreground: #BDBDBD
 URxvt.cursorColor: #E91E63
-!URxvt.borderColor: rgba:2600/3200/3800/eeee
-URxvt.borderColor: rgba:0000/2b00/3600/eeee
+URxvt.internalBorder: 10
+URxvt.borderColor: rgba:2c00/3e00/5000/f5f5
+!URxvt.borderColor: rgba:2600/3200/3800/f5f5
+!URxvt.borderColor: rgba:0000/2b00/3600/eeee
 URxvt.colorUL: #4A90D9
 URxvt.cursorBlink: true
 URxvt.borderless: false
-URxvt.internalBorder: 10
 URxvt.scrollBar: true
 URxvt.scrollBar_right: true
 URxvt.scrollstyle: plain
@@ -22,9 +25,6 @@ Urxvt.secondaryScroll: true
 URxvt.scrollTtyOutput: false
 URxvt.scrollWithBuffer: true
 URxvt.scrollTtyKeypress: true
-URxvt.font: xft:Terminess Powerline-9
-URxvt.letterSpace: 0
-URxvt.geometry: 175x61
 ! transparency
 !URxvt.transparent: true
 !URxvt.tintColor: #2d2d2d
@@ -53,6 +53,10 @@ URxvt.keysym.M-u: perl:url-select:select_next
 URxvt.url-select.launcher: /usr/bin/xdg-open
  
 ! fonts
+!URxvt.font: xft:Terminess\ Powerline:size=9
+!, xft:PowerlineSymbols:size=9
+URxvt.font: xft:Envy\ Code\ R\ for\ Powerline:size=9
+URxvt.letterSpace: 0
 Xft.dpi:        96
 Xft.antialias:  true
 Xft.rgba:       rgb
@@ -62,11 +66,11 @@ Xft.hintstyle:  hintslight
 ! urxvtq
 urxvtq.depth: 32
 !urxvtq.background: rgba:2600/3200/3800/aaaa
-urxvtq.background: rgba:0000/2b00/3600/bbbb
+urxvtq.background: rgba:0000/0000/0000/bbbb
 urxvtq.foreground: #BDBDBD
 urxvtq.cursorColor: #E91E63
 !urxvtq.borderColor: rgba:2600/3200/3800/aaaa
-urxvtq.borderColor: rgba:0000/2b00/3600/bbbb
+urxvtq.borderColor: rgba:0000/0000/0000/bbbb
 urxvtq.colorUL: #4A90D9
 urxvtq.cursorBlink: true
 urxvtq.borderless: false
@@ -110,50 +114,56 @@ urxvtq.underlineURLs: true
 urxvtq.keysym.M-u: perl:url-select:select_next
 urxvtq.url-select.launcher: /usr/bin/xdg-open
 
-! 8 8 8
-! *background: #080808
-! 128 128 128
-! *foreground: #808080
-! black
-! 26 26 26
-*color0:  #1a1a1a
-! 64 64 64
-*color8:  #404040
-! red
-! 215 95 95
-*color1:  #d75f5f
-! 234 132 132
-*color9:  #EA8484
-! green
-! 135 175 95
-*color2:  #87af5f
-! 199 240 159
-*color10: #C7F09F
-! yellow
-! 255 175 95
-*color3:  #ffaf5f
-! 255 204 154
-*color11: #FFCC9A
-! blue
-! 135 175 215
-*color4:  #87afd7
-! 165 202 239
-*color12: #a5caef
-! magenta
-! 135 135 175
-*color5:  #9c77b2
-! 166 166 222
-*color13: #A6A6DE
-! cyan
-! 95 135 135
-*color6:  #2aa198
-! 105 178 178
-*color14: #69b2b2
-! white
-! 128 128 128
-*color7:  #eee8d5
-! 215 215 215
-*color15: #fafafa
+! Base16 Flat
+! Scheme: Chris Kempson (http://chriskempson.com)
+
+#define base00 #2C3E50
+#define base01 #34495E
+#define base02 #7F8C8D
+#define base03 #95A5A6
+#define base04 #BDC3C7
+#define base05 #e0e0e0
+#define base06 #f5f5f5
+#define base07 #ECF0F1
+#define base08 #E74C3C
+#define base09 #E67E22
+#define base0A #F1C40F
+#define base0B #2ECC71
+#define base0C #1ABC9C
+#define base0D #3498DB
+#define base0E #9B59B6
+#define base0F #be643c
+
+*foreground:   base05
+*background:   base00
+*cursorColor:  base05
+
+*color0:       base00
+*color1:       base08
+*color2:       base0B
+*color3:       base0A
+*color4:       base0D
+*color5:       base0E
+*color6:       base0C
+*color7:       base05
+
+*color8:       base03
+*color9:       base08
+*color10:      base0B
+*color11:      base0A
+*color12:      base0D
+*color13:      base0E
+*color14:      base0C
+*color15:      base07
+
+! Note: colors beyond 15 might not be loaded (e.g., xterm, urxvt),
+! use 'shell' template to set these if necessary
+*color16:      base09
+*color17:      base0F
+*color18:      base01
+*color19:      base02
+*color20:      base04
+*color21:      base06
 
 Xcursor.theme: Breeze_cursors
 Xcursor.size: 16
