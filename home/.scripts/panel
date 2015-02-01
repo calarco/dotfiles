@@ -29,10 +29,10 @@ while true; do
 	if [ "`mpc | grep "^\[playing\]"`" != "" ]; then
 		si="pause.xbm"
 	fi
-	echo "M^ca(1, popup_music)^ca(2, mpc toggle)^i($icons/music.xbm) $(panel_mpd)^ca()^ca()" > "$PANEL_FIFO"
+	echo "M^ca(1, popup_music)^ca(2, mpc toggle)^i($icons/music.xbm)  $(panel_mpd)^ca()^ca()" > "$PANEL_FIFO"
         sleep 2s
 done &
-echo "T^i($icons/spkr_01.xbm) "`ponymix get-volume | gdbar -bg $color_fg -fg $color_fg -w 100 -h 8 -s o -nonl` > "$PANEL_FIFO" &
+echo "T^i($icons/spkr_01.xbm)  "`ponymix get-volume | gdbar -bg $color_fg -fg $color_fg -w 100 -h 8 -s o -nonl` > "$PANEL_FIFO" &
 clock -sf 'S%H:%M' > "$PANEL_FIFO" &
 
 FONT_FAMILY='Terminus'

@@ -1,9 +1,9 @@
-dzen2.font: -xos4-terminesspowerline-medium-r-normal--12-120-72-72-c-60-iso10646-1
+dzen2.font: Envy\ Code\ R\ for\ Powerline:size=10
 dzen2.foreground: $ffffff
 dzen2.background: #002b36
 ! urxvt
 URxvt.iconFile: /usr/share/icons/elementary/apps/128/utilities-terminal.svg
-URxvt.geometry: 175x61
+URxvt.geometry: 150x49
 URxvt.depth: 32
 URxvt.background: rgba:2c00/3e00/5000/f5f5
 !URxvt.background: rgba:2600/3200/3800/f5f5
@@ -55,15 +55,22 @@ URxvt.url-select.launcher: /usr/bin/xdg-open
 ! fonts
 !URxvt.font: xft:Terminess\ Powerline:size=9
 !, xft:PowerlineSymbols:size=9
-URxvt.font: xft:Envy\ Code\ R\ for\ Powerline:size=9
+URxvt.font: xft:Envy\ Code\ R\ for\ Powerline:size=10
+URxvt.boldfont: xft:Envy\ Code\ R\ for\ Powerline:size=10:style=bold
 URxvt.letterSpace: 0
-Xft.dpi:        96
-Xft.antialias:  true
-Xft.rgba:       rgb
-Xft.hinting:    true
-Xft.hintstyle:  hintslight
+
+Xft.antialias: 1
+Xft.autohint: 0
+Xft.dpi: 96
+Xft.hinting: 1
+Xft.hintstyle: hintfull
+Xft.lcdfilter: lcddefault
+Xft.rgba: rgb
 
 ! urxvtq
+urxvtq.font: xft:Envy\ Code\ R\ for\ Powerline:size=10
+urxvtq.boldfont: xft:Envy\ Code\ R\ for\ Powerline:size=10:style=bold
+urxvtq.letterSpace: 0
 urxvtq.depth: 32
 !urxvtq.background: rgba:2600/3200/3800/aaaa
 urxvtq.background: rgba:0000/0000/0000/bbbb
@@ -83,10 +90,7 @@ urxvtq.secondaryScroll: true
 urxvtq.scrollTtyOutput: false
 urxvtq.scrollWithBuffer: true
 urxvtq.scrollTtyKeypress: true
-urxvtq.font: xft:Terminess Powerline-9
-urxvtq.letterSpace: 0
-!urxvtq.geometry: 317x20+0+29
-urxvtq.geometry: 183x25+400+0
+urxvtq.geometry: 148x20+435+0
 ! transparency
 !urxvtq.transparent: true
 !urxvtq.tintColor: #2d2d2d
@@ -117,7 +121,7 @@ urxvtq.url-select.launcher: /usr/bin/xdg-open
 ! Base16 Flat
 ! Scheme: Chris Kempson (http://chriskempson.com)
 
-#define base00 #2C3E50
+#define base00 #233541
 #define base01 #34495E
 #define base02 #7F8C8D
 #define base03 #95A5A6
@@ -135,7 +139,7 @@ urxvtq.url-select.launcher: /usr/bin/xdg-open
 #define base0F #be643c
 
 *foreground:   base05
-*background:   base00
+*background:   #2C3E50
 *cursorColor:  base05
 
 *color0:       base00

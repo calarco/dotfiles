@@ -6,10 +6,10 @@ w=350
 x=$((screen_width - 380))
 
 if [[ $1 = "up" ]] ; then
-	echo "T^i($HOME/.xbm/spkr_01.xbm) "`ponymix increase 1 | gdbar -bg $color_fg -fg $color_fg -w 100 -h 8 -s o -nonl` > "$PANEL_FIFO"
+	echo "T^i($HOME/.xbm/spkr_01.xbm)  "`ponymix increase 1 | gdbar -bg $color_fg -fg $color_fg -w 100 -h 8 -s o -nonl` > "$PANEL_FIFO"
 	#echo -e "^i($HOME/.xbm/spkr_01.xbm)  "`ponymix get-volume | gdbar -bg $color_fg -fg $color_se -w 200 -h 22 -s o -nonl` | dzen2 -o 60 -p 3 -x $x -y 40 -tw $w -w $w -h 50 -ta c -sa c -fn $font -bg $color_bg -fg $color_fg -e 'button1=exit;button2=exit;onstart=uncollapse;'
 elif [[ $1 = "down" ]] ; then
-	echo "T^i($HOME/.xbm/spkr_01.xbm) "`ponymix decrease 1 | gdbar -bg $color_fg -fg $color_fg -w 100 -h 8 -s o -nonl` > "$PANEL_FIFO"
+	echo "T^i($HOME/.xbm/spkr_01.xbm)  "`ponymix decrease 1 | gdbar -bg $color_fg -fg $color_fg -w 100 -h 8 -s o -nonl` > "$PANEL_FIFO"
 	#echo -e "^i($HOME/.xbm/spkr_01.xbm)  "`ponymix get-volume | gdbar -bg $color_fg -fg $color_se -w 200 -h 22 -s o -nonl` | dzen2 -o 60 -p 3 -x $x -y 40 -tw $w -w $w -h 50 -ta c -sa c -fn $font -bg $color_bg -fg $color_fg -e 'button1=exit;button2=exit;onstart=uncollapse;'
 fi
 

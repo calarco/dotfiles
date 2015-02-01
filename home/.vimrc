@@ -6,7 +6,7 @@ syntax on
 set list
 "set listchars=tab:\|\ ,trail:·,eol:◊,extends:►,precedes:◄
 set listchars=tab:\|\ ,trail:·,extends:►,precedes:◄
-highlight SpecialKey ctermfg=234
+highlight SpecialKey ctermfg=0
 
 set mouse=a
 set background=dark

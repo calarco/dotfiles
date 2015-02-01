@@ -1,5 +1,5 @@
 [global]
-    font = Terminus 8
+    font = Cantarell 10
 
     # allow a small subset of html markup:
     # <b>bold</b>
@@ -151,12 +151,12 @@
     # IMPORTANT: colors have to be defined in quotation marks.
     # Otherwise the '#' and following  would be interpreted as a comment.
     background = "#ffffff"
-    foreground = "#000000"
+    foreground = "#222222"
     timeout = 10
 
 [urgency_normal]
     background = "#ffffff"
-    foreground = "#000000"
+    foreground = "#222222"
     timeout = 10
 
 [urgency_critical]
