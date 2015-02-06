@@ -8,7 +8,6 @@ URxvt.depth: 32
 URxvt.background: rgba:2c00/3e00/5000/f5f5
 !URxvt.background: rgba:2600/3200/3800/f5f5
 !URxvt.background: rgba:0000/2b00/3600/eeee
-URxvt.foreground: #BDBDBD
 URxvt.cursorColor: #E91E63
 URxvt.internalBorder: 10
 URxvt.borderColor: rgba:2c00/3e00/5000/f5f5
@@ -74,7 +73,6 @@ urxvtq.letterSpace: 0
 urxvtq.depth: 32
 !urxvtq.background: rgba:2600/3200/3800/aaaa
 urxvtq.background: rgba:0000/0000/0000/bbbb
-urxvtq.foreground: #BDBDBD
 urxvtq.cursorColor: #E91E63
 !urxvtq.borderColor: rgba:2600/3200/3800/aaaa
 urxvtq.borderColor: rgba:0000/0000/0000/bbbb
@@ -151,7 +149,7 @@ urxvtq.url-select.launcher: /usr/bin/xdg-open
 *color6:       base0C
 *color7:       base05
 
-*color8:       base03
+*color8:       base01
 *color9:       base08
 *color10:      base0B
 *color11:      base0A
@@ -164,7 +162,7 @@ urxvtq.url-select.launcher: /usr/bin/xdg-open
 ! use 'shell' template to set these if necessary
 *color16:      base09
 *color17:      base0F
-*color18:      base01
+*color18:      base03
 *color19:      base02
 *color20:      base04
 *color21:      base06

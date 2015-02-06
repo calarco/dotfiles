@@ -1,25 +1,26 @@
 set nocompatible
 set t_Co=256
 set enc=utf-8
+set background=dark
 syntax on
 
 set list
 "set listchars=tab:\|\ ,trail:·,eol:◊,extends:►,precedes:◄
 set listchars=tab:\|\ ,trail:·,extends:►,precedes:◄
 highlight SpecialKey ctermfg=0
+highlight Pmenu ctermbg=7 ctermfg=0 gui=bold
 
 set mouse=a
-set background=dark
 :filetype plugin on
 "let $PYTHONPATH="/usr/lib/python3.3/site-packages"
 "set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 
 set cursorline
-hi CursorLine cterm=NONE ctermbg=18
+hi CursorLine cterm=NONE ctermbg=8
 set number
-highlight LineNr ctermfg=243 ctermbg=18
+highlight LineNr ctermfg=243 ctermbg=8
 set fillchars+=vert:\ 
-highlight VertSplit ctermfg=18 ctermbg=0
+highlight VertSplit ctermfg=8 ctermbg=0
 
 set wildmenu			" enhanced tab-completion shows all matching cmds in a popup menu
 "set cursorline			 " highlight current line

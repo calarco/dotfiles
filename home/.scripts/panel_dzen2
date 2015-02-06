@@ -122,7 +122,7 @@ while read -r line ; do
 	esac
 	set -- $(printf '%s\0%s\0%s' "$wm_infos" "$mpd" "$title    $sys_infos" | sed 's/\^[a-z]\+([^)]*)//g' | xargs -0 txtw -f "$font_family" -s "$font_size")
 	left_width=$1
-	center_width=$(expr $2 + 55)
+	center_width=$(expr $2 + 100)
 	right_width=$3
 	left_indent=0
 	right_indent=$((screen_width - (right_width + 215)))

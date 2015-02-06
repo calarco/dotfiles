@@ -8,6 +8,7 @@ Terminal=false
 X-MultipleArgs=false
 Type=Application
 Icon=/home/calarco/.icons/menu.png
+NoDisplay=true
 Categories=Menu;
 MimeType=
 StartupNotify=true

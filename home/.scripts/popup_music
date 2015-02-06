@@ -14,11 +14,13 @@ mpb=$(mpc -f "%artist%" current)
 mpy=$(mpc -f "%date%" current)
 art=$(mpc current -f "%file%" | sed 's_\(.*\)/\(.*\)/\(.*\)_\1/\2/_')
 
-w=300
-bw=$(expr $w - 75)
+w=350
+bw=$(expr $w - 90)
 
-x=$((screen_width / 2 - w / 2 + 72))
-ax=$((screen_width / 2 - w / 2 - 72))
+aw=$((panel_height * 5 - 2))
+
+x=$((screen_width / 2 - w / 2 + aw / 2))
+ax=$((screen_width / 2 - w / 2 - aw / 2))
 cx=$((w / 2 - 60))
 
 if [ "`mpc | grep "^\[paused\]"`" != "" ]; then
@@ -31,7 +33,7 @@ position(){
 	curr=$(mpc | awk 'NR==2' | awk '{print $3}' | sed 's/\/.*//')
 	tot=$(mpc | awk 'NR==2' | awk '{print $3}' | sed 's/^.*\///')
 	pos=$(mpc | awk 'NR==2' | awk '{print $4}' | sed 's/(//' | sed 's/%)//')
-	bar=$(echo $pos | gdbar -w $bw -h 3 -fg "$color_se" -bg "#000000")
+	bar=$(echo $pos | gdbar -w $bw -h 3 -fg "$color_se" -bg "#333333")
 	echo -n " $curr $bar $tot"
 }
 
@@ -44,4 +46,4 @@ $mpb
 $mpy
 $(position)\
 " | dzen2 -p -y 0 -x $x -l 4 -tw $w -w $w -h $panel_height -ta c -sa c -bg $color_bg -fg $color_fg -e 'button1=exit,exec:pkill -P $(pgrep popup_music);button2=exit;onstart=uncollapse;' &
-bspc rule -a feh -o floating=on follow=on focus=off sticky=on border_width=0 && feh -B black -Z -g 143x143+$ax+0 -^ art "/media/Data/Música/$art"
+bspc rule -a feh -o floating=on follow=on focus=off sticky=on border_width=0 && feh -B black -Z -g $aw"x"$aw+$ax+0 -^ art "/media/Data/Música/$art"

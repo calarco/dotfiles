@@ -2,7 +2,7 @@
 
 screen_width=$(sres -W)
 panel_height=34
-font='-xos4-terminesspowerline-medium-r-normal--12-120-72-72-c-60-iso10646-1'
+font='Envy\ Code\ R\ for\ Powerline-10'
 icons=$HOME/.xbm
 color_se='#03A9F4'
 color_sf='#f9f9f9'
