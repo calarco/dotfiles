@@ -33,6 +33,7 @@ while true; do
         sleep 2s
 done &
 echo "T^i($icons/spkr_01.xbm)  "`ponymix get-volume | gdbar -bg $color_fg -fg $color_fg -w 100 -h 8 -s o -nonl` > "$PANEL_FIFO" &
+#echo "T^i($icons/spkr_01.xbm)  "`amixer get Master | awk '$0~/%/{print $5}' | tr -d '[]%' | gdbar -bg $color_fg -fg $color_fg -w 100 -h 8 -s o -nonl` > "$PANEL_FIFO" &
 clock -sf 'S%H:%M' > "$PANEL_FIFO" &
 
 FONT_FAMILY='Terminus'

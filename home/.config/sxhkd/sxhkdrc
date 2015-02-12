@@ -35,11 +35,6 @@ super + {grave,Tab}
 super + apostrophe
 	bspc window -s last
 
-super + {tab,masculine}
-	bspc control --record-history off; \
-	bspc window {older,newer} -f; \
-	bspc control --record-history on
-
 super + y
 	bspc window -w last.manual
 
@@ -100,10 +95,10 @@ super + {comma,period}
 #
 	#bspc rule -a urxvt -o floating=on && urxvtc
 
-super + Return
+grave
 	urxvtq
 
-super + shift + Return
+super + Return
 	urxvtc
 
 super + space

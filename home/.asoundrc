@@ -1,0 +1,54 @@
+# vim:set ft=alsaconf:
+
+ctl.equal0 {
+	type equal;
+	controls "/home/calarco/.alsaequal0.bin";
+}
+
+pcm.plugequal0 {
+	type equal;
+	slave.pcm "plughw:0,0";
+	controls "/home/calarco/.alsaequal0.bin";
+}
+
+pcm.equal0 {
+	type plug;
+	slave.pcm plugequal0;
+	ttable {
+		0.0 0.5
+		0.1 0.5
+		1.0 0.5
+		1.1 0.5
+	}
+}
+
+ctl.equal1 {
+	type equal;
+	controls "/home/calarco/.alsaequal1.bin";
+}
+
+pcm.plugequal1 {
+	type equal;
+	slave.pcm "plughw:1,7";
+	controls "/home/calarco/.alsaequal1.bin";
+}
+
+pcm.equal1 {
+	type plug;
+	slave.pcm plugequal1;
+}
+
+# Use PulseAudio by default
+pcm.!default {
+	type pulse
+	fallback "sysdefault"
+	hint {
+		show on
+		description "Default ALSA Output (currently PulseAudio Sound Server)"
+	}
+}
+
+ctl.!default {
+	type pulse
+	fallback "sysdefault"
+}
