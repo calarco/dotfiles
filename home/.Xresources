@@ -50,7 +50,7 @@ URxvt.urlLauncher: /usr/bin/xdg-open
 URxvt.underlineURLs: true
 URxvt.keysym.M-u: perl:url-select:select_next
 URxvt.url-select.launcher: /usr/bin/xdg-open
- 
+
 ! fonts
 !URxvt.font: xft:Terminess\ Powerline:size=9
 !, xft:PowerlineSymbols:size=9
@@ -72,10 +72,12 @@ urxvtq.boldfont: xft:Envy\ Code\ R\ for\ Powerline:size=10:style=bold
 urxvtq.letterSpace: 0
 urxvtq.depth: 32
 !urxvtq.background: rgba:2600/3200/3800/aaaa
-urxvtq.background: rgba:0000/0000/0000/bbbb
+!urxvtq.background: rgba:0000/0000/0000/bbbb
+urxvtq.background: rgba:2c00/3e00/5000/dddd
 urxvtq.cursorColor: #E91E63
 !urxvtq.borderColor: rgba:2600/3200/3800/aaaa
-urxvtq.borderColor: rgba:0000/0000/0000/bbbb
+!urxvtq.borderColor: rgba:0000/0000/0000/bbbb
+urxvtq.borderColor: rgba:2c00/3e00/5000/dddd
 urxvtq.colorUL: #4A90D9
 urxvtq.cursorBlink: true
 urxvtq.borderless: false
@@ -140,32 +142,32 @@ urxvtq.url-select.launcher: /usr/bin/xdg-open
 *background:   #2C3E50
 *cursorColor:  base05
 
-*color0:       base00
-*color1:       base08
-*color2:       base0B
-*color3:       base0A
-*color4:       base0D
-*color5:       base0E
-*color6:       base0C
-*color7:       base05
+*color0:	   base00
+*color1:	   base08
+*color2:	   base0B
+*color3:	   base0A
+*color4:	   base0D
+*color5:	   base0E
+*color6:	   base0C
+*color7:	   base05
 
-*color8:       base01
-*color9:       base08
-*color10:      base0B
-*color11:      base0A
-*color12:      base0D
-*color13:      base0E
-*color14:      base0C
-*color15:      base07
+*color8:	   base01
+*color9:	   base08
+*color10:	   base0B
+*color11:	   base0A
+*color12:	   base0D
+*color13:	   base0E
+*color14:	   base0C
+*color15:	   base07
 
 ! Note: colors beyond 15 might not be loaded (e.g., xterm, urxvt),
 ! use 'shell' template to set these if necessary
-*color16:      base09
-*color17:      base0F
-*color18:      base03
-*color19:      base02
-*color20:      base04
-*color21:      base06
+*color16:	   base09
+*color17:	   base0F
+*color18:	   base03
+*color19:	   base02
+*color20:	   base04
+*color21:	   base06
 
 Xcursor.theme: Breeze_cursors
 Xcursor.size: 16
