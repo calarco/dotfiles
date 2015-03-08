@@ -14,12 +14,6 @@ pcm.plugequal0 {
 pcm.equal0 {
 	type plug;
 	slave.pcm plugequal0;
-	ttable {
-		0.0 0.5
-		0.1 0.5
-		1.0 0.5
-		1.1 0.5
-	}
 }
 
 ctl.equal1 {
@@ -36,6 +30,12 @@ pcm.plugequal1 {
 pcm.equal1 {
 	type plug;
 	slave.pcm plugequal1;
+	ttable {
+		0.0 0.5
+		0.1 0.5
+		1.0 0.5
+		1.1 0.5
+	}
 }
 
 # Use PulseAudio by default

@@ -1,16 +1,17 @@
 dzen2.font: Envy\ Code\ R\ for\ Powerline:size=10
-dzen2.foreground: $ffffff
-dzen2.background: #002b36
+dzen2.foreground: #ffffff
+dzen2.background: #000000
+
 ! urxvt
 URxvt.iconFile: /usr/share/icons/elementary/apps/128/utilities-terminal.svg
 URxvt.geometry: 150x49
 URxvt.depth: 32
-URxvt.background: rgba:2c00/3e00/5000/f5f5
+URxvt.background: rgba:2c00/3e00/5000/cccc
 !URxvt.background: rgba:2600/3200/3800/f5f5
 !URxvt.background: rgba:0000/2b00/3600/eeee
 URxvt.cursorColor: #E91E63
 URxvt.internalBorder: 10
-URxvt.borderColor: rgba:2c00/3e00/5000/f5f5
+URxvt.borderColor: rgba:2c00/3e00/5000/cccc
 !URxvt.borderColor: rgba:2600/3200/3800/f5f5
 !URxvt.borderColor: rgba:0000/2b00/3600/eeee
 URxvt.colorUL: #4A90D9
@@ -90,7 +91,7 @@ urxvtq.secondaryScroll: true
 urxvtq.scrollTtyOutput: false
 urxvtq.scrollWithBuffer: true
 urxvtq.scrollTtyKeypress: true
-urxvtq.geometry: 148x20+435+0
+urxvtq.geometry: 148x20+435+34
 ! transparency
 !urxvtq.transparent: true
 !urxvtq.tintColor: #2d2d2d

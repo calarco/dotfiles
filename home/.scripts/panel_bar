@@ -1,0 +1,85 @@
+#!/bin/bash
+
+COLOR_FOREGROUND='#FFA3A6AB'
+COLOR_BACKGROUND='#FF34322E'
+COLOR_ACTIVE_MONITOR_FG='#FF34322E'
+COLOR_ACTIVE_MONITOR_BG='#FF58C5F1'
+COLOR_INACTIVE_MONITOR_FG='#FF58C5F1'
+COLOR_INACTIVE_MONITOR_BG='#FF34322E'
+COLOR_FOCUSED_OCCUPIED_FG='#FFF6F9FF'
+COLOR_FOCUSED_OCCUPIED_BG='#FF5C5955'
+COLOR_FOCUSED_FREE_FG='#FFF6F9FF'
+COLOR_FOCUSED_FREE_BG='#FF6D561C'
+COLOR_FOCUSED_URGENT_FG='#FF34322E'
+COLOR_FOCUSED_URGENT_BG='#FFF9A299'
+COLOR_OCCUPIED_FG='#FFA3A6AB'
+COLOR_OCCUPIED_BG='#FF34322E'
+COLOR_FREE_FG='#FF6F7277'
+COLOR_FREE_BG='#FF34322E'
+COLOR_URGENT_FG='#FFF9A299'
+COLOR_URGENT_BG='#FF34322E'
+COLOR_LAYOUT_FG='#FFA3A6AB'
+COLOR_LAYOUT_BG='#FF34322E'
+COLOR_TITLE_FG='#FFA3A6AB'
+COLOR_TITLE_BG='#FF34322E'
+COLOR_STATUS_FG='#FFA3A6AB'
+COLOR_STATUS_BG='#FF34322E'
+
+while read -r line ; do
+	case $line in
+		W*)
+			# bspwm internal state
+			wm_infos=""
+			IFS=':'
+			set -- ${line#?}
+			while [ $# -gt 0 ] ; do
+				item=$1
+				name=${item#?}
+				case $item in
+					M*)
+						# active monitor
+						if [ $num_mon -gt 1 ] ; then
+							wm_infos="$wm_infos %{F$COLOR_ACTIVE_MONITOR_FG}%{B$COLOR_ACTIVE_MONITOR_BG}%{A:bspc desktop -f ${name}:}%{A2:bspc window -d ${name}:}----------%{A}%{A}%{B-}%{F-}  "
+						fi
+						;;
+					m*)
+						# inactive monitor
+						if [ $num_mon -gt 1 ] ; then
+							wm_infos="$wm_infos %{F$COLOR_INACTIVE_MONITOR_FG}%{B$COLOR_INACTIVE_MONITOR_BG}%{A:bspc desktop -f ${name}:}%{A2:bspc window -d ${name}:}----------%{A}%{A}%{B-}%{F-}  "
+						fi
+						;;
+					O*)
+						# focused occupied desktop
+						wm_infos="${wm_infos} %{U#FFF37890+u}%{A:bspc desktop -f ${name}:}%{A2:bspc window -d ${name}:}----------%{A}%{A}%{U-} "
+						;;
+					F*)
+						# focused free desktop
+						wm_infos="${wm_infos} %{U#FFF37890+u}%{A:bspc desktop -f ${name}:}%{A2:bspc window -d ${name}:}----------%{A}%{A}%{U-} "
+						;;
+					U*)
+						# focused urgent desktop
+						wm_infos="${wm_infos} %{U#FFF37890+u}%{A:bspc desktop -f ${name}:}%{A2:bspc window -d ${name}:}----------%{A}%{A}%{U-} "
+						;;
+					o*)
+						# occupied desktop
+						wm_infos="${wm_infos} %{U#FFffffff+u}%{A:bspc desktop -f ${name}:}%{A2:bspc window -d ${name}:}----------%{A}%{A}%{U-} "
+						;;
+					f*)
+						# free desktop
+						wm_infos="${wm_infos} %{U#00ffffff+u}%{A:bspc desktop -f ${name}:}%{A2:bspc window -d ${name}:}----------%{A}%{A}%{U-} "
+						;;
+					u*)
+						# urgent desktop
+						wm_infos="${wm_infos}%{F$COLOR_URGENT_FG}%{B$COLOR_URGENT_BG}%{A:bspc desktop -f ${name}:}%{A2:bspc window -d ${name}:}----------%{A}%{A}%{B-}%{F-}"
+						;;
+					L*)
+						# layout
+						wm_infos="$wm_infos  %{r}%{F#FFffffff}%{A:bspc desktop -l next:} ${name} %{A}%{F-}"
+						;;
+				esac
+				shift
+			done
+			;;
+	esac
+	printf "%s\n" "%{c}${wm_infos}"
+done

@@ -17,11 +17,11 @@ YEAR=`date +'%Y'`
 echo "^bg($color_se)^fg($color_sf) ^i($icons/clock.xbm) " `date +'%H:%M'` " ^fg()^bg()";
 echo `date +'%A %d/%m/%y %n'`
 
-cal | sed -re "s/^(.*[A-Za-z][A-Za-z]*.*)$/^fg($color_se)^bg($color_fg)\1/;s/(^|[ ])($TODAY)($|[ ])/\1^bg($color_se) ^fg($color_sf)\2^fg($color_bg) ^bg($color_fg)\3/"
+cal | sed -re "s/^(.*[A-Za-z][A-Za-z]*.*)$/^fg($color_se)^bg($color_bg)\1/;s/(^|[ ])($TODAY)($|[ ])/\1^bg($color_se) ^fg($color_sf)\2^fg($color_fg) ^bg($color_bg)\3/"
 
 # next month, hilight header
 #[ $MONTH -eq 12 ] && YEAR=`expr $YEAR + 1`
 #cal `expr \( $MONTH + 1 \) % 12` $YEAR \
 #    | sed -e 's/^\(.*[A-Za-z][A-Za-z]*.*\)$/^fg($color_se)^bg($color_bg)\1/'
 
-) | dzen2 -fg "$color_bg" -bg "$color_fg" -x $x -h $panel_height -tw 73 -w 160 -l 9 -ta c -sa c -p -e 'button1=exit;button2=exit;onstart=uncollapse;'
+) | dzen2 -fg "$color_fg" -bg "$color_bg" -x $x -h $panel_height -tw 73 -w 160 -l 9 -ta c -sa c -p -e 'button1=exit;button2=exit;onstart=uncollapse;'

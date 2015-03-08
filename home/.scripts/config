@@ -4,7 +4,7 @@ screen_width=$(sres -W)
 panel_height=34
 font='Envy\ Code\ R\ for\ Powerline-10'
 icons=$HOME/.xbm
-color_se='#03A9F4'
+color_se='#9575cd'
 color_sf='#f9f9f9'
 
 # Light theme
@@ -12,6 +12,6 @@ color_sf='#f9f9f9'
 #color_bg='#EDEDED'
 
 # Dark theme
-color_fg='#ffffff'
+color_fg='#000000'
 #color_bg='#263238'
-color_bg='#000000'
+color_bg='#ffffff'

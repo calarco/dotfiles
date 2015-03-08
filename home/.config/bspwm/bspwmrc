@@ -22,11 +22,5 @@ bspc config borderless_monocle  true
 bspc config gapless_monocle     true
 bspc config focus_follows_pointer true
 
-#bspc rule -a Gimp desktop=^8 follow=on floating=on
-#bspc rule -a Chromium desktop=^1
-#bspc rule -a feh floating=on
-#bspc rule -a Kupfer.py focus=on
-#bspc rule -a Screenkey manage=off
-
-panel &
+wings &
 sleep 3s && bspc rule -a urxvt -o pseudo_tiled=on desktop=^10 && urxvtc -e ncmpcpp &

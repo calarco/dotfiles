@@ -38,6 +38,6 @@ clock -sf 'S%H:%M' > "$PANEL_FIFO" &
 
 FONT_FAMILY='Terminus'
 FONT_SIZE=11
-cat "$PANEL_FIFO" | panel_dzen2 -f "$FONT_FAMILY" -s "$FONT_SIZE" | dzen2 -o 60 -h $panel_height -dock -ta l -title-name panel -fg "$color_fg" -bg "$color_bg" -e 'button2=;' &
+cat "$PANEL_FIFO" | panel_dzen2 -f "$FONT_FAMILY" -s "$FONT_SIZE" | dzen2 -o 50 -h $panel_height -dock -ta l -title-name panel -fg "$color_fg" -bg "$color_bg" -e 'button2=;' &
 
 wait

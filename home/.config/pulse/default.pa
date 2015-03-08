@@ -46,6 +46,7 @@ load-module module-augment-properties
 ### use module-udev-detect -- see below -- for doing this automatically)
 load-module module-alsa-sink device=equal0
 load-module module-alsa-sink device=equal1
+#load-module module-alsa-sink device=hw:1,7
 load-module module-alsa-source device=hw:0,0
 #load-module module-oss device="/dev/dsp" sink_name=output source_name=input
 #load-module module-oss-mmap device="/dev/dsp" sink_name=output source_name=input
