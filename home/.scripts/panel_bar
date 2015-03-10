@@ -50,15 +50,15 @@ while read -r line ; do
 						;;
 					O*)
 						# focused occupied desktop
-						wm_infos="${wm_infos} %{U#FFF37890+u}%{A:bspc desktop -f ${name}:}%{A2:bspc window -d ${name}:}----------%{A}%{A}%{U-} "
+						wm_infos="${wm_infos} %{U#FF4A90D8+u}%{A:bspc desktop -f ${name}:}%{A2:bspc window -d ${name}:}----------%{A}%{A}%{U-} "
 						;;
 					F*)
 						# focused free desktop
-						wm_infos="${wm_infos} %{U#FFF37890+u}%{A:bspc desktop -f ${name}:}%{A2:bspc window -d ${name}:}----------%{A}%{A}%{U-} "
+						wm_infos="${wm_infos} %{U#FF4A90D8+u}%{A:bspc desktop -f ${name}:}%{A2:bspc window -d ${name}:}----------%{A}%{A}%{U-} "
 						;;
 					U*)
 						# focused urgent desktop
-						wm_infos="${wm_infos} %{U#FFF37890+u}%{A:bspc desktop -f ${name}:}%{A2:bspc window -d ${name}:}----------%{A}%{A}%{U-} "
+						wm_infos="${wm_infos} %{U#FF4A90D8+u}%{A:bspc desktop -f ${name}:}%{A2:bspc window -d ${name}:}----------%{A}%{A}%{U-} "
 						;;
 					o*)
 						# occupied desktop
