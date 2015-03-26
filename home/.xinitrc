@@ -18,8 +18,8 @@ xsetroot -cursor_name left_ptr
 xsetroot -solid "#333333"
 export PATH=$PATH:$HOME/.scripts
 export PATH=$PATH:$HOME/.gem/ruby/2.2.0/bin
-nitrogen --restore
-#wallpaper &
+#nitrogen --restore
+wallpaper &
 urxvtd &
 sxhkd &
 mpDris2 &
@@ -29,7 +29,7 @@ gsettings-data-convert &
 xdg-user-dirs-gtk-update &
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 /usr/lib/gnome-settings-daemon/gnome-settings-daemon &
-/usr/lib/gnome-user-share/gnome-user-share &
+#/usr/lib/gnome-user-share/gnome-user-share &
 eval $(gnome-keyring-daemon --start --components=pkcs11,secrets,ssh,gpg)
 export GNOME_KEYRING_CONTROL GNOME_KEYRING_PID GPG_AGENT_INFO SSH_AUTH_SOCK
 export DE=gnome

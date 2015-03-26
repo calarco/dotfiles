@@ -1,4 +1,10 @@
 [global]
+    # Align icons left/right/off.
+    icon_position = left
+   
+    # Paths to default icons. Make sure these exist on your system.
+    icon_folders = /usr/share/icons/gnome/48x48/status/:/usr/share/icons/gnome/48x48/devices/:/usr/share/icons/gnome/48x48/mimetypes/:/usr/share/icons/gnome/48x48/actions/:/usr/share/icons/gnome/48x48/apps/
+
     font = Cantarell 10
 
     # allow a small subset of html markup:
@@ -59,8 +65,7 @@
     # right side of the screen.  Y is measured from the top and down respectevly.
     # The width can be negative. In this case the actual width is the
     # screen width minus the width defined in within the geometry option.
-    #geometry = "350x5+785+34"
-    geometry = "350x5-10+0"
+    geometry = "350x5-20+70"
 
     # The transparency of the window. range: [0; 100]
     # This option will only work if a compositing windowmanager is present (e.g. xcompmgr, compiz, etc..)
@@ -125,8 +130,8 @@
     browser = /usr/bin/chromium
 
 [frame]
-    width = 0
-    color = "#000000"
+    width = 1
+    color = "#888888"
 
 [shortcuts]
     # shortcuts are specified as [modifier+][modifier+]...key
@@ -151,12 +156,12 @@
     # IMPORTANT: colors have to be defined in quotation marks.
     # Otherwise the '#' and following  would be interpreted as a comment.
     background = "#ffffff"
-    foreground = "#555555"
+    foreground = "#333333"
     timeout = 10
 
 [urgency_normal]
     background = "#ffffff"
-    foreground = "#555555"
+    foreground = "#333333"
     timeout = 10
 
 [urgency_critical]

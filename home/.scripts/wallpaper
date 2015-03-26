@@ -1,7 +1,7 @@
 #!/bin/bash
 
 shopt -s nullglob
-cd /media/Data/Sebi/Imagenes/xgen
+cd /media/Data/Sebi/Imagenes/chromecast-max/wall
 
 while true; do
 	files=()

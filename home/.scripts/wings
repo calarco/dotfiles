@@ -7,17 +7,10 @@ fi
 
 trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
 
-[ -e "$PANEL_FIFO" ] && rm "$PANEL_FIFO"
-mkfifo "$PANEL_FIFO"
-
-bspc config top_padding 36
-wingpanel &
+bspc config top_padding 50
+tint2 &
 slingshot-launcher --silent &
-nm-applet &
-/usr/lib/indicator-application-pantheon/indicator-application/indicator-application-service &
-bspc config bottom_padding 18
-bspc control --subscribe > "$PANEL_FIFO" &
-
-cat "$PANEL_FIFO" | panel_bar | bar -bp -g 1920x18 -u 9 -F "#40000000" -B "#40000000" | while read line; do eval "$line"; done &
+sleep 10s && volumeicon &
+sleep 15s && nm-applet &
 
 wait

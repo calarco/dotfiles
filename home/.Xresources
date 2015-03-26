@@ -91,7 +91,7 @@ urxvtq.secondaryScroll: true
 urxvtq.scrollTtyOutput: false
 urxvtq.scrollWithBuffer: true
 urxvtq.scrollTtyKeypress: true
-urxvtq.geometry: 148x20+435+36
+urxvtq.geometry: 148x20+435+50
 ! transparency
 !urxvtq.transparent: true
 !urxvtq.tintColor: #2d2d2d

@@ -2,12 +2,13 @@
 	"bold_folder_labels": true,
 	"color_scheme": "Packages/Theme - Spacegray/base16-ocean.dark.tmTheme",
 	"draw_minimap_border": true,
-	"font_face": "Envy Code R",
+	"font_face": "Envy Code R for powerline",
 	"font_size": 11,
 	"highlight_line": true,
 	"ignored_packages":
 	[
-		"Vintage"
+		"Vintage",
+		"Color Highlighter"
 	],
 	"indent_guide_options":
 	[

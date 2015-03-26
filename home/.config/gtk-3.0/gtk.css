@@ -1,80 +1,24 @@
 .window-frame, .window-frame:backdrop {
-	box-shadow: 0 0 0 black;
-	/*border-style: none;*/
 	border-radius: 0 0 0 0;
-	margin: 0;
 }
 
 .titlebar {
 	border-radius: 0 0 0 0;
 }
 
-.content-view .menu,
-.menu,
-.popup {
-	padding: 4px 0;
-	border: 1px solid alpha (#000, 0.25);
-	box-shadow: 0 3px 15px alpha (#000, 0.4);
-}
+/*************
+ * Slingshot *
+ ************/
 
-.panel {
-	background-color: transparent;
-	color: #fff;
-	font-weight: bold;
-	text-shadow: 0 1px 2px alpha (#000, 0.6);
-	icon-shadow: 0 1px 2px alpha (#000, 0.6);
-}
-
-.panel-shadow {
-	background-image: none;
-	background-color: alpha (#000, 0.3);
-}
-
-.panel .menu {
-	box-shadow: none;
+SlingshotWidgetsSearchView GtkButton.flat:hover,
+SlingshotWidgetsSearchView GtkButton.flat:focus {
+	background-color: alpha (#000, 0.20);
 	text-shadow: none;
-	border-style: none;
 }
 
-.panel .menu .spinner {
-	opacity: 1;
-}
-
-.panel .menu .menuitem {
-	font-weight: normal;
-}
-
-.panel .window-frame.menu.csd,
-.panel .window-frame.popup.csd {
-	box-shadow: none;
-}
-
-.panel .menu .window-frame.menu.csd,
-.panel .menu .window-frame.popup.csd {
-	box-shadow: 0 0 0 1px alpha (#000, 0.20),
-				0 10px 20px alpha (#000, 0.19),
-				0 6px 6px alpha (#000, 0.23);
-}
-
-.composited-indicator {
-	background-color: transparent;
-	color: #fff;
-}
-
-.composited-indicator > GtkWidget > GtkWidget:first-child {
-	padding: 0 2px;
-}
-
-.panel-app-button > GtkWidget > GtkWidget:first-child {
-	padding: 0 2px 0 4px;
-}
-
-.composited-indicator.menuitem:active,
-.composited-indicator.menuitem:prelight {
-	border-style: none;
-	background-image: none;
-	box-shadow: none;
-}
+/************
+ * Terminal *
+ ***********/
 
 PantheonTerminalPantheonTerminalWindow.background {
 	background-color: transparent;

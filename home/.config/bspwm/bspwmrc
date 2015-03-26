@@ -9,18 +9,22 @@ desktop_config() {
 	done
 }
 
-desktop_config border_width        1
+desktop_config border_width		   1
 bspc config normal_border_color "#000000"
 bspc config focused_border_color "#000000"
 bspc config presel_border_color "#4A90D9"
 bspc config urgent_border_color "#4A90D9"
 bspc config normal_sticky_border_color "#252e32"
 bspc config focused_sticky_border_color "#252e32"
-desktop_config window_gap          36
-bspc config split_ratio         0.4
-bspc config borderless_monocle  true
-bspc config gapless_monocle     true
+desktop_config window_gap 42
+bspc config split_ratio	0.4
+bspc window -r 0.6
+bspc config borderless_monocle	true
+bspc config gapless_monocle		true
 bspc config focus_follows_pointer true
+
+bspc rule -a slingshot-launcher floating=on
+bspc rule -a obshutdown floating=on
 
 wings &
 sleep 3s && bspc rule -a urxvt -o pseudo_tiled=on desktop=^10 && urxvtc -e ncmpcpp &
