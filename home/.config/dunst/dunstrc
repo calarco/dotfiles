@@ -45,7 +45,7 @@
 
     # show age of message if message is older than show_age_threshold seconds.
     # set to -1 to disable
-    show_age_threshold = 60
+    show_age_threshold = 600
 
     # split notifications into multiple lines if they don't fit into geometry
     word_wrap = yes

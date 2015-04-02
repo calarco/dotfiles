@@ -193,10 +193,6 @@ item = Close window
 cmd = bspc window -c
 icon = NULL
 
-item = Close the window class
-cmd = xdo close -cd
-icon = NULL
-
 separator
 
 item = Reiniciar

@@ -1,13 +1,22 @@
 # vim:set ft=alsaconf:
 
-ctl.equal0 {
-	type equal;
-	controls "/home/calarco/.alsaequal0.bin";
+pcm.dmixer0 {
+	type dmix
+	ipc_key 1024
+	slave {
+		pcm {
+			type hw
+			card 0
+			device 0
+		}
+	period_size 1024
+	buffer_size 2048
+	}
 }
 
 pcm.plugequal0 {
 	type equal;
-	slave.pcm "plughw:0,0";
+	slave.pcm "plug:dmixer0";
 	controls "/home/calarco/.alsaequal0.bin";
 }
 
@@ -16,14 +25,28 @@ pcm.equal0 {
 	slave.pcm plugequal0;
 }
 
-ctl.equal1 {
+ctl.equal0 {
 	type equal;
-	controls "/home/calarco/.alsaequal1.bin";
+	controls "/home/calarco/.alsaequal0.bin";
+}
+
+pcm.dmixer1 {
+	type dmix
+	ipc_key 1024
+	slave {
+		pcm {
+			type hw
+			card 1
+			device 7
+		}
+	period_size 1024
+	buffer_size 4096
+	}
 }
 
 pcm.plugequal1 {
 	type equal;
-	slave.pcm "plughw:1,7";
+	slave.pcm "plug:dmixer1";
 	controls "/home/calarco/.alsaequal1.bin";
 }
 
@@ -36,6 +59,11 @@ pcm.equal1 {
 		1.0 0.5
 		1.1 0.5
 	}
+}
+
+ctl.equal1 {
+	type equal;
+	controls "/home/calarco/.alsaequal1.bin";
 }
 
 # Use PulseAudio by default
