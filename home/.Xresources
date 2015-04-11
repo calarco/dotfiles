@@ -1,6 +1,11 @@
 dzen2.font: Envy\ Code\ R\ for\ Powerline:size=10
 dzen2.foreground: #ffffff
 dzen2.background: #000000
+dmenu.font: Envy\ Code\ R\ for\ Powerline:size=10
+dmenu.foreground:#2b2b2b
+dmenu.background: #eeeeee
+dmenu.selforeground: #f9f9f9
+dmenu.selbackground: #4A90D8
 
 ! urxvt
 URxvt.iconFile: /usr/share/icons/elementary/apps/128/utilities-terminal.svg

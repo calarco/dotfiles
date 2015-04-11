@@ -1,6 +1,18 @@
 # …………… Beginning of menu ……………
 
-MenuPosition = 60 50
+MenuPosition = 55 10
+
+Submenu = Sonido
+
+	icon = NULL
+
+	item = Parlantes
+	cmd = switch_sink 0
+	icon = NULL
+
+	item = Auriculares
+	cmd = switch_sink 1
+	icon = NULL
 
 Submenu = Window
 

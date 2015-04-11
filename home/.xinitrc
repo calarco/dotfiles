@@ -23,7 +23,7 @@ wallpaper &
 urxvtd &
 sxhkd &
 mpDris2 &
-compton --config .compton.conf -b
+compton -b
 
 gsettings-data-convert &
 xdg-user-dirs-gtk-update &
@@ -35,6 +35,7 @@ export GNOME_KEYRING_CONTROL GNOME_KEYRING_PID GPG_AGENT_INFO SSH_AUTH_SOCK
 export DE=gnome
 export DESKTOP_SESSION=gnome
 exec bspwm
+#exec openbox-session
 #exec startkde
 #exec budgie-session
 #exec gnome-session

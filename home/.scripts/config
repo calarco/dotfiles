@@ -12,6 +12,6 @@ color_sf='#f9f9f9'
 #color_bg='#EDEDED'
 
 # Dark theme
-color_fg='#000000'
+color_fg='#eeeeee'
 #color_bg='#263238'
-color_bg='#ffffff'
+color_bg='#2b2b2b'

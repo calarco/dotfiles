@@ -6,35 +6,35 @@ else
 	cache=$HOME/.dmenu_cache # if no xdg dir, fall back to dotfile in ~
 fi
 
-. config
-
 cmd=`(
 	IFS=:
 	aliases="$HOME/.bashrc"
 # || stest -fqr -n "$cache" "$aliases"
 	if stest -dqr -n "$cache" $PATH; then
-         	(
+		(
 		stest -flx $PATH
-           	source $aliases
-           	alias | sed 's/alias \([[:alnum:]]\+\)=.*/\1/'
+			source $aliases
+			alias | sed 's/alias \([[:alnum:]]\+\)=.*/\1/'
 		) | (
 		echo -e "\
 chromium
+google-chrome-stable
 nautilus
 gedit
+nitrogen
+easytag
+firefox
 brackets
 filezilla
 transmission-gtk
 gimp
 inkscape
 blender
-firefox
-easytag
 atom"
 		sort -u
-		) | tee "$cache" | dmenu -p ' > ' -nb $color_bg -nf $color_fg -sb $color_se -sf $color_sf -h $panel_height -fn $font "$@"
+		) | tee "$cache" | dmenu -h 30 -w 250 -l 9 -x 10 -y 10 "$@"
 	else
-		dmenu -p ' > ' -nb $color_bg -nf $color_fg -sb $color_se -sf $color_sf -h $panel_height -fn $font "$@" < "$cache"
+		dmenu -h 30 -w 250 -l 9 -x 10 -y 10 "$@" < "$cache"
 	fi
 )`
 echo -e "source ~/.bashrc \n $cmd" | bash -O expand_aliases &

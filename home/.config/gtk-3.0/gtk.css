@@ -1,25 +1,9 @@
 .window-frame, .window-frame:backdrop {
-	border-radius: 0 0 0 0;
+	border-style: none;
+	border-radius: 0;
+	margin: 1px 0 0 0;
 }
 
 .titlebar {
-	border-radius: 0 0 0 0;
-}
-
-/*************
- * Slingshot *
- ************/
-
-SlingshotWidgetsSearchView GtkButton.flat:hover,
-SlingshotWidgetsSearchView GtkButton.flat:focus {
-	background-color: alpha (#000, 0.20);
-	text-shadow: none;
-}
-
-/************
- * Terminal *
- ***********/
-
-PantheonTerminalPantheonTerminalWindow.background {
-	background-color: transparent;
+	border-radius: 0;
 }

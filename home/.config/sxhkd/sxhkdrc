@@ -102,7 +102,7 @@ super + Return
 	urxvtc
 
 super + space
-	slingshot-launcher
+	dmenu_launch
 
 super + shift + space
 	dmenu_launch
@@ -122,8 +122,8 @@ XF86AudioPlay
 XF86AudioStop
 	 mpc stop
 
-XF86Audio{Lower,Raise}Volume
-	 volume_change {down,up}
+#XF86Audio{Lower,Raise}Volume
+#	 volume_change {down,up}
 
 # make sxhkd reload its configuration files:
 super + Escape

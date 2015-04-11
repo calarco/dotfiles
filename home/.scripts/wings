@@ -9,9 +9,8 @@ trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
 
 bspc config top_padding 50
 tint2 &
-slingshot-launcher --silent &
 plank &
-sleep 10s && volumeicon &
+sleep 10s && pa-applet &
 sleep 15s && nm-applet &
 
 wait
