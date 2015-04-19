@@ -8,35 +8,38 @@
 # ID 1 - panel
 rounded = 0
 border_width = 1
-border_color = #090909 90
-background_color = #2b2c2e 90
-background_color_2 = #6f7272 90
+border_color = #000000 30
+background_color = #1b1b1b 30
+background_color_2 = #222222 30
 background_gradient_type = linear
-background_gradient_settings = 5 190 90
+background_gradient_settings = 5 0 90
 
 # ID 2 - taskbar
 rounded = 13
-border_width = 15
+border_width = 14
 border_color = #fafafa 0
-background_color = #171717 75
-background_color_2 = #000000 100
+background_color = #2b2c2e 100
+background_color_2 = #191919 100
 background_gradient_type = linear
-background_gradient_settings = 5 -150 90
+background_gradient_settings = 5 -140 90
 
 # ID 3 - task
-rounded = 5
-border_width = 6
-border_color = #fafafa 0
+rounded = 2
+border_width = 1
+border_color = #000000 100
 background_color = #fafafa 50
-background_color_2 = #ffffff 100
+background_color_2 = #ffffff 70
 background_gradient_type = linear
-background_gradient_settings = 5 -199 90
+background_gradient_settings = 5 100 90
 
 # ID 4 - active task
-rounded = 5
-border_width = 6
-background_color = #fafafa 70
-border_color = #000000 0
+rounded = 2
+border_width = 1
+border_color = #000000 100
+background_color = #dbdee0 70
+background_color_2 = #ffffff 80
+background_gradient_type = linear
+background_gradient_settings = 5 100 90
 
 # ID 5 - tooltip
 rounded = 6
@@ -45,10 +48,13 @@ background_color = #000000 70
 border_color = #555555 70
 
 # ID 6 - active taskbar
-rounded = 0
-border_width = 0
-background_color = #cccccc 90
-border_color = #000000 0
+rounded = 2
+border_width = 1
+border_color = #000000 100
+background_color = #fafafa 50
+background_color_2 = #ffffff 70
+background_gradient_type = linear
+background_gradient_settings = 5 100 90
 
 # Panel
 panel_monitor = all
@@ -59,7 +65,7 @@ panel_margin = 0 0
 panel_padding = 14 0 0
 panel_dock = 1
 wm_menu = 1
-panel_layer = top
+panel_layer = normal
 panel_background_id = 1
 
 # Panel Autohide
@@ -72,14 +78,14 @@ strut_policy = follow_size
 # Taskbar
 taskbar_mode = multi_desktop
 taskbar_distribute_size = 0
-taskbar_padding = 0 0 3
+taskbar_padding = 7 5 5
 taskbar_background_id = 2
 taskbar_name = 1
 taskbar_name_padding = 5
 taskbar_name_background_id = 0
 taskbar_name_active_background_id = 6
-taskbar_name_font = roboto 7
-taskbar_name_font_color = #FAFAFA 70
+taskbar_name_font = roboto 6
+taskbar_name_font_color = #dbdee0 100
 taskbar_name_active_font_color = #000000 70
 
 # Tasks

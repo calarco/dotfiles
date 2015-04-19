@@ -13,8 +13,8 @@ fi
 
 [[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources
 setxkbmap -layout us -variant altgr-intl
-xsetroot -cursor_name left_ptr
 #xinput set-prop 9 277 -1 -1 -1
+xsetroot -cursor_name left_ptr
 xsetroot -solid "#333333"
 export PATH=$PATH:$HOME/.scripts
 export PATH=$PATH:$HOME/.gem/ruby/2.2.0/bin
@@ -35,10 +35,11 @@ export GNOME_KEYRING_CONTROL GNOME_KEYRING_PID GPG_AGENT_INFO SSH_AUTH_SOCK
 export DE=gnome
 export DESKTOP_SESSION=gnome
 exec bspwm
+#killall notify-osd
+#exec cerbere
+#exec gala
 #exec openbox-session
 #exec startkde
 #exec budgie-session
 #exec gnome-session
 #exec gnome-session --session gnome-wayland
-#exec cerbere
-#exec startdde

@@ -1,13 +1,13 @@
 slot-allocation = dynamic
 bubble-expire-timeout = 10sec
-bubble-vertical-gap = 55px
-bubble-horizontal-gap = 20px
-bubble-corner-radius = 37,5%
+bubble-vertical-gap = 48px
+bubble-horizontal-gap = 10px
+bubble-corner-radius = 37,0%
 bubble-icon-size = 30px
 bubble-gauge-size = 6px
 bubble-width = 240px
 bubble-background-color = 2b2c2e
-bubble-background-opacity = 90%
+bubble-background-opacity = 100%
 text-margin-size = 10px
 text-title-size = 100%
 text-title-weight = bold

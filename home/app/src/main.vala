@@ -100,13 +100,13 @@ int main (string[] args) {
 	window.set_position (Gtk.WindowPosition.CENTER);
 	window.set_default_size (800, 500);
 	window.destroy.connect (Gtk.main_quit);
-	
+
 	Gtk.Paned pane = new Gtk.Paned (Gtk.Orientation.HORIZONTAL);
 	window.add (pane);
-	
+
 	var list = new Gtk.ListBox ();
 	list.insert (new Gtk.Label ("item"), -1);
-	
+
 	pane.pack1 (list, false, false);
 	pane.add2 (new Gtk.Label ("Library"));
 
@@ -157,13 +157,13 @@ int main (string[] args) {
 		cmd_playls ();
 	});
 	headerbar.pack_end (buttonSearch);
-	
+
 	var grid = new Gtk.Grid ();
 	grid.orientation = Gtk.Orientation.VERTICAL;
 	grid.column_spacing = 6;
 	grid.row_spacing = 6;
 	window.add (grid);
-        
+
 	var topDisplay = new TopDisplay ();
         var topDisplayBin = new FixedBin (200, -1, 600, -1);
         topDisplay.margin_start = 30;
@@ -173,7 +173,7 @@ int main (string[] args) {
         if (current_status () == Mpd.State.PLAY || current_status () == Mpd.State.PAUSE) {
 	        headerbar.set_custom_title (topDisplayBin);
 	}
-	
+
 	GLib.Timeout.add (1000, () => {
 		if (current_status () == Mpd.State.PLAY || current_status () == Mpd.State.PAUSE) {
         		headerbar.set_custom_title (topDisplayBin);
@@ -182,7 +182,7 @@ int main (string[] args) {
 		}
 		return true;
 	});
-	
+
 	window.show_all ();
 	Gtk.main ();
 	return 0;

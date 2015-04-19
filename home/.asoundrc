@@ -39,8 +39,8 @@ pcm.dmixer1 {
 			card 1
 			device 7
 		}
-	period_size 1024
-	buffer_size 4096
+	period_size 2048
+	buffer_size 8192
 	}
 }
 

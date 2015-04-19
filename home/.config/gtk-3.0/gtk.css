@@ -1,5 +1,5 @@
 .window-frame, .window-frame:backdrop {
-	border-style: none;
+	#border-style: none;
 	border-radius: 0;
 	margin: 1px 0 0 0;
 }
