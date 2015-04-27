@@ -93,7 +93,6 @@ super + {comma,period}
 #
 # exec
 #
-	#bspc rule -a urxvt -o floating=on && urxvtc
 
 grave
 	urxvtq

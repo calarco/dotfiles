@@ -9,7 +9,7 @@ desktop_config() {
 	done
 }
 
-desktop_config border_width        7
+desktop_config border_width 0
 bspc config normal_border_color "#1b1b1b"
 bspc config focused_border_color "#1b1b1b"
 bspc config presel_border_color "#4A90D9"
@@ -18,15 +18,17 @@ bspc config normal_sticky_border_color "#1b1b1b"
 bspc config focused_sticky_border_color "#1b1b1b"
 desktop_config window_gap 40
 bspc config split_ratio	0.4
-bspc config borderless_monocle	true
-bspc config gapless_monocle		true
+bspc config borderless_monocle true
+bspc config gapless_monocle true
 bspc config focus_follows_pointer true
+bspc config ignore_ewmh_focus true
+bspc config external_rules_command ~/.config/bspwm/external_rules
 
 bspc rule -a slingshot-launcher floating=on
 bspc rule -a obshutdown floating=on
 bspc rule -a nitrogen floating=on
 bspc rule -a chromium_app_list floating=on
-
+bspc rule -a Steam desktop=^9 follow=false
 
 wings &
 sleep 5s && bspc rule -a urxvt -o pseudo_tiled=on desktop=^10 && urxvtc -e ncmpcpp &

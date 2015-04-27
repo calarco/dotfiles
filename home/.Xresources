@@ -77,14 +77,13 @@ urxvtq.font: xft:Envy\ Code\ R\ for\ Powerline:size=10
 urxvtq.boldfont: xft:Envy\ Code\ R\ for\ Powerline:size=10:style=bold
 urxvtq.letterSpace: 0
 urxvtq.depth: 32
+urxvtq.geometry: 148x20+435+49
 !urxvtq.background: rgba:2600/3200/3800/aaaa
 !urxvtq.background: rgba:0000/0000/0000/bbbb
 urxvtq.background: rgba:2c00/3e00/5000/dddd
 urxvtq.cursorColor: #E91E63
-urxvtq.internalBorder: 10
-!urxvtq.borderColor: rgba:2600/3200/3800/aaaa
-!urxvtq.borderColor: rgba:0000/0000/0000/bbbb
-urxvtq.borderColor: rgba:2c00/3e00/5000/dddd
+urxvtq.internalBorder: 1
+urxvtq.borderColor: rgba:0000/0000/0000/4444
 urxvtq.colorUL: #4A90D9
 urxvtq.cursorBlink: true
 urxvtq.borderless: false
@@ -96,7 +95,6 @@ urxvtq.secondaryScroll: true
 urxvtq.scrollTtyOutput: false
 urxvtq.scrollWithBuffer: true
 urxvtq.scrollTtyKeypress: true
-urxvtq.geometry: 148x20+435+50
 ! transparency
 !urxvtq.transparent: true
 !urxvtq.tintColor: #2d2d2d

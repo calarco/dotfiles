@@ -105,7 +105,7 @@ visualizer_look = ●▍
 ## Alternative subset of 256 colors for terminals that support it.
 ##
 #visualizer_color = 41, 83, 119, 155, 185, 215, 216, 209, 203, 197, 161
-visualizer_color = 210, 211, 212, 213, 214, 183, 184
+#visualizer_color = 210, 211, 212, 213, 214, 183, 184
 #
 ##### system encoding #####
 ##
@@ -414,7 +414,7 @@ startup_screen = visualizer
 ## by choosing screen from the list above or
 ## an empty value for no slave screen.
 ##
-startup_slave_screen = playlist
+#startup_slave_screen = playlist
 #
 ##
 ## Default width of locked screen (in %).

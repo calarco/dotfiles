@@ -1,0 +1,80 @@
+#! /bin/bash
+out='/tmp/winodws'
+wid=$1
+class=$2
+instance=$3
+
+# Debug info
+#echo "id		$wid" >> $out
+#echo "title	$(xtitle $wid)" >> $out
+#echo "class	$class" >> $out
+#echo "ins		$instance" >> $out
+
+function getWinIDByInstance {
+	instance=$1
+	if [ "$2" != "" ]; then
+		desk="-d $2"
+	fi
+	for id in $(echo bspc query -W $desk| sh); do
+		ins=$(xprop -id $id| grep _CLASS| cut -d" " -f3| sed -e s/^.// -e s/..$//)
+			if [ "$instance" == $ins ]; then
+				echo $id
+				break
+			fi
+	done
+}
+
+function getWinIDByTitle {
+	titleSearch=$1
+	if [ "$2" != "" ]; then
+		desk="-d $2"
+	fi
+	for id in $(echo bspc query -W $desk| sh); do
+		title="$(xtitle $id)"
+			if [[ "$title" == *$titleSearch ]]; then
+				echo $id
+				break
+			fi
+	done
+}
+
+# place Steam windows
+if [ "$class" == "Steam" ]; then
+	title=$(xtitle $wid)
+	case "$title" in
+		# main window
+		"Steam")
+			echo desktop=9 split_dir=left
+			sleep 0.05 && bspc window $wid -r 0.76 &
+			;;
+		# Friend list
+		"Amigos")
+			echo steamfreunde >> $out
+			chatID=$(getWinIDByTitle '- Chat' '9')
+			echo $chatID >> $out
+			if [ "$chatID" != "" ]; then
+				bspc window $chatID -r 0.40
+				echo desktop=9 split_dir=up window=$chatID
+			else
+				echo desktop=9 split_dir=right
+				sleep 0.05 && bspc window $wid -r 0.60 &
+			fi
+			;;
+		# Chat window
+		*"- Chat"|""|"Untitled")
+			echo "steamchat" >> $out
+			freundeID=$(getWinIDByTitle "Amigos" "9")
+			if [ "$freundeID" != "" ]; then
+				bspc window $freundeID -r 0.60
+				echo desktop=9 split_dir=down window=$freundeID
+			else
+				echo desktop=9 split_dir=down
+			fi
+			;;
+		*)
+			echo "unbekanntes Steam Fenster $title" >> $out
+	esac
+	exit
+fi
+
+echo >> $out
