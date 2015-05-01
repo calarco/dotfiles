@@ -18,8 +18,8 @@ xsetroot -cursor_name left_ptr
 xsetroot -solid "#333333"
 export PATH=$PATH:$HOME/.scripts
 export PATH=$PATH:$HOME/.gem/ruby/2.2.0/bin
-#nitrogen --restore
-wallpaper &
+nitrogen --restore
+#wallpaper &
 urxvtd &
 sxhkd &
 mpDris2 &

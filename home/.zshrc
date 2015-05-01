@@ -1,5 +1,5 @@
-. /usr/share/zsh/site-contrib/powerline.zsh
-export PYTHONPATH=/usr/lib/python3.3/site-packages
+#! /bin/sh
+
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
@@ -37,19 +37,6 @@ key[PageDown]=${terminfo[knp]}
 [[ -n "${key[PageUp]}"   ]]  && bindkey  "${key[PageUp]}"   beginning-of-buffer-or-history
 [[ -n "${key[PageDown]}" ]]  && bindkey  "${key[PageDown]}" end-of-buffer-or-history
 
-# Finally, make sure the terminal is in application mode, when zle is
-# active. Only then are the values from $terminfo valid.
-if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
-    function zle-line-init () {
-        printf '%s' "${terminfo[smkx]}"
-    }
-    function zle-line-finish () {
-        printf '%s' "${terminfo[rmkx]}"
-    }
-    zle -N zle-line-init
-    zle -N zle-line-finish
-fi
-
 zstyle ':completion:*' menu select
 zstyle :compinstall filename '/home/calarco/.zshrc'
 
@@ -63,29 +50,33 @@ vim_ins_mode="%F{black}%K{yellow} INSERT%F{yellow}'"
 vim_cmd_mode="%F{black}%K{white} COMMND%F{white}'"
 vim_mode=$vim_ins_mode
 
-function zle-keymap-select {
-  vim_mode="${${KEYMAP/vicmd/${vim_cmd_mode}}/(main|viins)/${vim_ins_mode}}"
-  zle reset-prompt
-}
-zle -N zle-keymap-select
-
-function zle-line-finish {
-  vim_mode=$vim_ins_mode
-}
-zle -N zle-line-finish
+last="%(?,%F{green}"$'\ue0b2'"%F{black}%K{green} ✔ %K{green},%F{red}"$'\ue0b2'"%F{white}%K{red} ✘ %K{red})"
 
 # Fix a bug when you C-c in CMD mode and you'd be prompted with CMD mode indicator, while in fact you would be in INS mode
 # Fixed by catching SIGINT (C-c), set vim_mode to INS and then repropagate the SIGINT, so if anything else depends on it, we will not break it
-# Thanks Ron! (see comments)
 function TRAPINT() {
-  vim_mode=$vim_ins_mode
-  return $(( 128 + $1 ))
+	vim_mode=$vim_ins_mode
+	return $(( 128 + $1 ))
 }
 
-last="%(?,%F{green}"$'\ue0b2'"%F{black}%K{green} ✔ %K{green},%F{red}"$'\ue0b2'"%F{white}%K{red} ✘ %K{red})"
-
-PROMPT='${vim_mode}'"%K{blue}"$'\ue0b0'\
+# Finally, make sure the terminal is in application mode, when zle is
+# active. Only then are the values from $terminfo valid.
+if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
+	function zle-line-init zle-keymap-select {
+		printf '%s' "${terminfo[smkx]}"
+		vim_mode="${${KEYMAP/vicmd/${vim_cmd_mode}}/(main|viins)/${vim_ins_mode}}"
+		PROMPT=$vim_mode"%K{blue}"$'\ue0b0'\
 "%F{white}%K{blue} %n %F{blue}%K{magenta}"$'\ue0b0'\
 "%F{white}%K{magenta} %~ %F{magenta}%k"$'\ue0b0'"%f "
-RPROMPT='${last}'\
+		RPROMPT=$last\
 "%F{white}"$'\ue0b2'"%F{black}%K{white} %T %K{white}"
+		zle reset-prompt
+	}
+	function zle-line-finish {
+		printf '%s' "${terminfo[rmkx]}"
+		vim_mode=$vim_ins_mode
+	}
+fi
+zle -N zle-line-init
+zle -N zle-keymap-select
+zle -N zle-line-finish

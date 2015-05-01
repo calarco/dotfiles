@@ -29,6 +29,7 @@ bspc rule -a obshutdown floating=on
 bspc rule -a nitrogen floating=on
 bspc rule -a chromium_app_list floating=on
 bspc rule -a Steam desktop=^9 follow=false
+bspc rule -a chromium desktop=^1
 
 wings &
 sleep 5s && bspc rule -a urxvt -o pseudo_tiled=on desktop=^10 && urxvtc -e ncmpcpp &

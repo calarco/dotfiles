@@ -8,17 +8,13 @@ dmenu.selforeground: #f9f9f9
 dmenu.selbackground: #4A90D8
 
 ! urxvt
-URxvt.iconFile: /usr/share/icons/elementary/apps/128/utilities-terminal.svg
+URxvt.iconFile: /usr/share/icons/Paper/32x32/apps/utilities-terminal.png
 URxvt.geometry: 150x49
 URxvt.depth: 32
 URxvt.background: rgba:2c00/3e00/5000/dddd
-!URxvt.background: rgba:2600/3200/3800/f5f5
-!URxvt.background: rgba:0000/2b00/3600/eeee
 URxvt.cursorColor: #E91E63
 URxvt.internalBorder: 10
 URxvt.borderColor: rgba:2c00/3e00/5000/dddd
-!URxvt.borderColor: rgba:2600/3200/3800/f5f5
-!URxvt.borderColor: rgba:0000/2b00/3600/eeee
 URxvt.colorUL: #4A90D9
 URxvt.cursorBlink: true
 URxvt.borderless: false
@@ -78,8 +74,6 @@ urxvtq.boldfont: xft:Envy\ Code\ R\ for\ Powerline:size=10:style=bold
 urxvtq.letterSpace: 0
 urxvtq.depth: 32
 urxvtq.geometry: 148x20+435+49
-!urxvtq.background: rgba:2600/3200/3800/aaaa
-!urxvtq.background: rgba:0000/0000/0000/bbbb
 urxvtq.background: rgba:2c00/3e00/5000/dddd
 urxvtq.cursorColor: #E91E63
 urxvtq.internalBorder: 1
@@ -146,22 +140,36 @@ urxvtq.url-select.launcher: /usr/bin/xdg-open
 *background:   #2C3E50
 *cursorColor:  base05
 
+! black
 *color0:	   base00
-*color1:	   base08
-*color2:	   base0B
-*color3:	   base0A
-*color4:	   base0D
-*color5:	   base0E
-*color6:	   base0C
-*color7:	   base05
-
 *color8:	   base01
+
+! red
+*color1:	   base08
 *color9:	   base08
+
+! green
+*color2:	   base0B
 *color10:	   base0B
+
+! yellow
+*color3:	   base0A
 *color11:	   base0A
+
+! blue
+*color4:	   base0D
 *color12:	   base0D
+
+! magenta
+*color5:	   base0E
 *color13:	   base0E
+
+! cyan
+*color6:	   base0C
 *color14:	   base0C
+
+! white
+*color7:	   base05
 *color15:	   base07
 
 ! Note: colors beyond 15 might not be loaded (e.g., xterm, urxvt),
