@@ -1,0 +1,45 @@
+"Registry"
+{
+	"HKLM"
+	{
+		"Software"
+		{
+			"Valve"
+			{
+				"Steam"
+				{
+					"InstallPath"		"/home/calarco/.local/share/Steam/"
+					"SteamPID"		"0"
+					"TempAppCmdLine"		""
+					"TempAppPath"		""
+				}
+			}
+		}
+	}
+	"HKCU"
+	{
+		"Software"
+		{
+			"Valve"
+			{
+				"Steam"
+				{
+					"Language"		"spanish"
+					"SourceModInstallPath"		"/home/calarco/.local/share/Steam/steamapps\sourcemods"
+					"Rate"		"30000"
+					"TempAppCmdLine"		""
+					"TempAppPath"		""
+					"AlreadyRetriedOfflineMode"		"0"
+					"StartupMode"		"0"
+					"apps"
+					{
+						"730"
+						{
+							"installed"		"1"
+						}
+					}
+				}
+			}
+		}
+	}
+}
