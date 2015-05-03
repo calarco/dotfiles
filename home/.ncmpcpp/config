@@ -100,7 +100,7 @@ visualizer_type = spectrum
 #visualizer_look = ●║
 visualizer_look = ●▍
 #
-#visualizer_color = blue, cyan, green, yellow, magenta, red
+visualizer_color = blue, cyan, green, yellow, magenta, red
 #
 ## Alternative subset of 256 colors for terminals that support it.
 ##
@@ -414,7 +414,7 @@ startup_screen = visualizer
 ## by choosing screen from the list above or
 ## an empty value for no slave screen.
 ##
-#startup_slave_screen = playlist
+startup_slave_screen = playlist
 #
 ##
 ## Default width of locked screen (in %).

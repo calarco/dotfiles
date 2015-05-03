@@ -131,7 +131,7 @@ systray_icon_asb = 100 0 0
 
 # Clock
 time1_format = %l:%M %P
-time1_font = Futura Md BT Bold 10
+time1_font = Helvetica Bold 10
 clock_font_color = #dbdee0 100
 clock_padding = 15 4
 clock_background_id = 0

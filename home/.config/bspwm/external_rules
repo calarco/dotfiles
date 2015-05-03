@@ -54,7 +54,7 @@ if [ "$class" == "Steam" ]; then
 			echo $chatID >> $out
 			if [ "$chatID" != "" ]; then
 				bspc window $chatID -r 0.76
-				echo desktop=9 split_dir=up window=$chatID
+				echo desktop=9 split_dir=right window=$chatID
 			else
 				echo desktop=9 split_dir=right
 				sleep 0.05 && bspc window $wid -r 0.60 &

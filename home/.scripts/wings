@@ -9,8 +9,8 @@ trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
 
 bspc config top_padding 50
 tint2 &
-plank &
-sleep 10s && pa-applet &
-sleep 15s && nm-applet &
+pa-applet &
+nm-applet &
+sleep 5s && plank &
 
 wait

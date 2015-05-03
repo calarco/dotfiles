@@ -13,7 +13,7 @@ fi
 
 [[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources
 setxkbmap -layout us -variant altgr-intl
-#xinput set-prop 9 277 -1 -1 -1
+xinput set-prop 11 283 -1 -1 -1
 xsetroot -cursor_name left_ptr
 xsetroot -solid "#333333"
 export PATH=$PATH:$HOME/.scripts
@@ -25,7 +25,7 @@ sxhkd &
 mpDris2 &
 compton -b
 
-gsettings-data-convert &
+#gsettings-data-convert &
 xdg-user-dirs-gtk-update &
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 /usr/lib/gnome-settings-daemon/gnome-settings-daemon &
