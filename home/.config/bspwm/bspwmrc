@@ -1,6 +1,6 @@
 #! /bin/sh
 
-bspc monitor -d • • • • • • • • • •
+bspc monitor -d '|' '|' '|' '|' '|' '|'
 
 desktop_config() {
 	bspc config $1 $2
@@ -24,13 +24,15 @@ bspc config focus_follows_pointer true
 bspc config ignore_ewmh_focus true
 bspc config external_rules_command ~/.config/bspwm/external_rules
 
+bspc rule -a urxvtq floating=on follow=on focus=on sticky=on
+bspc rule -a ncmpcpp pseudo_tiled=on desktop=^6
 bspc rule -a slingshot-launcher floating=on
 bspc rule -a obshutdown floating=on
 bspc rule -a nitrogen floating=on
 bspc rule -a chromium_app_list floating=on
-bspc rule -a Steam desktop=^9 follow=false
+bspc rule -a Steam desktop=^5 follow=false
 bspc rule -a chromium desktop=^1
 
 wings &
-sleep 5s && bspc rule -a urxvt -o pseudo_tiled=on desktop=^10 && urxvtc -e ncmpcpp &
-sleep 30s && geary --hidden &
+sleep 5s && urxvtc -name ncmpcpp -e ncmpcpp &
+sleep 5s && geary --hidden &

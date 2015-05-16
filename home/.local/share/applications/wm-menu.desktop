@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Tint2 Menu
-Comment=Tint2 Menu
+Comment=Tint2 WM Menu
 X-GNOME-FullName=Menu
 Exec=mygtkmenu ~/.scripts/BspwmMenu
 Terminal=false

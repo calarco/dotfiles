@@ -15,7 +15,7 @@ fi
 setxkbmap -layout us -variant altgr-intl
 xinput set-prop 11 283 -1 -1 -1
 xsetroot -cursor_name left_ptr
-xsetroot -solid "#333333"
+xsetroot -solid "#646464"
 export PATH=$PATH:$HOME/.scripts
 export PATH=$PATH:$HOME/.gem/ruby/2.2.0/bin
 nitrogen --restore

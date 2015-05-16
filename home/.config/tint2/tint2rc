@@ -8,11 +8,11 @@
 # ID 1 - panel
 rounded = 0
 border_width = 1
-border_color = #000000 30
-background_color = #1b1b1b 30
-background_color_2 = #222222 30
+border_color = #000000 100
+background_color = #303030 100
+background_color_2 = #393f3f 100
 background_gradient_type = linear
-background_gradient_settings = 5 0 90
+background_gradient_settings = 0 180 90
 
 # ID 2 - taskbar
 rounded = 11
@@ -26,35 +26,35 @@ background_gradient_settings = 5 -140 90
 # ID 3 - task
 rounded = 1
 border_width = 1
-border_color = #000000 40
-background_color = #c0c0c2 100
-background_color_2 = #ffffff 100
-background_gradient_type = linear
-background_gradient_settings = 5 130 90
-
-# ID 4 - active task
-rounded = 1
-border_width = 1
-border_color = #000000 40
-background_color = #c0c0c2 100
+border_color = #a1a1a1 100
+background_color = #e0e0e0 100
 background_color_2 = #ffffff 100
 background_gradient_type = linear
 background_gradient_settings = 5 0 90
 
+# ID 4 - active task
+rounded = 0
+border_width = 0
+border_color = #a1a1a1 100
+background_color = #5d9bdd 100
+background_color_2 = #d7d7d7 0
+background_gradient_type = linear
+background_gradient_settings = 0 -185 90
+
 # ID 5 - tooltip
-rounded = 6
+rounded = 2
 border_width = 1
 background_color = #000000 70
 border_color = #555555 70
 
 # ID 6 - active taskbar
-rounded = 1
-border_width = 1
-border_color = #000000 40
-background_color = #c0c0c2 100
-background_color_2 = #ffffff 100
+rounded = 0
+border_width = 13
+border_color = #1c5187 0
+background_color = #dbdee0 20
+background_color_2 = #dbdee0 20
 background_gradient_type = linear
-background_gradient_settings = 5 130 90
+background_gradient_settings = 5 180 90
 
 # Panel
 panel_monitor = all
@@ -78,24 +78,24 @@ strut_policy = follow_size
 # Taskbar
 taskbar_mode = multi_desktop
 taskbar_distribute_size = 0
-taskbar_padding = 7 5 5
-taskbar_background_id = 2
+taskbar_padding = 7 0 5
+taskbar_background_id = 0
 taskbar_name = 1
 taskbar_name_padding = 5
 taskbar_name_background_id = 0
 taskbar_name_active_background_id = 6
 taskbar_name_font = Futura Md BT Bold 7
 taskbar_name_font_color = #dbdee0 100
-taskbar_name_active_font_color = #000000 70
+taskbar_name_active_font_color = #000000 100
 
 # Tasks
 urgent_nb_of_blink = 5
-task_icon = 0
+task_icon = 1
 task_text = 0
 task_centered = 1
 task_maximum_size = 0 0
-task_padding = 0 0
-task_background_id = 3
+task_padding = 0 12
+task_background_id = 0
 task_active_background_id = 4
 task_urgent_background_id = 3
 task_iconified_background_id = 3
@@ -145,7 +145,7 @@ tooltip_show_timeout = 0.0
 tooltip_hide_timeout = 0.0
 tooltip_background_id = 5
 tooltip_font_color = #ffffff 100
-tooltip_font = Cantarell bold 10
+tooltip_font = Helvetica Bold 10
 
 # Mouse
 mouse_middle = none

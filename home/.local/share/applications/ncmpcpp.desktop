@@ -2,7 +2,7 @@
 Type=Application
 Name=ncmpcpp
 Icon=multimedia-audio-player
-Exec=urxvtc -e ncmpcpp
+Exec=urxvtc -name ncmpcpp -e ncmpcpp
 NoDisplay=false
 Categories=Audiovideo;X-Gnome-Other;
 StartupNotify=false

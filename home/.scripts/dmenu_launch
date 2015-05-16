@@ -32,9 +32,9 @@ inkscape
 blender
 atom"
 		sort -u
-		) | tee "$cache" | dmenu -h 30 -w 250 -l 9 -x 10 -y 10 "$@"
+		) | tee "$cache" | dmenu -h 30 -w 240 -l 9 -x 10 -y 10 "$@"
 	else
-		dmenu -h 30 -w 250 -l 9 -x 10 -y 10 "$@" < "$cache"
+		dmenu -h 30 -w 240 -l 9 -x 10 -y 10 "$@" < "$cache"
 	fi
 )`
 echo -e "source ~/.bashrc \n $cmd" | bash -O expand_aliases &

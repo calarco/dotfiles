@@ -326,7 +326,10 @@ centered_cursor = yes
 ##
 #progressbar_look = =>
 #progressbar_look = ━■
-progressbar_look = ▄▄▄
+#progressbar_look = ▄▄▄
+progressbar_look = "━━"
+#progressbar_look = "─⊙╶"
+#progressbar_look = "─╶ "
 #
 #progressbar_boldness = yes
 #

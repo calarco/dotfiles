@@ -12,8 +12,6 @@ highlight Pmenu ctermbg=7 ctermfg=0 gui=bold
 
 set mouse=a
 :filetype plugin on
-"let $PYTHONPATH="/usr/lib/python3.3/site-packages"
-"set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 
 set cursorline
 hi CursorLine cterm=NONE ctermbg=8
@@ -51,9 +49,9 @@ let NERDTreeMinimalUI = 1
 let NERDTreeMouseMode = 2
 let NERDTreeChDirMode = 2
 let NERDTreeKeepTreeInNewTab = 1
-nmap <silent> <F3> :NERDTreeToggle<CR>
+"nmap <silent> <F3> :NERDTreeToggle<CR>
 "autocmd VimEnter * NERDTree
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+"autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>

@@ -2,7 +2,7 @@
 
 wid=$(xdotool search --classname urxvtq)
 if [ -z "$wid" ]; then
-  bspc rule -a urxvtq floating=on follow=on focus=on sticky=on && urxvtc -name urxvtq
+  urxvtc -name urxvtq
   wid=$(xdotool search --classname urxvtq | head -1)
   xdotool windowfocus "$wid"
 else
