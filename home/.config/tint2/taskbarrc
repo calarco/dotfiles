@@ -1,0 +1,167 @@
+#------------------------------------------------
+# TINT2 CONFIG FILE
+#------------------------------------------------
+# Learn more about configuring tint2 by visiting:
+# https://code.google.com/p/tint2/wiki/Configure
+
+# Background definitions
+# ID 1 - panel
+rounded = 0
+border_width = 0
+border_color = #a8a8a8 0
+background_color = #d6d6d6 100
+background_color_2 = #b8b8b8 100
+background_gradient_type = linear
+background_gradient_settings = 5 170 90
+
+# ID 2 - taskbar
+rounded = 0
+border_width = 1
+border_color = #a1a1a1 100
+background_color = #d9d9d9 100
+background_color_2 = #ffffff 0
+background_gradient_type = linear
+background_gradient_settings = 0 -196 90
+
+# ID 3 - task
+rounded = 1
+border_width = 1
+border_color = #a1a1a1 100
+background_color = #e0e0e0 100
+background_color_2 = #ffffff 100
+background_gradient_type = linear
+background_gradient_settings = 5 0 90
+
+# ID 4 - active task
+rounded = 0
+border_width = 1
+border_color = #c0c0c0 100
+background_color = #4a90d9 100
+background_color_2 = #e1e1e1 100
+background_gradient_type = linear
+background_gradient_settings = 0 -180 90
+
+# ID 5 - tooltip
+rounded = 2
+border_width = 1
+background_color = #000000 70
+border_color = #555555 70
+
+# ID 6 - active taskbar
+rounded = 0
+border_width = 13
+border_color = #1c5187 0
+background_color = #dbdee0 20
+background_color_2 = #dbdee0 20
+background_gradient_type = linear
+background_gradient_settings = 5 180 90
+
+# Panel
+panel_monitor = all
+panel_position = top center horizontal
+panel_items = T
+panel_size = 1200 50
+panel_margin = 0 0
+panel_padding = 0 0 0
+panel_dock = 1
+wm_menu = 1
+panel_layer = normal
+panel_background_id = 1
+
+# Panel Autohide
+autohide = 0
+autohide_show_timeout = 0.3
+autohide_hide_timeout = 1.5
+autohide_height = 6
+strut_policy = follow_size
+
+# Taskbar
+taskbar_mode = multi_desktop
+taskbar_distribute_size = 0
+taskbar_padding = 10 -2 0
+taskbar_background_id = 2
+taskbar_name = 0
+taskbar_name_padding = 5
+taskbar_name_background_id = 0
+taskbar_name_active_background_id = 6
+taskbar_name_font = Futura Md BT Bold 7
+taskbar_name_font_color = #222222 100
+taskbar_name_active_font_color = #000000 100
+
+# Tasks
+urgent_nb_of_blink = 5
+task_icon = 1
+task_text = 0
+task_centered = 1
+task_maximum_size = 0 0
+task_padding = 0 14
+task_background_id = 0
+task_active_background_id = 4
+task_urgent_background_id = 3
+task_iconified_background_id = 3
+
+# Task Icons
+task_icon_asb = 100 0 0
+task_active_icon_asb = 100 0 0
+task_urgent_icon_asb = 100 0 0
+task_iconified_icon_asb = 100 0 0
+
+# Fonts
+task_font = Cantarell 6
+task_font_color = #828282 60
+task_active_font_color = #828282 100
+task_urgent_font_color = #ffffff 100
+task_iconified_font_color = #d8d8d8 60
+font_shadow = 0
+
+# Launcher
+launcher_padding = 9 12 5
+launcher_background_id = 0
+launcher_icon_theme = Paper
+launcher_item_app = /home/calarco/.local/share/applications/menu.desktop
+launcher_item_app = /home/calarco/.local/share/applications/wm-menu.desktop
+
+# System Tray
+systray = 1
+systray_padding = 9 0 22
+systray_sort = left2right
+systray_background_id = 0
+systray_icon_size = 24
+systray_icon_asb = 100 0 0
+
+# Clock
+time1_format = %l:%M %P
+time1_font = Helvetica Bold 10
+clock_font_color = #dbdee0 100
+clock_padding = 15 4
+clock_background_id = 0
+clock_lclick_command = gsimplecal
+clock_rclick_command = obshutdown
+
+# Tooltips
+tooltip = 1
+tooltip_padding = 8 8
+tooltip_show_timeout = 0.0
+tooltip_hide_timeout = 0.0
+tooltip_background_id = 5
+tooltip_font_color = #ffffff 100
+tooltip_font = Helvetica Bold 10
+
+# Mouse
+mouse_middle = none
+mouse_right = none
+mouse_scroll_up = next_task
+mouse_scroll_down = prev_task
+
+# Battery
+battery = 1
+battery_low_status = 15
+battery_low_cmd = notify-send "battery low"
+battery_hide = never
+bat1_font = sans 6
+bat2_font = sans 6
+battery_font_color = #ffffff 100
+battery_padding = 2 0
+battery_background_id = 0
+
+# End of config
