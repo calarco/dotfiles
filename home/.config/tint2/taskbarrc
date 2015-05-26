@@ -7,18 +7,18 @@
 # Background definitions
 # ID 1 - panel
 rounded = 0
-border_width = 0
-border_color = #a8a8a8 0
-background_color = #d6d6d6 100
-background_color_2 = #b8b8b8 100
+border_width = 1
+border_color = #edf0f3 100
+background_color = #ffffff 100
+background_color_2 = #ffffff 100
 background_gradient_type = linear
 background_gradient_settings = 5 170 90
 
 # ID 2 - taskbar
 rounded = 0
 border_width = 1
-border_color = #a1a1a1 100
-background_color = #d9d9d9 100
+border_color = #d4d5db 100
+background_color = #ffffff 0
 background_color_2 = #ffffff 0
 background_gradient_type = linear
 background_gradient_settings = 0 -196 90
@@ -35,9 +35,9 @@ background_gradient_settings = 5 0 90
 # ID 4 - active task
 rounded = 0
 border_width = 1
-border_color = #c0c0c0 100
-background_color = #4a90d9 100
-background_color_2 = #e1e1e1 100
+border_color = #dde3e9 100
+background_color = #fafafa 100
+background_color_2 = #fafafa 100
 background_gradient_type = linear
 background_gradient_settings = 0 -180 90
 
@@ -62,7 +62,7 @@ panel_position = top center horizontal
 panel_items = T
 panel_size = 1200 50
 panel_margin = 0 0
-panel_padding = 0 0 0
+panel_padding = -1 -2 -1
 panel_dock = 1
 wm_menu = 1
 panel_layer = normal
@@ -78,7 +78,7 @@ strut_policy = follow_size
 # Taskbar
 taskbar_mode = multi_desktop
 taskbar_distribute_size = 0
-taskbar_padding = 10 -2 0
+taskbar_padding = 10 0 0
 taskbar_background_id = 2
 taskbar_name = 0
 taskbar_name_padding = 5
@@ -94,7 +94,7 @@ task_icon = 1
 task_text = 0
 task_centered = 1
 task_maximum_size = 0 0
-task_padding = 0 14
+task_padding = 0 13
 task_background_id = 0
 task_active_background_id = 4
 task_urgent_background_id = 3

@@ -1,6 +1,6 @@
 rofi.modi:                           window,run,ssh
 rofi.opacity:                        90
-rofi.width:                          20
+rofi.width:                          13
 rofi.lines:                          15
 rofi.columns:                        1
 rofi.font:                           Envy Code R for Powerline 10
@@ -26,8 +26,8 @@ rofi.bc:                             #002B36
 rofi.bw:                             1
 rofi.location:                       1
 rofi.padding:                        5
-rofi.yoffset:                        10
-rofi.xoffset:                        10
+rofi.yoffset:                        9
+rofi.xoffset:                        9
 rofi.fixed-num-lines:                false
 rofi.terminal:                       urxvtc
 rofi.ssh-client:                     ssh
@@ -155,7 +155,7 @@ urxvtq.font: xft:Envy\ Code\ R\ for\ Powerline:size=10
 urxvtq.boldfont: xft:Envy\ Code\ R\ for\ Powerline:size=10:style=bold
 urxvtq.letterSpace: 0
 urxvtq.depth: 32
-urxvtq.geometry: 170x20+360+49
+urxvtq.geometry: 168x20+360+42
 urxvtq.background: rgba:2c00/3e00/5000/dddd
 urxvtq.cursorColor: #E91E63
 urxvtq.internalBorder: 1

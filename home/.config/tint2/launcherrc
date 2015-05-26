@@ -8,11 +8,11 @@
 # ID 1 - panel
 rounded = 0
 border_width = 1
-border_color = #a8a8a8 100
-background_color = #ededed 100
-background_color_2 = #ffffff 100
+border_color = #cacbd0 100
+background_color = #e7e8eb 100
+background_color_2 = #eeeff1 100
 background_gradient_type = linear
-background_gradient_settings = 5 0 90
+background_gradient_settings = 0 180 90
 
 # ID 2 - tray
 rounded = 0
@@ -26,9 +26,9 @@ background_gradient_settings = 0 -190 90
 # ID 3 - launcher
 rounded = 2
 border_width = 1
-border_color = #a1a1a1 100
-background_color = #ffffff 100
-background_color_2 = #d9d9d9 100
+border_color = #c7cedc 100
+background_color = #f1f2f2 100
+background_color_2 = #f1f2f2 100
 background_gradient_type = linear
 background_gradient_settings = 5 150 90
 
@@ -60,9 +60,9 @@ background_gradient_settings = 5 180 90
 panel_monitor = all
 panel_position = top left horizontal
 panel_items = L
-panel_size = 360 50
-panel_margin = 0 0
-panel_padding = 8 8 0
+panel_size = 362 51
+panel_margin = -1 -1
+panel_padding = 9 9 0
 panel_dock = 1
 wm_menu = 1
 panel_layer = normal

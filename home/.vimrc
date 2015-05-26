@@ -12,17 +12,17 @@ highlight Pmenu ctermbg=7 ctermfg=0 gui=bold
 
 set mouse=a
 :filetype plugin on
-
+:au FocusLost * silent! wa
+set autowrite
 set cursorline
 hi CursorLine cterm=NONE ctermbg=8
-set number
+set relativenumber number
+set scrolloff=10
 highlight LineNr ctermfg=243 ctermbg=8
 set fillchars+=vert:\ 
 highlight VertSplit ctermfg=8 ctermbg=0
 
 set wildmenu			" enhanced tab-completion shows all matching cmds in a popup menu
-"set cursorline			 " highlight current line
-set norelativenumber	" show no relative line numbers
 "set nobackup			 " disable backup files (filename~)
 "set noswapfile			 " do not write annoying intermediate swap files
 

@@ -8,11 +8,11 @@
 # ID 1 - panel
 rounded = 0
 border_width = 1
-border_color = #a8a8a8 100
-background_color = #ededed 100
-background_color_2 = #ffffff 100
+border_color = #cacbd0 100
+background_color = #e7e8eb 100
+background_color_2 = #eeeff1 100
 background_gradient_type = linear
-background_gradient_settings = 5 0 90
+background_gradient_settings = 0 180 90
 
 # ID 2 - tray
 rounded = 0
@@ -60,9 +60,9 @@ background_gradient_settings = 5 180 90
 panel_monitor = all
 panel_position = top right horizontal
 panel_items = TCSL
-panel_size = 360 50
-panel_margin = 0 0
-panel_padding = 14 0 0
+panel_size = 362 51
+panel_margin = -1 -1
+panel_padding = 14 1 0
 panel_dock = 1
 wm_menu = 1
 panel_layer = normal
@@ -79,7 +79,7 @@ strut_policy = follow_size
 taskbar_mode = multi_desktop
 taskbar_distribute_size = 0
 taskbar_padding = 7 0 5
-taskbar_background_id = 2
+taskbar_background_id = 0
 taskbar_name = 0
 taskbar_name_padding = 5
 taskbar_name_background_id = 0
@@ -116,7 +116,7 @@ font_shadow = 0
 
 # Launcher
 launcher_padding = 14 12 5
-launcher_background_id = 2
+launcher_background_id = 0
 launcher_icon_theme = Paper
 launcher_item_app = /home/calarco/.local/share/applications/settings.desktop
 
@@ -124,16 +124,16 @@ launcher_item_app = /home/calarco/.local/share/applications/settings.desktop
 systray = 1
 systray_padding = 9 0 22
 systray_sort = left2right
-systray_background_id = 2
+systray_background_id = 0
 systray_icon_size = 24
-systray_icon_asb = 100 0 -45
+systray_icon_asb = 100 20 -35
 
 # Clock
 time1_format = %l:%M %P
 time1_font = Helvetica Bold 10
-clock_font_color = #6f7475 100
+clock_font_color = #70788d 100
 clock_padding = 15 4
-clock_background_id = 2
+clock_background_id = 0
 clock_lclick_command = gsimplecal
 clock_rclick_command = obshutdown
 
