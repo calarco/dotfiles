@@ -18,6 +18,7 @@ cmd=`(
 		) | (
 		echo -e "\
 chromium
+sass_watch
 google-chrome-stable
 nautilus
 gedit
@@ -32,9 +33,9 @@ inkscape
 blender
 atom"
 		sort -u
-		) | tee "$cache" | dmenu -h 30 -w 229 -l 9 -x 10 -y 10 "$@"
+		) | tee "$cache" | dmenu -h 30 -w 240 -l 9 -x 13 -y 8 "$@"
 	else
-		dmenu -h 30 -w 229 -l 9 -x 10 -y 10 "$@" < "$cache"
+		dmenu -h 30 -w 240 -l 9 -x 13 -y 8 "$@" < "$cache"
 	fi
 )`
 echo -e "source ~/.bashrc \n $cmd" | bash -O expand_aliases &

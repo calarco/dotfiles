@@ -9,14 +9,14 @@ desktop_config() {
 	done
 }
 
-desktop_config border_width 7
+desktop_config border_width 1
 bspc config normal_border_color "#000000"
 bspc config focused_border_color "#000000"
 bspc config presel_border_color "#4A90D9"
 bspc config urgent_border_color "#4A90D9"
 bspc config normal_sticky_border_color "#000000"
 bspc config focused_sticky_border_color "#000000"
-desktop_config window_gap 40
+desktop_config window_gap -1
 bspc config initial_polarity second_child
 bspc config split_ratio	0.5
 bspc config borderless_monocle true
@@ -27,7 +27,8 @@ bspc config external_rules_command ~/.config/bspwm/external_rules
 
 bspc rule -a urxvtq floating=on follow=on focus=on sticky=on
 bspc rule -a ncmpcpp pseudo_tiled=on desktop=^6
-bspc rule -a vim split_dir=down split_ratio=0.8
+bspc rule -a vim split_dir=up split_ratio=0.835
+bspc rule -a sass split_dir=down split_ratio=0.835
 bspc rule -a slingshot-launcher floating=on
 bspc rule -a obshutdown floating=on
 bspc rule -a file-roller floating=on

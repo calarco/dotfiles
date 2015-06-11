@@ -88,6 +88,7 @@ dmenu.selforeground: #f9f9f9
 dmenu.selbackground: #4A90D8
 
 ncmpcpp.iconFile: /usr/share/icons/Paper/24x24/apps/multimedia-audio-player.png
+vim.scrollBar: false
 
 ! urxvt
 URxvt.iconFile: /usr/share/icons/Paper/24x24/apps/utilities-terminal.png
@@ -155,7 +156,7 @@ urxvtq.font: xft:Envy\ Code\ R\ for\ Powerline:size=10
 urxvtq.boldfont: xft:Envy\ Code\ R\ for\ Powerline:size=10:style=bold
 urxvtq.letterSpace: 0
 urxvtq.depth: 32
-urxvtq.geometry: 168x20+360+42
+urxvtq.geometry: 170x20+360+46
 urxvtq.background: rgba:2c00/3e00/5000/dddd
 urxvtq.cursorColor: #E91E63
 urxvtq.internalBorder: 1

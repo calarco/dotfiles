@@ -60,9 +60,9 @@ background_gradient_settings = 5 180 90
 panel_monitor = all
 panel_position = top right horizontal
 panel_items = TCSL
-panel_size = 362 51
+panel_size = 362 48
 panel_margin = -1 -1
-panel_padding = 14 1 0
+panel_padding = 12 1 0
 panel_dock = 1
 wm_menu = 1
 panel_layer = normal
@@ -115,7 +115,7 @@ task_iconified_font_color = #d8d8d8 60
 font_shadow = 0
 
 # Launcher
-launcher_padding = 14 12 5
+launcher_padding = 14 10 5
 launcher_background_id = 0
 launcher_icon_theme = Paper
 launcher_item_app = /home/calarco/.local/share/applications/settings.desktop
@@ -130,7 +130,7 @@ systray_icon_asb = 100 20 -35
 
 # Clock
 time1_format = %l:%M %P
-time1_font = Helvetica Bold 10
+time1_font = Roboto Bold 10
 clock_font_color = #70788d 100
 clock_padding = 15 4
 clock_background_id = 0
@@ -144,13 +144,13 @@ tooltip_show_timeout = 0.0
 tooltip_hide_timeout = 0.0
 tooltip_background_id = 5
 tooltip_font_color = #ffffff 100
-tooltip_font = Helvetica Bold 10
+tooltip_font = Roboto Bold 10
 
 # Mouse
 mouse_middle = none
 mouse_right = none
-mouse_scroll_up = next_task
-mouse_scroll_down = prev_task
+mouse_scroll_up = none
+mouse_scroll_down = none
 
 # Battery
 battery = 1
