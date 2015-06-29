@@ -7,13 +7,13 @@ fi
 
 trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
 
-sleep 5s
-bspc config top_padding 47
-tint2 -c ~/.config/tint2/taskbarrc &
+bspc config top_padding 46
 tint2 -c ~/.config/tint2/launcherrc &
 tint2 -c ~/.config/tint2/trayrc &
+sleep 1s && tint2 -c ~/.config/tint2/taskbarrc &
 pa-applet &
 nm-applet &
+sleep 5s
 plank &
 
 wait

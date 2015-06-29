@@ -16,7 +16,7 @@ bspc config presel_border_color "#4A90D9"
 bspc config urgent_border_color "#4A90D9"
 bspc config normal_sticky_border_color "#000000"
 bspc config focused_sticky_border_color "#000000"
-desktop_config window_gap -1
+desktop_config window_gap 40
 bspc config initial_polarity second_child
 bspc config split_ratio	0.5
 bspc config borderless_monocle true
@@ -31,6 +31,7 @@ bspc rule -a vim split_dir=up split_ratio=0.835
 bspc rule -a sass split_dir=down split_ratio=0.835
 bspc rule -a slingshot-launcher floating=on
 bspc rule -a obshutdown floating=on
+bspc rule -a gcolor3 floating=on
 bspc rule -a file-roller floating=on
 bspc rule -a nitrogen floating=on
 bspc rule -a chromium_app_list floating=on
@@ -38,5 +39,6 @@ bspc rule -a Steam desktop=^5 follow=false split_ratio=0.76
 bspc rule -a chromium desktop=^1
 
 wings &
+bspc desktop -l next
 sleep 5s && urxvtc -name ncmpcpp -e ncmpcpp &
 sleep 5s && geary --hidden &

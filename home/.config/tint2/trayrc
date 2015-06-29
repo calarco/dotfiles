@@ -7,9 +7,9 @@
 # Background definitions
 # ID 1 - panel
 rounded = 0
-border_width = 1
-border_color = #cacbd0 100
-background_color = #e7e8eb 100
+border_width = 0
+border_color = #000000 20
+background_color = #000000 20
 background_color_2 = #eeeff1 100
 background_gradient_type = linear
 background_gradient_settings = 0 180 90
@@ -60,9 +60,9 @@ background_gradient_settings = 5 180 90
 panel_monitor = all
 panel_position = top right horizontal
 panel_items = TCSL
-panel_size = 362 48
-panel_margin = -1 -1
-panel_padding = 12 1 0
+panel_size = 360 46
+panel_margin = 0 0
+panel_padding = 12 5 0
 panel_dock = 1
 wm_menu = 1
 panel_layer = normal
@@ -115,7 +115,7 @@ task_iconified_font_color = #d8d8d8 60
 font_shadow = 0
 
 # Launcher
-launcher_padding = 14 10 5
+launcher_padding = 14 6 5
 launcher_background_id = 0
 launcher_icon_theme = Paper
 launcher_item_app = /home/calarco/.local/share/applications/settings.desktop
@@ -126,12 +126,13 @@ systray_padding = 9 0 22
 systray_sort = left2right
 systray_background_id = 0
 systray_icon_size = 24
-systray_icon_asb = 100 20 -35
+systray_icon_asb = 100 0 0
 
 # Clock
+#time1_format = %a %d de %b %l:%M %P
 time1_format = %l:%M %P
 time1_font = Roboto Bold 10
-clock_font_color = #70788d 100
+clock_font_color = #dbdee0 100
 clock_padding = 15 4
 clock_background_id = 0
 clock_lclick_command = gsimplecal

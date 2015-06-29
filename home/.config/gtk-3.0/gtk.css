@@ -1,5 +1,5 @@
 .window-frame, .window-frame:backdrop {
-	border-radius: 0;
+	#border-radius: 0;
 	#margin: 0;
 }
 
@@ -9,8 +9,6 @@
 
 .window-frame.solid-csd {
 	border-radius: 0;
-	margin: 0;
-	background-color: alpha(black, 0);
-	#border: solid 1px alpha(black, 0.18);
-	box-shadow: none;
+	margin: 1px 0 0 0;
+	border: none;
 }
