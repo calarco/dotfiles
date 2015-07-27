@@ -26,8 +26,8 @@ background_gradient_settings = 0 -190 90
 # ID 3 - launcher
 rounded = 2
 border_width = 1
-border_color = #dbdee0 35
-background_color = #ffffff 20
+border_color = #dbdee0 20
+background_color = #ffffff 10
 background_color_2 = #f1f2f2 100
 background_gradient_type = linear
 background_gradient_settings = 5 150 90
