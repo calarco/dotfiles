@@ -1,6 +1,11 @@
 #! /bin/sh
 
-source $HOME/.homesick/repos/homeshick/homeshick.sh
+# Base16 Shell
+BASE16_SHELL="$HOME/.config/base16-shell/base16-material.dark.sh"
+[[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
+
+#source $HOME/.homesick/repos/homeshick/homeshick.sh
+. /etc/profile.d/vte.sh
 
 HISTFILE=~/.histfile
 HISTSIZE=1000
