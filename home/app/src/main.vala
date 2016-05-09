@@ -89,7 +89,20 @@ public static void cmd_playls () {
 	Mpd.Song song;
 	while ((song = conn.recv_song ()) != null) {
 		stdout.printf ("%s\n", song.get_tag (Mpd.TagType.TITLE));
+		free(song);
 	}
+}
+
+public static void cmd_updb () {
+	var conn = get_conn ();
+	Mpd.Status status = conn.run_status ();
+	conn.run_update ();
+	//stdout.printf ("%s\n", (string)status.get_update_id ());
+	var timeout = GLib.Timeout.add (500, () => {
+		string upd = (string)status.get_update_id ();
+		stdout.printf ("%s\n", upd);
+		return true;
+	});
 }
 
 int main (string[] args) {
@@ -121,12 +134,6 @@ int main (string[] args) {
 	box.get_style_context ().add_class("linked");
 	headerbar.pack_start (box);
 
-	var buttonPrev = new Gtk.Button.from_icon_name ("media-skip-backward-symbolic", Gtk.IconSize.MENU);
-	buttonPrev.clicked.connect (() => {
-		cmd_prev ();
-	});
-	box.add (buttonPrev);
-
 	var buttonToggle = new Gtk.Button.from_icon_name ("media-playback-start-symbolic", Gtk.IconSize.MENU);
 	if (current_status () == Mpd.State.PLAY) {
 		buttonToggle = new Gtk.Button.from_icon_name ("media-playback-pause-symbolic", Gtk.IconSize.MENU);
@@ -141,20 +148,34 @@ int main (string[] args) {
 			buttonToggle.set_image (image);
 		}
 	});
-	box.add (buttonToggle);
+
+	var buttonPrev = new Gtk.Button.from_icon_name ("media-skip-backward-symbolic", Gtk.IconSize.MENU);
+	buttonPrev.clicked.connect (() => {
+		cmd_prev ();
+		Gtk.Image image = new Gtk.Image.from_icon_name ("media-playback-pause-symbolic", Gtk.IconSize.MENU);
+		buttonToggle.set_image (image);
+	});
 
 	var buttonNext = new Gtk.Button.from_icon_name ("media-skip-forward-symbolic", Gtk.IconSize.MENU);
 	buttonNext.clicked.connect (() => {
 		cmd_next ();
+		Gtk.Image image = new Gtk.Image.from_icon_name ("media-playback-pause-symbolic", Gtk.IconSize.MENU);
+		buttonToggle.set_image (image);
 	});
+
+	box.add (buttonPrev);
+	box.add (buttonToggle);
 	box.add (buttonNext);
 
 	var button_menu = new Gtk.Button.from_icon_name ("open-menu-symbolic", Gtk.IconSize.MENU);
+	button_menu.clicked.connect (() => {
+		cmd_playls ();
+	});
 	headerbar.pack_end (button_menu);
 
 	var buttonSearch = new Gtk.Button.from_icon_name ("edit-find-symbolic", Gtk.IconSize.MENU);
 	buttonSearch.clicked.connect (() => {
-		cmd_playls ();
+		cmd_updb ();
 	});
 	headerbar.pack_end (buttonSearch);
 

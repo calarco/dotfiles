@@ -8,15 +8,15 @@ public class TopDisplay : Gtk.Grid {
 	public TopDisplay() {
 		width_request = 400;
 		column_spacing = 6;
-		
+
 		label = new Gtk.Label (current_title ());
 		label.hexpand = true;
 		label.set_justify (Gtk.Justification.CENTER);
 		label.set_single_line_mode (false);
 		label.ellipsize = Pango.EllipsizeMode.END;
-        
+
 		scale_grid = new Gtk.Grid ();
-	
+
 		leftTime = new Gtk.Label (to_minutes (current_elapsed ()));
 		rightTime = new Gtk.Label (to_minutes (current_total ()));
 		leftTime.margin_end = rightTime.margin_start = 3;
@@ -61,7 +61,7 @@ public class TopDisplay : Gtk.Grid {
 		scale_grid.attach (leftTime, 0, 0, 1, 1);
 		scale_grid.attach (scale, 1, 0, 1, 1);
 		scale_grid.attach (rightTime, 2, 0, 1, 1);
-		
+
 		var info = new Gtk.Grid ();
 		info.attach (label, 0, 0, 1, 1);
 		info.attach (scale_grid, 0, 1, 1, 1);
