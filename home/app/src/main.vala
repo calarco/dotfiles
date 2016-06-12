@@ -109,19 +109,20 @@ int main (string[] args) {
 
 	Gtk.init (ref args);
 	var window = new Gtk.Window ();
-	window.set_border_width (12);
+	//window.set_border_width (12);
 	window.set_position (Gtk.WindowPosition.CENTER);
 	window.set_default_size (800, 500);
+//	window.set_default_icon ("media-playback-start-symbolic");
 	window.destroy.connect (Gtk.main_quit);
 
-	Gtk.Paned pane = new Gtk.Paned (Gtk.Orientation.HORIZONTAL);
-	window.add (pane);
-
-	var list = new Gtk.ListBox ();
-	list.insert (new Gtk.Label ("item"), -1);
-
-	pane.pack1 (list, false, false);
-	pane.add2 (new Gtk.Label ("Library"));
+//	try {
+		// Either directly from a file ...
+//		window.icon = new Gdk.Pixbuf.from_file ("my-app.png");
+		// ... or from the theme
+		window.icon = Gtk.IconTheme.get_default ().load_icon ("multimedia-audio-player", 48, 0);
+//	} catch (Error e) {
+//		stderr.printf ("Could not load application icon: %s\n", e.message);
+//	}
 
 	var headerbar = new Gtk.HeaderBar ();
 	headerbar.title = "Music";
@@ -169,7 +170,25 @@ int main (string[] args) {
 
 	var button_menu = new Gtk.Button.from_icon_name ("open-menu-symbolic", Gtk.IconSize.MENU);
 	button_menu.clicked.connect (() => {
-		cmd_playls ();
+		var popover = new Gtk.Popover (button_menu);
+		popover.set_position(Gtk.PositionType.BOTTOM);
+		var box2 = new Gtk.Box(Gtk.Orientation.VERTICAL, 5);
+		popover.add(box2);
+
+		var button_db = new Gtk.Button.with_label ("Update database");
+		button_db.clicked.connect (() => {
+			button_db.label = "Updating database...";
+			cmd_updb ();
+		});
+		box2.add(button_db);
+
+		var label = new Gtk.Label("A Label Widget");
+		box2.add(label);
+		var checkbutton = new Gtk.CheckButton.with_label("A CheckButton Widget");
+		box2.add(checkbutton);
+		var radiobutton = new Gtk.RadioButton.with_label(null, "A RadioButton Widget");
+		box2.add(radiobutton);
+		popover.show_all ();
 	});
 	headerbar.pack_end (button_menu);
 
@@ -178,12 +197,6 @@ int main (string[] args) {
 		cmd_updb ();
 	});
 	headerbar.pack_end (buttonSearch);
-
-	var grid = new Gtk.Grid ();
-	grid.orientation = Gtk.Orientation.VERTICAL;
-	grid.column_spacing = 6;
-	grid.row_spacing = 6;
-	window.add (grid);
 
 	var topDisplay = new TopDisplay ();
         var topDisplayBin = new FixedBin (200, -1, 600, -1);
@@ -203,6 +216,50 @@ int main (string[] args) {
 		}
 		return true;
 	});
+
+	var grid = new Gtk.Grid ();
+	//grid.orientation = Gtk.Orientation.VERTICAL;
+	grid.column_spacing = 5;
+	grid.row_spacing = 0;
+	window.add (grid);
+
+	Gtk.Paned pane = new Gtk.Paned (Gtk.Orientation.HORIZONTAL);
+	pane.set_vexpand(true);
+//	Gtk.WidgetSetSizeRequest (pane, 200, -1);
+	grid.attach(pane, 0, 0, 1, 1);
+
+	var gridPlay = new Gtk.Grid ();
+	gridPlay.orientation = Gtk.Orientation.VERTICAL;
+	gridPlay.column_spacing = 0;
+	gridPlay.row_spacing = 0;
+	pane.pack1 (gridPlay, false, false);
+
+	var artPlay = new Gtk.Image();
+	var albumArt = new Gdk.Pixbuf.from_file_at_size("cover.jpg", 300, 300);
+//	albumArt.scale_simple(150, 150, Gdk.InterpType.BILINEAR);
+	artPlay.set_from_pixbuf(albumArt);
+//	artPlay.set_from_file("cover.jpg");
+//	artPlay.set_from_icon_name("media-optical", Gtk.IconSize.DND);
+	artPlay.set_hexpand(true);
+	gridPlay.add (artPlay);
+
+	var list = new Gtk.ListBox ();
+	list.set_hexpand(true);
+	list.insert (new Gtk.Label ("04. Chrysalis"), -1);
+	gridPlay.add (list);
+	pane.add2 (new Gtk.Label ("Library"));
+
+	var actionbar = new Gtk.ActionBar();
+        actionbar.set_hexpand(true);
+        //actionbar.set_margin_top(0);
+        grid.attach(actionbar, 0, 1, 1, 1);
+
+        var button1 = new Gtk.Button.with_label("Cut");
+        actionbar.pack_start(button1);
+	var button2 = new Gtk.Button.with_label("Copy");
+	actionbar.pack_start(button2);
+	var button3 = new Gtk.Button.with_label("Paste");
+	actionbar.pack_end(button3);
 
 	window.show_all ();
 	Gtk.main ();

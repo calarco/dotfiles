@@ -1,9 +1,19 @@
 public class TopDisplay : Gtk.Grid {
-	Gtk.Label label;
-	Gtk.Grid scale_grid;
-	Gtk.Label leftTime;
-	Gtk.Label rightTime;
-	Gtk.Scale scale;
+	static Gtk.Label label;
+	static Gtk.Grid scale_grid;
+	static Gtk.Label leftTime;
+	static Gtk.Label rightTime;
+	static Gtk.Scale scale;
+	static double progress;
+
+	private static bool update_scale () {
+		if (current_status () == Mpd.State.PLAY) {
+			label.set_text(current_title ());
+			progress = (double)current_elapsed () / (double)current_total ();
+			scale.adjustment.value = (progress);
+		}
+		return true;
+	}
 
 	public TopDisplay() {
 		width_request = 400;
@@ -28,14 +38,8 @@ public class TopDisplay : Gtk.Grid {
 		double progress = (double)current_elapsed () / (double)current_total ();
 		scale.adjustment.value = (progress);
 
-		var timeout = GLib.Timeout.add (1000, () => {
-			if (current_status () == Mpd.State.PLAY) {
-				label.set_text(current_title ());
-				progress = (double)current_elapsed () / (double)current_total ();
-				scale.adjustment.value = (progress);
-			}
-			return true;
-		});
+		var timeout = GLib.Timeout.add (1000, (GLib.SourceFunc)update_scale);
+
 		scale.value_changed.connect (() => {
 			leftTime.set_text (to_minutes (current_elapsed ()));
 			rightTime.set_text (to_minutes (current_total ()));
@@ -47,14 +51,9 @@ public class TopDisplay : Gtk.Grid {
 		scale.button_release_event.connect (() => {
 			double pos = (double)current_total () * scale.adjustment.value;
 			cmd_seek ((uint)pos);
-			timeout = GLib.Timeout.add (1000, () => {
-				if (current_status () == Mpd.State.PLAY) {
-					label.set_text(current_title ());
-					progress = (double)current_elapsed () / (double)current_total ();
-					scale.adjustment.value = (progress);
-				}
-				return true;
-			});
+			progress = (double)current_elapsed () / (double)current_total ();
+			scale.adjustment.value = (progress);
+			timeout = GLib.Timeout.add (1000, (GLib.SourceFunc)update_scale);
 			return false;
 		});
 
