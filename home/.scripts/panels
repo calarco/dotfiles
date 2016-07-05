@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+# Terminate already running bar instances
+lemonbuddy_terminate noconfirm
+
+# Launch bar1 and bar2
+bspc config top_padding 34
+lemonbuddy_wrapper top &
+#lemonbuddy_wrapper bottom &
+
+echo "Bars launched..."

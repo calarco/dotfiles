@@ -94,10 +94,10 @@ vim.scrollBar: false
 URxvt.iconFile: /usr/share/icons/Paper/24x24/apps/utilities-terminal.png
 URxvt.geometry: 150x49
 URxvt.depth: 32
-URxvt.background: rgba:2c00/3e00/5000/dddd
+URxvt.background: rgba:2600/3200/3800/dddd
 URxvt.cursorColor: #E91E63
 URxvt.internalBorder: 10
-URxvt.borderColor: rgba:2c00/3e00/5000/dddd
+URxvt.borderColor: rgba:2600/3200/3800/dddd
 URxvt.colorUL: #4A90D9
 URxvt.cursorBlink: true
 URxvt.borderless: false
@@ -156,11 +156,11 @@ urxvtq.font: xft:Envy\ Code\ R\ for\ Powerline:size=10
 urxvtq.boldfont: xft:Envy\ Code\ R\ for\ Powerline:size=10:style=bold
 urxvtq.letterSpace: 0
 urxvtq.depth: 32
-urxvtq.geometry: 168x20+362+44
-urxvtq.background: rgba:2c00/3e00/5000/dddd
+urxvtq.geometry: 168x20+362+34
+urxvtq.background: rgba:2600/3200/3800/dddd
 urxvtq.cursorColor: #E91E63
 urxvtq.internalBorder: 5
-urxvtq.borderColor: rgba:2c00/3e00/5000/dddd
+urxvtq.borderColor: rgba:2600/3200/3800/dddd
 urxvtq.colorUL: #4A90D9
 urxvtq.cursorBlink: true
 urxvtq.borderless: false

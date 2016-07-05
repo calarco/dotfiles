@@ -1,0 +1,238 @@
+; This config uses the new syntax (which isn't merged upstream)
+
+; [settings]
+; throttle_ms = 50
+; throttle_limit = 3
+
+[bar/top]
+width = 100%
+height = 34
+clickareas = 35
+
+background = #882b2b2b
+foreground = #ccffffff
+linecolor = #883b3b3b
+
+spacing = 5
+lineheight = 2
+padding_left = 5
+padding_right = 5
+module_margin_left = 3
+module_margin_right = 3
+
+font-0 = NotoSans-Regular:size=8;0
+font-1 = MaterialIcons:size=10;0
+font-2 = Termsynu:size=8;-1
+font-3 = FontAwesome:size=10;0
+
+;locale = es_AR.UTF-8
+
+modules-left = exec mpd
+modules-center = bspwm
+modules-right = cpu memory wired-network volume date powermenu
+
+[module/exec]
+type = custom/text
+content = %{F#fba922}
+
+; "content" has the same properties as "format-NAME"
+content-padding = 4
+content-background = #bb3b3b3b
+content-underline = #ccc
+;content-overline = #7a6
+
+  ; "click-(left|middle|right)" will be executed using "/usr/bin/env sh -c $COMMAND"
+  click-left = budgie-run-dialog
+  ;click-middle = echo middle
+  ;click-right = echo right
+
+  ; "scroll-(up|down)" will be executed using "/usr/bin/env sh -c $COMMAND"
+  ;scroll-up = echo scroll up
+  ;scroll-down = echo scroll down
+
+[module/mpd]
+type = internal/mpd
+clickable_progress = true
+format-online = <icon-prev> <toggle> <icon-next>  <bar-progress> <label-time>  <label-song>
+; %{F#fba922}%{F#999}
+
+icon-play = 
+icon-pause = 
+icon-stop = 
+icon-prev = 
+icon-next = 
+
+toggle_on-foreground =
+toggle_off-foreground = #55
+
+bar-progress-width = 30
+bar-progress-format = %{A4:mpdseek+2: A5:mpdseek-2:}%fill%%indicator%%empty%%{A A}
+bar-progress-indicator = |
+bar-progress-indicator-foreground = #ff
+bar-progress-indicator-font = 3
+bar-progress-fill = ─
+bar-progress-fill-foreground = #bb
+bar-progress-fill-font = 3
+bar-progress-empty = ─
+bar-progress-empty-font = 3
+bar-progress-empty-foreground = #44
+
+[module/bspwm]
+type = internal/bspwm
+
+workspace_icon-0 = term;
+workspace_icon-1 = web;
+workspace_icon-2 = code;
+workspace_icon-3 = steam;
+workspace_icon-4 = music;
+workspace_icon-default = 
+
+format = <label-state>
+;<label-mode>
+
+label-dimmed-underline = ${BAR.background}
+
+label-active = %icon%
+label-active-foreground = #fff
+label-active-background = #773f3f3f
+;label-active-underline = #fba922
+label-active-underline = #c9665e
+label-active-font = 4
+label-active-padding = 4
+
+label-occupied = %icon%
+label-occupied-foreground = #dd
+label-occupied-underline = #666
+label-occupied-font = 4
+label-occupied-padding = 4
+
+label-urgent = %icon%
+label-urgent-foreground = #000000
+label-urgent-background = #bd2c40
+label-urgent-underline = #9b0a20
+label-urgent-font = 4
+label-urgent-padding = 4
+
+label-empty = %icon%
+label-empty-foreground = #55
+label-empty-font = 4
+label-empty-padding = 4
+
+label-monocle = 
+label-monocle-underline = ${module/bspwm.label-active-underline}
+label-monocle-background = #33ffffff
+label-monocle-padding = 2
+
+label-locked = 
+label-locked-foreground = #bd2c40
+label-locked-underline = ${module/bspwm.label-monocle-underline}
+label-locked-padding = ${module/bspwm.label-monocle-padding}
+
+label-sticky = 
+label-sticky-foreground = #fba922
+label-sticky-underline = ${module/bspwm.label-monocle-underline}
+label-sticky-padding = ${module/bspwm.label-monocle-padding}
+
+label-private = 
+label-private-foreground = #bd2c40
+label-private-underline = ${module/bspwm.label-monocle-underline}
+label-private-padding = ${module/bspwm.label-monocle-padding}
+
+[module/cpu]
+type = internal/cpu
+interval = 0.5
+format = <label> <ramp-load_per_core>
+label = %{F#fba922}%{F#cc}  %percentage%
+
+ramp-load_per_core-0 = ▁
+ramp-load_per_core-0-font = 2
+ramp-load_per_core-0-foreground = #aaff77
+ramp-load_per_core-1 = ▂
+ramp-load_per_core-1-font = 2
+ramp-load_per_core-1-foreground = #aaff77
+ramp-load_per_core-2 = ▃
+ramp-load_per_core-2-font = 2
+ramp-load_per_core-2-foreground = #aaff77
+ramp-load_per_core-3 = ▄
+ramp-load_per_core-3-font = 2
+ramp-load_per_core-3-foreground = #aaff77
+ramp-load_per_core-4 = ▅
+ramp-load_per_core-4-font = 2
+ramp-load_per_core-4-foreground = #fba922
+ramp-load_per_core-5 = ▆
+ramp-load_per_core-5-font = 2
+ramp-load_per_core-5-foreground = #fba922
+ramp-load_per_core-6 = ▇
+ramp-load_per_core-6-font = 2
+ramp-load_per_core-6-foreground = #ff5555
+ramp-load_per_core-7 = █
+ramp-load_per_core-7-font = 2
+ramp-load_per_core-7-foreground = #ff5555
+
+[module/memory]
+type = internal/memory
+format = <label> <bar-used>
+label = %{F#fba922}%{F#99}
+
+bar-used-width = 10
+bar-used-foreground-0 = #cc
+bar-used-foreground-1 = #cc
+bar-used-foreground-2 = #fba922
+bar-used-foreground-3 = #ff5555
+bar-used-indicator = |
+bar-used-indicator-font = 3
+bar-used-indicator-foreground = #ff
+bar-used-fill = ─
+bar-used-fill-font = 3
+bar-used-empty = ─
+bar-used-empty-font = 3
+bar-used-empty-foreground = #444444
+
+[module/wired-network]
+type = internal/network
+interface = enp3s0
+interval = 3.0
+
+label-connected = %{F#fba922}%{F#cc}   %{T3}%local_ip%%{T-}
+label-disconnected-foreground = #66
+label-connected-padding = 4
+label-disconnected-padding = 4
+
+[module/volume]
+type = internal/volume
+
+format-volume = <ramp-volume> <label-volume>
+label-muted =   muted
+label-muted-foreground = #66
+label-padding = 4
+
+ramp-volume-0 = %{F#fba922}%{F#cc}
+;ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+ramp-volume-3 = 
+
+[module/date]
+type = internal/date
+format-padding = 4
+date = %%{F#fba922}   %%{F#cc}%Y-%m-%d%%{F-}  %%{F#fff}%H:%M%%{F-}
+date_detailed = %%{F#fff}%A, %d %B %Y  %%{F#fff}%H:%M%%{F#666}:%%{F#fba922}%S%%{F-}
+
+[module/powermenu]
+type = custom/menu
+format-padding = 4
+format-background = #bb3b3b3b
+format-underline = #ccc
+;format-overline = #7a6
+
+label-open = %{F#fba922}
+label-close = 
+;label-close-background = #bb3b3b3b
+
+menu-0-0 = Reiniciar
+menu-0-0-foreground = #fba922
+menu-0-0-exec = reboot
+menu-0-1 = Apagar
+menu-0-1-foreground = #fba922
+menu-0-1-exec = poweroff
+; vim:ft=dosini

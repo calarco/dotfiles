@@ -5,13 +5,10 @@
 super + alt + Escape
 	bspc quit
 
-# Close window
-super + q
-	bspc window -c
+# Close / kill window
 
-# Kill window
-super {_,shift + }q
-	bspc  window -k
+super + {_,shift + }q
+	bspc node -{c,k}
 
 # Rotate leaves of tree
 super + shift + {comma,period}
@@ -25,15 +22,19 @@ super + t
 super + b
 	bspc desktop -B
 
+# set the window state
+super + {a,d,s,f}
+	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+
 # Toggle floating, pseudotiled, fullscreen
-super + {s,d,f}
-	bspc window -t {floating,pseudo_tiled,fullscreen}
+#super + {s,d,f}
+#	bspc window -t {floating,pseudo_tiled,fullscreen}
 
 super + {grave,Tab}
-	bspc {window,desktop} -f last
+	bspc {node,desktop} -f last
 
 super + apostrophe
-	bspc window -s last
+	bspc node -s last
 
 super + y
 	bspc window -w last.manual
@@ -67,7 +68,7 @@ super + ctrl + {1-9}
 	bspc window -r 0.{1-9}
 
 super + {_,shift + }{1-9,0}
-	bspc {desktop -f,window -d} ^{1-9,10}
+	bspc {desktop -f,node -d} ^{1-9,10}
 
 #
 # mouse bindings
@@ -80,8 +81,8 @@ super + {_,shift + }{1-9,0}
 super + button{1-3}
 	; bspc pointer -g {move,resize_side,resize_corner}
 
-super + !button{1-3}
-	bspc pointer -t %i %i
+#super + !button{1-3}
+#	bspc pointer -t %i %i
 
 super + @button{1-3}
 	bspc pointer -u

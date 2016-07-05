@@ -1,19 +1,39 @@
 #!/bin/sh
-#
-# ~/.xinitrc
-#
-# Executed by startx (run your window manager from here)
 
-if [ -d /etc/X11/xinit/xinitrc.d ]; then
-	for f in /etc/X11/xinit/xinitrc.d/*; do
+userresources=$HOME/.Xresources
+usermodmap=$HOME/.Xmodmap
+sysresources=/etc/X11/xinit/.Xresources
+sysmodmap=/etc/X11/xinit/.Xmodmap
+
+# merge in defaults and keymaps
+
+if [ -f $sysresources ]; then
+	xrdb -merge $sysresources
+fi
+
+if [ -f $sysmodmap ]; then
+	xmodmap $sysmodmap
+fi
+
+if [ -f "$userresources" ]; then
+	xrdb -merge "$userresources"
+fi
+
+if [ -f "$usermodmap" ]; then
+	xmodmap "$usermodmap"
+fi
+
+# start some nice programs
+
+if [ -d /etc/X11/xinit/xinitrc.d ] ; then
+	for f in /etc/X11/xinit/xinitrc.d/?*.sh ; do
 		[ -x "$f" ] && . "$f"
 	done
 	unset f
 fi
 
-[[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources
 setxkbmap -layout us -variant altgr-intl
-xinput set-prop 11 283 -1 -1 -1
+#xinput set-prop 11 283 -1 -1 -1
 xsetroot -cursor_name left_ptr
 xsetroot -solid "#646464"
 export PATH=$PATH:$HOME/.scripts
@@ -23,7 +43,8 @@ nitrogen --restore
 urxvtd &
 sxhkd &
 mpDris2 &
-compton -b
+compton &
+float &
 
 #gsettings-data-convert &
 xdg-user-dirs-gtk-update &
