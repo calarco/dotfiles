@@ -1,14 +1,10 @@
-.window-frame, .window-frame:backdrop {
-	#border-radius: 0;
-	#margin: 0;
-}
-
-.titlebar {
-	border-radius: 0;
-}
-
-.window-frame.solid-csd {
-	border-radius: 0;
+decoration, decoration:backdrop {
+	box-shadow: 0 0 0 black;
+	border-style: none;
 	margin: 0;
-	#border: none;
+	border-radius: 0;
+}
+
+.titlebar, titlebar {
+	border-radius: 0;
 }
