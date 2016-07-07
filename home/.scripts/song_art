@@ -1,4 +1,4 @@
 #!/bin/bash
 
 art=$(mpc current -f %file% | sed 's_\(.*\)/\(.*\)/\(.*\)_\1/\2/_')
-bspc rule -a feh -o pseudo_tiled=on focus=off desktop=^6 split_dir=right split_ratio=0.59 && feh -B black -q -Z -g 750x750 -^ Art "/media/Data/Música/$art" &> /dev/null
+bspc rule -a feh -o state=pseudo_tiled focus=off desktop=^1 split_dir=right split_ratio=0.59 && feh -B black -q -Z -g 750x750 -^ Art "/media/Data/Música/$art" &> /dev/null
