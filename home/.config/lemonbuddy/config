@@ -20,11 +20,11 @@ padding_right = 5
 module_margin_left = 3
 module_margin_right = 3
 
-font-0 = Cantarell-Regular:size=8;0
+font-0 = FuturaLT:size=9;0
 font-1 = MaterialIcons:size=10;0
 font-2 = Termsynu:size=8;-1
-font-3 = FontAwesome:size=10;0
-font-4 = Sans:size=8;
+font-3 = Sans:size=8;-1
+;font-3 = FontAwesome:size=10;0
 
 ;locale = es_AR.UTF-8
 
@@ -213,6 +213,86 @@ bar-used-fill-font = 3
 bar-used-empty = ─
 bar-used-empty-font = 3
 bar-used-empty-foreground = #444444
+
+[module/battery]
+type = internal/battery
+  ; $ ls -1 /sys/class/power_supply/
+  battery = BAT1
+  adapter = ACAD
+full_at = 98
+
+format-charging =  <animation-charging> <label-charging>
+format-discharging = Discharging <ramp-capacity> <label-discharging>
+format-full = Full <ramp-capacity> <label-full>
+
+ramp-capacity-0 = 
+ramp-capacity-0-foreground = #f53c3c
+ramp-capacity-1 = 
+ramp-capacity-1-foreground = #ffa900
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+
+bar-capacity-width = 10
+bar-capacity-format = %{+u}%{+o}%fill%%empty%%{-u}%{-o}
+bar-capacity-fill = █
+bar-capacity-fill-foreground = #ddffffff
+bar-capacity-fill-font = 3
+bar-capacity-empty = █
+bar-capacity-empty-font = 3
+bar-capacity-empty-foreground = #44ffffff
+
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-3 = 
+animation-charging-4 = 
+animation-charging-framerate_ms = 750
+
+[module/backlight]
+type = internal/backlight
+  ; $ ls -1 /sys/class/backlight/
+  card = intel_backlight
+format = <ramp> <bar>
+
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+
+bar-width = 10
+bar-format = %{A4:backlight_percentage%__p5:}%{A5:backlight_percentage%__m5:}%{+u}%{+o}%fill%%{-u}%{-o}%indicator%%{+u}%{+o}%empty%%{-u}%{-o}%{A}%{A}
+bar-indicator = |
+bar-indicator-foreground = #ff
+bar-indicator-font = 3
+bar-fill = █
+bar-fill-foreground = #bb
+bar-fill-font = 3
+bar-empty = █
+bar-empty-font = 3
+bar-empty-foreground = #44
+
+[module/wireless-network]
+type = internal/network
+interface = net1
+interval = 3.0
+ping_interval = 10
+
+format-connected = <ramp-signal> <label-connected>
+label-connected = %essid%
+label-disconnected =    not connected
+label-disconnected-foreground = #66
+
+ramp-signal-0 = %{F#fba922}
+ramp-signal-1 = %{F#fba922}
+ramp-signal-2 = %{F#fba922}
+ramp-signal-3 = %{F#fba922}
+ramp-signal-4 = %{F#fba922}
+
+animation-packetloss-0 = 
+animation-packetloss-0-foreground = #ffa64c
+animation-packetloss-1 = 
+animation-packetloss-1-foreground = ${bar/top.foreground}
+animation-packetloss-framerate_ms = 500
 
 [module/wired-network]
 type = internal/network
