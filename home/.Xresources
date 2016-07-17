@@ -142,6 +142,7 @@ URxvt.url-select.launcher: /usr/bin/xdg-open
 URxvt.font: xft:Envy\ Code\ R\ for\ Powerline:size=10
 URxvt.boldfont: xft:Envy\ Code\ R\ for\ Powerline:size=10:style=bold
 URxvt.letterSpace: 0
+URxvt.lineSpace: 2
 
 Xft.antialias: 1
 Xft.autohint: 0
@@ -155,6 +156,7 @@ Xft.rgba: rgb
 urxvtq.font: xft:Envy\ Code\ R\ for\ Powerline:size=10
 urxvtq.boldfont: xft:Envy\ Code\ R\ for\ Powerline:size=10:style=bold
 urxvtq.letterSpace: 0
+urxvtq.lineSpace: 1
 urxvtq.depth: 32
 urxvtq.geometry: 168x20+362+34
 urxvtq.background: rgba:2600/3200/3800/dddd

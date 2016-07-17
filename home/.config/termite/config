@@ -1,0 +1,99 @@
+[options]
+scroll_on_output = false
+scroll_on_keystroke = true
+audible_bell = true
+mouse_autohide = true
+allow_bold = true
+dynamic_title = true
+urgent_on_bell = false
+clickable_url = true
+font = Envy Code R for Powerline 10
+scrollback_lines = 10000
+search_wrap = true
+#icon_name = terminal
+#geometry = 640x480
+
+# "system", "on" or "off"
+cursor_blink = system
+
+# "block", "underline" or "ibeam"
+cursor_shape = block
+
+# $BROWSER is used by default if set, with xdg-open as a fallback
+#browser = xdg-open
+
+# set size hints for the window
+#size_hints = false
+
+# Hide links that are no longer valid in url select overlay mode
+filter_unmatched_urls = true
+
+# emit escape sequences for extra modified keys
+#modify_other_keys = false
+
+[colors]
+#cursor = #dcdccc
+#cursor_foreground = #dcdccc
+foreground = #dcdccc
+foreground_bold = #ffffff
+#background = #263238
+
+# 20% background transparency (requires a compositor)
+background = rgba(38, 50, 56, 0.7)
+
+# if unset, will reverse foreground and background
+highlight = #2f2f2f
+
+# colors from color0 to color254 can be set
+[colors]
+
+# special
+foreground      = #e0e0e0
+foreground_bold = #e0e0e0
+cursor          = #e0e0e0
+
+# black
+color0  = #233541
+color8  = #34495e
+
+# red
+color1  = #e74c3c
+color9  = #e74c3c
+
+# green
+color2  = #2ecc71
+color10 = #2ecc71
+
+# yellow
+color3  = #f1c40f
+color11 = #f1c40f
+
+# blue
+color4  = #3498db
+color12 = #3498db
+
+# magenta
+color5  = #9b59b6
+color13 = #9b59b6
+
+# cyan
+color6  = #1abc9c
+color14 = #1abc9c
+
+# white
+color7  = #e0e0e0
+color15 = #ecf0f1
+
+
+[hints]
+#font = Monospace 12
+#foreground = #dcdccc
+#background = #3f3f3f
+#active_foreground = #e68080
+#active_background = #3f3f3f
+#padding = 2
+#border = #3f3f3f
+#border_width = 0.5
+#roundness = 2.0
+
+# vim: ft=dosini cms=#%s

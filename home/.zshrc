@@ -5,7 +5,11 @@ BASE16_SHELL="$HOME/.config/base16-shell/base16-material.dark.sh"
 [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
 
 #source $HOME/.homesick/repos/homeshick/homeshick.sh
-. /etc/profile.d/vte.sh
+
+if [[ $TERM == xterm-termite ]]; then
+  . /etc/profile.d/vte.sh
+  __vte_osc7
+fi
 
 HISTFILE=~/.histfile
 HISTSIZE=1000

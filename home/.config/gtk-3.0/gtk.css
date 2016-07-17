@@ -8,3 +8,7 @@ decoration, decoration:backdrop {
 .titlebar, titlebar {
 	border-radius: 0;
 }
+
+VteTerminal, vte-terminal {
+	padding: 10px;
+}
