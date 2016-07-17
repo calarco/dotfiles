@@ -199,6 +199,12 @@ urxvtq.underlineURLs: true
 urxvtq.keysym.M-u: perl:url-select:select_next
 urxvtq.url-select.launcher: /usr/bin/xdg-open
 
+ncmpcpp.scrollBar: false
+cava.font: xft:monospace:size=2
+cava.boldfont: xft:monospace:size=2:style=bold
+cava.scrollBar: false
+cava.internalBorder: 5
+
 ! Base16 Flat
 ! Scheme: Chris Kempson (http://chriskempson.com)
 

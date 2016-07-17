@@ -30,11 +30,14 @@ super + {a,d,s,f}
 #super + {s,d,f}
 #	bspc window -t {floating,pseudo_tiled,fullscreen}
 
-super + {grave,Tab}
-	bspc {node,desktop} -f last
+#super + {grave,Tab}
+#	bspc {node,desktop} -f last
 
-super + apostrophe
-	bspc node -s last
+super + Tab
+	bspc desktop -f last
+
+super + grave
+	bspc node -s next
 
 super + y
 	bspc window -w last.manual
@@ -43,30 +46,34 @@ super + y
 super + m
 	bspc window -s biggest
 
+# focus the node in the given direction
 super + {_,shift + }{h,j,k,l}
-	bspc window -{f,s} {left,down,up,right}
+	bspc node -{f,s} {west,south,north,east}
 
 super + {_,shift + }c
-	bspc window -f {next,prev}
+	bspc node -f {next,prev}
 
 super + bracket{left,right}
 	bspc desktop -f {prev,next}
 
+# preselect the direction
 super + ctrl + {h,j,k,l}
-	bspc window -p {left,down,up,right}
+	bspc node -p {west,south,north,east}
 
-super + ctrl + {_,shift + }space
-	bspc {window -p cancel,desktop -c}
+# cancel the preselection for the focused node
+super + ctrl + space
+	bspc node -p cancel
 
 super + alt + {h,j,k,l}
-	bspc window -e {left -10,down +10,up -10,right +10}
+	bspc node -e {left -10,down +10,up -10,right +10}
 
 super + alt + shift + {h,j,k,l}
-	bspc window -e {right -10,up +10,down -10,left +10}
+	bspc node -e {right -10,up +10,down -10,left +10}
 
 super + ctrl + {1-9}
 	bspc window -r 0.{1-9}
 
+# focus or send to the given desktop
 super + {_,shift + }{1-9,0}
 	bspc {desktop -f,node -d} ^{1-9,10}
 
@@ -105,7 +112,7 @@ super + space
 	dmenu_launch
 
 super + shift + space
-	dmenu_launch
+	dmenu_run
 
 Print
 	scrot -q 100 -e 'mv $f ~/Imágenes/'
@@ -122,8 +129,8 @@ XF86AudioPlay
 XF86AudioStop
 	 mpc stop
 
-#XF86Audio{Lower,Raise}Volume
-#	 volume_change {down,up}
+XF86Audio{Lower,Raise}Volume
+	 amixer set Master 1%{-,+}
 
 # make sxhkd reload its configuration files:
 super + Escape

@@ -273,7 +273,7 @@ bar-empty-foreground = #44
 
 [module/wireless-network]
 type = internal/network
-interface = net1
+interface = wlo1
 interval = 3.0
 ping_interval = 10
 
