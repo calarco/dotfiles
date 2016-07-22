@@ -32,9 +32,9 @@ brackets
 filezilla
 atom"
 		sort -u
-		) | tee "$cache" | dmenu -h 30 -w 262 -l 9 -x 20 -y 5 -dim 0.3 -o 0.8 "$@"
+		) | tee "$cache" | dmenu -h 30 -w 262 -l 9 -x 20 -y 5 -dim 0.3 -o 0.8 "$@" &
 	else
-		dmenu -h 30 -w 262 -l 9 -x 20 -y 5 -dim 0.3 -o 0.8 "$@" < "$cache"
+		dmenu -h 30 -w 262 -l 9 -x 20 -y 5 -dim 0.3 -o 0.8 "$@" < "$cache" &
 	fi
 )`
 echo -e "source ~/.bashrc \n $cmd" | bash -O expand_aliases &

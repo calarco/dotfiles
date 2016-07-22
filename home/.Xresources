@@ -82,10 +82,10 @@ dzen2.font: Envy\ Code\ R\ for\ Powerline:size=10
 dzen2.foreground: #ffffff
 dzen2.background: #000000
 dmenu.font: Envy\ Code\ R\ for\ Powerline:size=10
-dmenu.foreground:#2b2b2b
-dmenu.background: #eeeeee
-dmenu.selforeground: #f9f9f9
-dmenu.selbackground: #4A90D8
+dmenu.foreground:#fafafa
+dmenu.background: #2b2b2c
+dmenu.selforeground: #222222
+dmenu.selbackground: #fba922
 
 ncmpcpp.iconFile: /usr/share/icons/Paper/24x24/apps/multimedia-audio-player.png
 vim.scrollBar: false
@@ -94,10 +94,10 @@ vim.scrollBar: false
 URxvt.iconFile: /usr/share/icons/Paper/24x24/apps/utilities-terminal.png
 URxvt.geometry: 150x49
 URxvt.depth: 32
-URxvt.background: rgba:2600/3200/3800/dddd
+URxvt.background: rgba:2600/3200/3800/cccc
 URxvt.cursorColor: #E91E63
 URxvt.internalBorder: 10
-URxvt.borderColor: rgba:2600/3200/3800/dddd
+URxvt.borderColor: rgba:2600/3200/3800/cccc
 URxvt.colorUL: #4A90D9
 URxvt.cursorBlink: true
 URxvt.borderless: false
@@ -153,59 +153,13 @@ Xft.lcdfilter: lcddefault
 Xft.rgba: rgb
 
 ! urxvtq
-urxvtq.font: xft:Envy\ Code\ R\ for\ Powerline:size=10
-urxvtq.boldfont: xft:Envy\ Code\ R\ for\ Powerline:size=10:style=bold
-urxvtq.letterSpace: 0
-urxvtq.lineSpace: 1
-urxvtq.depth: 32
 urxvtq.geometry: 168x20+362+34
-urxvtq.background: rgba:2600/3200/3800/dddd
-urxvtq.cursorColor: #E91E63
-urxvtq.internalBorder: 5
-urxvtq.borderColor: rgba:2600/3200/3800/dddd
-urxvtq.colorUL: #4A90D9
-urxvtq.cursorBlink: true
-urxvtq.borderless: false
-urxvtq.scrollBar: true
-urxvtq.scrollBar_right: true
-urxvtq.scrollstyle: plain
-urxvtq.scrollBar_floating: true
-urxvtq.secondaryScroll: true
-urxvtq.scrollTtyOutput: false
-urxvtq.scrollWithBuffer: true
-urxvtq.scrollTtyKeypress: true
-! transparency
-!urxvtq.transparent: true
-!urxvtq.tintColor: #2d2d2d
-urxvtq.shading: 40
-urxvtq.blurRadius: 30
-! perl extensions (tabs, clickable URLs, yankable URLs)
-urxvtq.perl-ext:
-!urxvtq.perl-ext-common: default,tabbed,matcher,url-select
-urxvtq.perl-ext-common:
-! tabs
-urxvtq.tabbed.tabbar-bg: -1
-urxvtq.tabbed.tabbar-fg: -2
-urxvtq.tabbed.tab-bg: -2
-urxvtq.tabbed.tab-fg: -1
-urxvtq.tabbed.title-bg: -1
-urxvtq.tabbed.title-fg: -2
-urxvtq.tabbed.autohide: true
-urxvtq.tabbed.new-button: false
-urxvtq.tabbed.title: true
-! clickable URLs
-urxvtq.matcher.button: 1
-urxvtq.urlLauncher: /usr/bin/xdg-open
-! yankable URLs
-urxvtq.underlineURLs: true
-urxvtq.keysym.M-u: perl:url-select:select_next
-urxvtq.url-select.launcher: /usr/bin/xdg-open
 
 ncmpcpp.scrollBar: false
 cava.font: xft:monospace:size=2
 cava.boldfont: xft:monospace:size=2:style=bold
 cava.scrollBar: false
-cava.internalBorder: 5
+cava.internalBorder: 0
 
 ! Base16 Flat
 ! Scheme: Chris Kempson (http://chriskempson.com)
