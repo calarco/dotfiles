@@ -93,8 +93,8 @@ visualizer_sync_interval = 30
 #
 ## Available values: spectrum, wave, wave_filled, ellipse.
 ##
-visualizer_type = spectrum
-#visualizer_type = ellipse
+#visualizer_type = spectrum
+visualizer_type = ellipse
 #
 #visualizer_look = ●▮
 #visualizer_look = ●║
@@ -353,7 +353,7 @@ default_find_mode = wrapped
 #
 ## Available values: add, select.
 ##
-default_space_mode = add
+#default_space_mode = add
 #
 default_tag_editor_pattern = %n. %t
 #
@@ -410,14 +410,14 @@ lines_scrolled = 1
 ## Note: You can define startup screen
 ## by choosing screen from the list above.
 ##
-startup_screen = visualizer
+startup_screen = playlist
 #
 ##
 ## Note: You can define startup slave screen
 ## by choosing screen from the list above or
 ## an empty value for no slave screen.
 ##
-startup_slave_screen = playlist
+#startup_slave_screen = visualizer
 #
 ##
 ## Default width of locked screen (in %).
