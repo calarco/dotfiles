@@ -4,36 +4,26 @@ set enc=utf-8
 set background=dark
 let g:hybrid_custom_term_colors = 1
 let g:hybrid_reduced_contrast = 1
-colorscheme base16-material-dark
 let g:enable_bold_font = 1
 syntax on
 
 set list
-"set listchars=tab:\|\ ,trail:·,eol:◊,extends:►,precedes:◄
-set listchars=tab:\|\ ,trail:·,extends:►,precedes:◄
-highlight SpecialKey ctermfg=0
-highlight Pmenu ctermbg=7 ctermfg=0 gui=bold
-
-set guioptions-=r
-set guioptions-=m
-set guioptions-=T
-set guioptions-=e
-set guioptions-=T
-set guioptions=a
-set linespace=14
-set lines=100 columns=200
+set listchars=tab:\|\ ,trail:·,extends:►,precedes:◄ ",eol:◊
+set matchpairs+=<:>
+hi SpecialKey ctermfg=0
+hi Pmenu ctermbg=7 ctermfg=0 gui=bold
 
 set mouse=a
 :filetype plugin on
 :au FocusLost * silent! wa
 set autowrite
 set cursorline
-hi CursorLine cterm=NONE ctermbg=8
+hi CursorLine cterm=NONE ctermbg=0
 set relativenumber number
 set scrolloff=10
-highlight LineNr ctermfg=243 ctermbg=8
+hi LineNr ctermfg=243 ctermbg=0
 set fillchars+=vert:\ 
-highlight VertSplit ctermfg=8 ctermbg=0
+hi VertSplit ctermfg=8 ctermbg=0
 
 set wildmenu			" enhanced tab-completion shows all matching cmds in a popup menu
 "set nobackup			 " disable backup files (filename~)
@@ -75,8 +65,7 @@ set splitright
 
 "Airline Settings:
 set laststatus=2
-"let g:airline_theme = 'solarized'
-let g:airline_theme = 'hybrid'
+let g:airline_theme = 'solarized'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#whitespace#enabled = 1
