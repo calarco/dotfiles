@@ -1,5 +1,11 @@
 using Mpd;
 
+public static Gtk.Window window;
+public static Gtk.Grid grid;
+public static Gtk.Grid gridPlay;
+public static Gtk.ScrolledWindow scrollList;
+public static Gtk.ListBox list;
+
 public static Connection get_conn () {
 	Mpd.Connection conn = new Connection ("localhost", 6600, 0);
 	if (conn.get_error () != Mpd.Error.SUCCESS) {
@@ -87,9 +93,12 @@ public static void cmd_seek (uint pos) {
 public static void cmd_playls () {
 	var conn = get_conn ();
 	Mpd.Song song;
+	conn.send_list_queue_meta();
 	while ((song = conn.recv_song ()) != null) {
 		stdout.printf ("%s\n", song.get_tag (Mpd.TagType.TITLE));
-		free(song);
+		list.insert (new Gtk.Label (song.get_tag (Mpd.TagType.TITLE)), -1);
+		//stdout.printf ("%s\n", song ());
+		//free(song);
 	}
 }
 
@@ -112,17 +121,13 @@ int main (string[] args) {
 	//window.set_border_width (12);
 	window.set_position (Gtk.WindowPosition.CENTER);
 	window.set_default_size (800, 500);
-//	window.set_default_icon ("media-playback-start-symbolic");
 	window.destroy.connect (Gtk.main_quit);
-
-//	try {
-		// Either directly from a file ...
-//		window.icon = new Gdk.Pixbuf.from_file ("my-app.png");
-		// ... or from the theme
+	try {
+		//window.icon = new Gdk.Pixbuf.from_file ("my-app.png");
 		window.icon = Gtk.IconTheme.get_default ().load_icon ("multimedia-audio-player", 48, 0);
-//	} catch (Error e) {
-//		stderr.printf ("Could not load application icon: %s\n", e.message);
-//	}
+	} catch (GLib.Error e) {
+		stderr.printf ("Could not load application icon: %s\n", e.message);
+	}
 
 	var headerbar = new Gtk.HeaderBar ();
 	headerbar.title = "Music";
@@ -194,7 +199,7 @@ int main (string[] args) {
 
 	var buttonSearch = new Gtk.Button.from_icon_name ("edit-find-symbolic", Gtk.IconSize.MENU);
 	buttonSearch.clicked.connect (() => {
-		cmd_updb ();
+		cmd_playls ();
 	});
 	headerbar.pack_end (buttonSearch);
 
@@ -210,7 +215,7 @@ int main (string[] args) {
 
 	GLib.Timeout.add (1000, () => {
 		if (current_status () == Mpd.State.PLAY || current_status () == Mpd.State.PAUSE) {
-        		headerbar.set_custom_title (topDisplayBin);
+			headerbar.set_custom_title (topDisplayBin);
 		} else {
 			headerbar.set_custom_title (null);
 		}
@@ -219,20 +224,20 @@ int main (string[] args) {
 
 	var grid = new Gtk.Grid ();
 	//grid.orientation = Gtk.Orientation.VERTICAL;
-	grid.column_spacing = 5;
+	grid.column_spacing = 0;
 	grid.row_spacing = 0;
 	window.add (grid);
 
-	Gtk.Paned pane = new Gtk.Paned (Gtk.Orientation.HORIZONTAL);
-	pane.set_vexpand(true);
+//	Gtk.Paned pane = new Gtk.Paned (Gtk.Orientation.HORIZONTAL);
+//	pane.set_vexpand(true);
 //	Gtk.WidgetSetSizeRequest (pane, 200, -1);
-	grid.attach(pane, 0, 0, 1, 1);
+//	grid.attach(pane, 0, 0, 1, 1);
 
 	var gridPlay = new Gtk.Grid ();
 	gridPlay.orientation = Gtk.Orientation.VERTICAL;
 	gridPlay.column_spacing = 0;
 	gridPlay.row_spacing = 0;
-	pane.pack1 (gridPlay, false, false);
+	grid.attach(gridPlay, 0, 0, 1, 1);
 
 	var artPlay = new Gtk.Image();
 	var albumArt = new Gdk.Pixbuf.from_file_at_size("cover.jpg", 300, 300);
@@ -240,19 +245,41 @@ int main (string[] args) {
 	artPlay.set_from_pixbuf(albumArt);
 //	artPlay.set_from_file("cover.jpg");
 //	artPlay.set_from_icon_name("media-optical", Gtk.IconSize.DND);
-	artPlay.set_hexpand(true);
 	gridPlay.add (artPlay);
 
+	gridPlay.add (new Gtk.Separator (Gtk.Orientation.HORIZONTAL));
+
+	var scrollList = new Gtk.ScrolledWindow (null, null);
+	gridPlay.add (scrollList);
+
+	var listTree = new Gtk.TreeView ();
+	//listTree
+
 	var list = new Gtk.ListBox ();
-	list.set_hexpand(true);
+	list.set_vexpand(true);
 	list.insert (new Gtk.Label ("04. Chrysalis"), -1);
-	gridPlay.add (list);
-	pane.add2 (new Gtk.Label ("Library"));
+	list.insert (new Gtk.Label ("05. I Am the Jigsaw of a Mad God"), -1);
+	for (var i = 1; i < 3; i++)
+	{
+		string text = @"$i. SongTitle";
+		var label = new Gtk.Label(text);
+		list.add(label);
+	}
+	scrollList.add (list);
+
+	grid.attach((new Gtk.Separator (Gtk.Orientation.HORIZONTAL)), 1, 0, 1, 1);
+
+	Gtk.FlowBox fbox = new Gtk.FlowBox ();
+	fbox.set_hexpand(true);
+	fbox.set_vexpand(true);
+	fbox.add((new Gtk.Label ("Library")));
+	grid.attach(fbox, 2, 0, 1, 1);
 
 	var actionbar = new Gtk.ActionBar();
         actionbar.set_hexpand(true);
         //actionbar.set_margin_top(0);
-        grid.attach(actionbar, 0, 1, 1, 1);
+        //grid.attach(actionbar, 0, 1, 1, 1);
+        //gridPlay.add(actionbar);
 
         var button1 = new Gtk.Button.with_label("Cut");
         actionbar.pack_start(button1);
