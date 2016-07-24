@@ -1,1 +1,0 @@
-valac --pkg gtk+-3.0 --pkg libmpdclient main.vala FixedBin.vala TopDisplay.vala
