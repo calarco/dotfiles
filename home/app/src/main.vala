@@ -3,9 +3,9 @@ using Mpd;
 int main (string[] args) {
 
 	Gtk.init (ref args);
-	var app = new Application ();
+	new Application ();
 	//return app.run (args);
-	app.window.show_all ();
+	Application.window.show_all ();
 	Gtk.main ();
 	return 0;
 
@@ -66,29 +66,6 @@ public static string current_artist () {
 	return curr;
 }
 
-public static void cmd_toggle () {
-	var conn = get_conn ();
-	if (current_status () == Mpd.State.PLAY) {
-		conn.run_pause (true);
-	} else {
-		conn.run_play ();
-	}
-}
-
-public static void cmd_prev () {
-	var conn = get_conn ();
-	if (current_elapsed () < 3) {
-		conn.run_previous ();
-	} else {
-		cmd_seek (0);
-	}
-}
-
-public static void cmd_next () {
-	var conn = get_conn ();
-	conn.run_next ();
-}
-
 public static void cmd_seek (uint pos) {
 	var conn = get_conn ();
 	Mpd.Status status = conn.run_status ();
@@ -108,6 +85,7 @@ public class PlaylistEntry {
 public class Application {
 
 	public static Gtk.Window window;
+	public static Gtk.Button buttonToggle;
 	public static Gtk.Grid grid;
 	public static Gtk.Grid gridPlay;
 	public static Gtk.ScrolledWindow scrollList;
@@ -125,6 +103,38 @@ public class Application {
 		new PlaylistEntry ("5", "Clinton"),
 		new PlaylistEntry ("6", "Hacker")
 	};
+
+	public static void cmd_toggle () {
+		var conn = get_conn ();
+		if (current_status () == Mpd.State.PLAY) {
+			conn.run_pause (true);
+			Gtk.Image image = new Gtk.Image.from_icon_name ("media-playback-start-symbolic", Gtk.IconSize.MENU);
+			buttonToggle.set_image (image);
+		} else {
+			conn.run_play ();
+			Gtk.Image image = new Gtk.Image.from_icon_name ("media-playback-pause-symbolic", Gtk.IconSize.MENU);
+			buttonToggle.set_image (image);
+		}
+	}
+
+	public static void cmd_prev () {
+		var conn = get_conn ();
+		if (current_elapsed () < 3) {
+			conn.run_previous ();
+		} else {
+			cmd_seek (0);
+			conn.run_play ();
+		}
+		Gtk.Image image = new Gtk.Image.from_icon_name ("media-playback-pause-symbolic", Gtk.IconSize.MENU);
+		buttonToggle.set_image (image);
+	}
+
+	public static void cmd_next () {
+		var conn = get_conn ();
+		conn.run_next ();
+		Gtk.Image image = new Gtk.Image.from_icon_name ("media-playback-pause-symbolic", Gtk.IconSize.MENU);
+		buttonToggle.set_image (image);
+	}
 
 	public static void cmd_playls () {
 		var conn = get_conn ();
@@ -160,16 +170,13 @@ public class Application {
 			tree_store.set (itert, 0, track, 1, title, 2, pos);
 			//free(song);
 		}
-		string curr = parent.to_string() + ":" + child.to_string();
-		stdout.printf ("%s\n", curr);
 		//tree.expand_all();
 		var path = new Gtk.TreePath.from_indices (currp, currc);
-		//var path = new Gtk.TreePath.from_string ("3:5");
 		if (!tree.is_row_expanded (path)) {
 			tree.expand_to_path (path);
 		}
 		tree.set_cursor(path, null, false);
-		tree.scroll_to_cell(path, null, true, 0, 0);
+		tree.scroll_to_cell(path, null, true, 0.5f, 0);
 		tree.row_activated.connect (on_row_activated);
 		//var selection = tree.get_selection ();
 		//selection.changed.connect (on_changed);
@@ -186,23 +193,11 @@ public class Application {
 							1, out title,
 							2, out pos);
 			conn.send_play_pos (pos);
+			Gtk.Image image = new Gtk.Image.from_icon_name ("media-playback-pause-symbolic", Gtk.IconSize.MENU);
+			buttonToggle.set_image (image);
 		}
 	}
 	//public static void on_changed (Gtk.TreeSelection selection) {
-	//	Gtk.TreeModel model;
-	//	Gtk.TreeIter iter;
-	//	string track;
-	//	string title;
-	//	uint pos;
-	//	var conn = get_conn ();
-
-	//	if (selection.get_selected (out model, out iter)) {
-	//		model.get (iter,
-	//						 0, out track,
-	//						 1, out title,
-	//						 2, out pos);
-	//		conn.send_play_pos (pos);
-	//	}
 	//}
 
 	public static void cmd_updb () {
@@ -241,33 +236,22 @@ public class Application {
 		box.get_style_context ().add_class("linked");
 		headerbar.pack_start (box);
 
-		var buttonToggle = new Gtk.Button.from_icon_name ("media-playback-start-symbolic", Gtk.IconSize.MENU);
+		buttonToggle = new Gtk.Button.from_icon_name ("media-playback-start-symbolic", Gtk.IconSize.MENU);
 		if (current_status () == Mpd.State.PLAY) {
 			buttonToggle = new Gtk.Button.from_icon_name ("media-playback-pause-symbolic", Gtk.IconSize.MENU);
 		}
 		buttonToggle.clicked.connect (() => {
 			cmd_toggle ();
-			if (current_status() == Mpd.State.PLAY) {
-				Gtk.Image image = new Gtk.Image.from_icon_name ("media-playback-pause-symbolic", Gtk.IconSize.MENU);
-				buttonToggle.set_image (image);
-			} else {
-				Gtk.Image image = new Gtk.Image.from_icon_name ("media-playback-start-symbolic", Gtk.IconSize.MENU);
-				buttonToggle.set_image (image);
-			}
 		});
 
 		var buttonPrev = new Gtk.Button.from_icon_name ("media-skip-backward-symbolic", Gtk.IconSize.MENU);
 		buttonPrev.clicked.connect (() => {
 			cmd_prev ();
-			Gtk.Image image = new Gtk.Image.from_icon_name ("media-playback-pause-symbolic", Gtk.IconSize.MENU);
-			buttonToggle.set_image (image);
 		});
 
 		var buttonNext = new Gtk.Button.from_icon_name ("media-skip-forward-symbolic", Gtk.IconSize.MENU);
 		buttonNext.clicked.connect (() => {
 			cmd_next ();
-			Gtk.Image image = new Gtk.Image.from_icon_name ("media-playback-pause-symbolic", Gtk.IconSize.MENU);
-			buttonToggle.set_image (image);
 		});
 
 		box.add (buttonPrev);
@@ -341,9 +325,20 @@ public class Application {
 		grid.attach(gridPlay, 0, 0, 1, 1);
 
 		var artPlay = new Gtk.Image();
-		var albumArt = new Gdk.Pixbuf.from_file_at_size("cover.jpg", 300, 300);
+		var conn = get_conn ();
+		Mpd.Song song = conn.run_current_song ();
+		var folder = new StringBuilder (song.get_uri ());
+		folder.erase(song.get_uri ().last_index_of("/", 0), -1);
+		folder.prepend("/media/Datos/Música/");
+		folder.append("/folder.jpg");
+		stdout.printf ("%s\n", folder.str);
+		try {
+			var albumArt = new Gdk.Pixbuf.from_file_at_size(folder.str, 300, 300);
+			artPlay.set_from_pixbuf(albumArt);
+		} catch (GLib.Error e) {
+			stderr.printf ("Could not load application icon: %s\n", e.message);
+		}
 	//	albumArt.scale_simple(150, 150, Gdk.InterpType.BILINEAR);
-		artPlay.set_from_pixbuf(albumArt);
 	//	artPlay.set_from_file("cover.jpg");
 	//	artPlay.set_from_icon_name("media-optical", Gtk.IconSize.DND);
 		gridPlay.add (artPlay);
@@ -370,17 +365,6 @@ public class Application {
 		tree.insert_column_with_attributes (-1, "Title", cell, "text", 1);
 
 		cmd_playls ();
-
-		//var list = new Gtk.ListBox ();
-		//list.set_vexpand(true);
-		//list.insert (new Gtk.Label ("04. Chrysalis"), -1);
-		//for (var i = 1; i < 3; i++)
-		//{
-		//	string text = @"$i. SongTitle";
-		//	var label = new Gtk.Label(text);
-		//	list.add(label);
-		//}
-		//scrollList.add (list);
 
 		grid.attach((new Gtk.Separator (Gtk.Orientation.HORIZONTAL)), 1, 0, 1, 1);
 
