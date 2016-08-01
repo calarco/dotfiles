@@ -96,10 +96,10 @@ public static void cmd_seek (uint pos) {
 }
 
 public class PlaylistEntry {
-	public int number;
+	public string number;
 	public string title;
 
-	public PlaylistEntry (int n, string t) {
+	public PlaylistEntry (string n, string t) {
 		this.number = n;
 		this.title = t;
 	}
@@ -111,45 +111,99 @@ public class Application {
 	public static Gtk.Grid grid;
 	public static Gtk.Grid gridPlay;
 	public static Gtk.ScrolledWindow scrollList;
-	public static Gtk.ListStore  list_store;
-	public static Gtk.TreeView list;
+	public static Gtk.TreeStore tree_store;
+	public static Gtk.TreeView tree;
 	public static Gtk.TreePath *path;
-	public static Gtk.TreeIter iter;
-	public static Gtk.TreeIter parent_iter;
+	public static Gtk.TreeIter itera;
+	public static Gtk.TreeIter itert;
 
 	public static PlaylistEntry[] playlist = {
-		new PlaylistEntry (1, "Billeter"),
-		new PlaylistEntry (2, "Schmid"),
-		new PlaylistEntry (3, "Inca"),
-		new PlaylistEntry (4, "Jardon"),
-		new PlaylistEntry (5, "Clinton"),
-		new PlaylistEntry (6, "Hacker")
+		new PlaylistEntry ("1", "Billeter"),
+		new PlaylistEntry ("2", "Schmid"),
+		new PlaylistEntry ("3", "Inca"),
+		new PlaylistEntry ("4", "Jardon"),
+		new PlaylistEntry ("5", "Clinton"),
+		new PlaylistEntry ("6", "Hacker")
 	};
 
 	public static void cmd_playls () {
 		var conn = get_conn ();
 		Mpd.Song song;
+		Mpd.Status status = conn.run_status ();
 		conn.send_list_queue_meta();
-		list_store.clear();
+		tree_store.clear();
+		string album = null;
+		int parent = -1;
+		int child = -1;
+		uint currp = parent;
+		uint currc = child;
 		while ((song = conn.recv_song ()) != null) {
-			string trackn = song.get_tag (Mpd.TagType.TRACK);
-			int track = 0;
-			if (trackn != null) {
-				//trackn = trackn.substring (0, 2);
-				track = int.parse(trackn);
-			}
+			string track = song.get_tag (Mpd.TagType.TRACK);
+			track = ((track == null ) ? "00" : track.substring (0, 2));
+			//track = int.parse(trackn);
 			string title = song.get_tag (Mpd.TagType.TITLE);
-			//string asd = (string)track + title;
-			//stdout.printf ("%s\n", asd);
-			list_store.append (out iter);
-			list_store.set (iter, 0, track, 1, title);
+			uint pos = song.get_pos ();
+			if (album == null || song.get_tag (Mpd.TagType.ALBUM) != album) {
+				album = song.get_tag (Mpd.TagType.ALBUM);
+				string year = song.get_tag (Mpd.TagType.DATE);
+				parent++;
+				child = -1;
+				tree_store.append (out itera, null);
+				tree_store.set (itera, 0, year, 1, album, 2, 0);
+			}
+			child++;
+			if (status.get_song_pos () == pos) {
+				currp = parent;
+				currc = child;
+			}
+			tree_store.append (out itert, itera);
+			tree_store.set (itert, 0, track, 1, title, 2, pos);
 			//free(song);
 		}
-		Mpd.Status status = conn.run_status ();
-		string curr = status.get_song_pos ().to_string();
+		string curr = parent.to_string() + ":" + child.to_string();
 		stdout.printf ("%s\n", curr);
-		list.row_activated(path, null);
+		//tree.expand_all();
+		var path = new Gtk.TreePath.from_indices (currp, currc);
+		//var path = new Gtk.TreePath.from_string ("3:5");
+		if (!tree.is_row_expanded (path)) {
+			tree.expand_to_path (path);
+		}
+		tree.set_cursor(path, null, false);
+		tree.scroll_to_cell(path, null, true, 0, 0);
+		tree.row_activated.connect (on_row_activated);
+		//var selection = tree.get_selection ();
+		//selection.changed.connect (on_changed);
 	}
+	public static void on_row_activated (Gtk.TreeView treeview , Gtk.TreePath path, Gtk.TreeViewColumn column) {
+		Gtk.TreeIter iter;
+		string track;
+		string title;
+		uint pos;
+		var conn = get_conn ();
+		if (tree.model.get_iter (out iter, path)) {
+			tree.model.get (iter,
+							0, out track,
+							1, out title,
+							2, out pos);
+			conn.send_play_pos (pos);
+		}
+	}
+	//public static void on_changed (Gtk.TreeSelection selection) {
+	//	Gtk.TreeModel model;
+	//	Gtk.TreeIter iter;
+	//	string track;
+	//	string title;
+	//	uint pos;
+	//	var conn = get_conn ();
+
+	//	if (selection.get_selected (out model, out iter)) {
+	//		model.get (iter,
+	//						 0, out track,
+	//						 1, out title,
+	//						 2, out pos);
+	//		conn.send_play_pos (pos);
+	//	}
+	//}
 
 	public static void cmd_updb () {
 		var conn = get_conn ();
@@ -197,7 +251,7 @@ public class Application {
 				Gtk.Image image = new Gtk.Image.from_icon_name ("media-playback-pause-symbolic", Gtk.IconSize.MENU);
 				buttonToggle.set_image (image);
 			} else {
-			 	Gtk.Image image = new Gtk.Image.from_icon_name ("media-playback-start-symbolic", Gtk.IconSize.MENU);
+				Gtk.Image image = new Gtk.Image.from_icon_name ("media-playback-start-symbolic", Gtk.IconSize.MENU);
 				buttonToggle.set_image (image);
 			}
 		});
@@ -299,20 +353,21 @@ public class Application {
 		scrollList = new Gtk.ScrolledWindow (null, null);
 		gridPlay.add (scrollList);
 
-		list_store = new Gtk.ListStore (2, typeof (int), typeof (string));
+		tree_store = new Gtk.TreeStore (3, typeof (string), typeof (string), typeof (uint));
 
 		//for (int i = 0; i < playlist.length; i++) {
 		//	list_store.append (out iter);
 		//	list_store.set (iter, 0, playlist[i].number, 1, playlist[i].title);
 		//}
 
-		list = new Gtk.TreeView.with_model (list_store);
-		list.set_vexpand(true);
-		scrollList.add (list);
+		tree = new Gtk.TreeView.with_model (tree_store);
+		tree.set_vexpand(true);
+		tree.set_grid_lines(Gtk.TreeViewGridLines.VERTICAL);
+		scrollList.add (tree);
 
 		Gtk.CellRendererText cell = new Gtk.CellRendererText ();
-		list.insert_column_with_attributes (-1, "#", cell, "text", 0);
-		list.insert_column_with_attributes (-1, "Title", cell, "text", 1);
+		tree.insert_column_with_attributes (-1, "#", cell, "text", 0);
+		tree.insert_column_with_attributes (-1, "Title", cell, "text", 1);
 
 		cmd_playls ();
 
