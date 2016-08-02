@@ -88,6 +88,7 @@ public class Application {
 	public static Gtk.Button buttonToggle;
 	public static Gtk.Grid grid;
 	public static Gtk.Grid gridPlay;
+	public static Gtk.Image artPlay ;
 	public static Gtk.ScrolledWindow scrollList;
 	public static Gtk.TreeStore tree_store;
 	public static Gtk.TreeView tree;
@@ -136,6 +137,42 @@ public class Application {
 		buttonToggle.set_image (image);
 	}
 
+	public static void cmd_art () {
+		var conn = get_conn ();
+		Mpd.Song song = conn.run_current_song ();
+		//string folder = "/media/Data/Música/" + song.get_uri().substring(0, song.get_uri().last_index_of("/", 0)) + "/";
+		string folder = "/media/Data/Música/" + Path.get_dirname(song.get_uri());
+		string file = null;
+		try {
+			Dir dir = Dir.open (folder, 0);
+			string? name = null;
+			while ((name = dir.read_name ()) != null) {
+				string path = Path.build_filename (folder, name);
+				var files = File.new_for_path (path);
+				try {
+					var file_info = files.query_info ("*", FileQueryInfoFlags.NONE);
+					if (file_info.get_content_type().substring(0, file_info.get_content_type().index_of("/", 0)) == "image" && FileUtils.test (path, FileTest.IS_REGULAR)) {
+						file = path;
+						stdout.printf ("File size: %lld bytes\n", file_info.get_size ());
+					}
+				} catch (GLib.Error e) {
+					stderr.printf ("Could not query album art info: %s\n", e.message);
+				}
+			}
+		} catch (FileError err) {
+			stderr.printf (err.message);
+		}
+		try {
+			var albumArt = new Gdk.Pixbuf.from_file_at_size(file, 300, 300);
+			artPlay.set_from_pixbuf(albumArt);
+		} catch (GLib.Error e) {
+			stderr.printf ("Could not load album art: %s\n", e.message);
+		}
+		//albumArt.scale_simple(150, 150, Gdk.InterpType.BILINEAR);
+		//artPlay.set_from_file("cover.jpg");
+		//artPlay.set_from_icon_name("media-optical", Gtk.IconSize.DND);
+	}
+
 	public static void cmd_playls () {
 		var conn = get_conn ();
 		Mpd.Song song;
@@ -155,7 +192,7 @@ public class Application {
 			uint pos = song.get_pos ();
 			if (album == null || song.get_tag (Mpd.TagType.ALBUM) != album) {
 				album = song.get_tag (Mpd.TagType.ALBUM);
-				string year = song.get_tag (Mpd.TagType.DATE);
+				string year = song.get_tag (Mpd.TagType.DATE).substring (0, 4);
 				parent++;
 				child = -1;
 				tree_store.append (out itera, null);
@@ -181,6 +218,7 @@ public class Application {
 		//var selection = tree.get_selection ();
 		//selection.changed.connect (on_changed);
 	}
+
 	public static void on_row_activated (Gtk.TreeView treeview , Gtk.TreePath path, Gtk.TreeViewColumn column) {
 		Gtk.TreeIter iter;
 		string track;
@@ -195,6 +233,7 @@ public class Application {
 			conn.send_play_pos (pos);
 			Gtk.Image image = new Gtk.Image.from_icon_name ("media-playback-pause-symbolic", Gtk.IconSize.MENU);
 			buttonToggle.set_image (image);
+			cmd_art();
 		}
 	}
 	//public static void on_changed (Gtk.TreeSelection selection) {
@@ -216,7 +255,7 @@ public class Application {
 		window = new Gtk.Window ();
 		//window.set_border_width (12);
 		window.set_position (Gtk.WindowPosition.CENTER);
-		window.set_default_size (800, 500);
+		window.set_default_size (800, 600);
 		window.destroy.connect (Gtk.main_quit);
 		try {
 			//window.icon = new Gdk.Pixbuf.from_file ("my-app.png");
@@ -284,7 +323,7 @@ public class Application {
 
 		var buttonSearch = new Gtk.Button.from_icon_name ("edit-find-symbolic", Gtk.IconSize.MENU);
 		buttonSearch.clicked.connect (() => {
-			cmd_playls ();
+			cmd_art ();
 		});
 		headerbar.pack_end (buttonSearch);
 
@@ -324,23 +363,8 @@ public class Application {
 		gridPlay.row_spacing = 0;
 		grid.attach(gridPlay, 0, 0, 1, 1);
 
-		var artPlay = new Gtk.Image();
-		var conn = get_conn ();
-		Mpd.Song song = conn.run_current_song ();
-		var folder = new StringBuilder (song.get_uri ());
-		folder.erase(song.get_uri ().last_index_of("/", 0), -1);
-		folder.prepend("/media/Datos/Música/");
-		folder.append("/folder.jpg");
-		stdout.printf ("%s\n", folder.str);
-		try {
-			var albumArt = new Gdk.Pixbuf.from_file_at_size(folder.str, 300, 300);
-			artPlay.set_from_pixbuf(albumArt);
-		} catch (GLib.Error e) {
-			stderr.printf ("Could not load application icon: %s\n", e.message);
-		}
-	//	albumArt.scale_simple(150, 150, Gdk.InterpType.BILINEAR);
-	//	artPlay.set_from_file("cover.jpg");
-	//	artPlay.set_from_icon_name("media-optical", Gtk.IconSize.DND);
+		artPlay = new Gtk.Image();
+		cmd_art();
 		gridPlay.add (artPlay);
 
 		gridPlay.add (new Gtk.Separator (Gtk.Orientation.HORIZONTAL));
