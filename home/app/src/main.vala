@@ -1,5 +1,3 @@
-using Mpd;
-
 int main (string[] args) {
 
 	Gtk.init (ref args);
@@ -11,15 +9,15 @@ int main (string[] args) {
 
 }
 
-public static Connection get_conn () {
-	Mpd.Connection conn = new Connection ("localhost", 6600, 0);
+public static Mpd.Connection get_conn () {
+	Mpd.Connection conn = new Mpd.Connection ("localhost", 6600, 0);
 	if (conn.get_error () != Mpd.Error.SUCCESS) {
 		stdout.printf ("Could not connect to mpd: %s\n", conn.get_error_message());
 	}
 	return conn;
 }
 
-public static State current_status () {
+public static Mpd.State current_status () {
 	var conn = get_conn ();
 	Mpd.Status status = conn.run_status ();
 	var state = status.get_state ();
@@ -122,6 +120,7 @@ public class Application {
 		var conn = get_conn ();
 		if (current_elapsed () < 3) {
 			conn.run_previous ();
+			cmd_art ();
 		} else {
 			cmd_seek (0);
 			conn.run_play ();
@@ -135,13 +134,13 @@ public class Application {
 		conn.run_next ();
 		Gtk.Image image = new Gtk.Image.from_icon_name ("media-playback-pause-symbolic", Gtk.IconSize.MENU);
 		buttonToggle.set_image (image);
+		cmd_art ();
 	}
 
 	public static void cmd_art () {
 		var conn = get_conn ();
 		Mpd.Song song = conn.run_current_song ();
-		//string folder = "/media/Data/Música/" + song.get_uri().substring(0, song.get_uri().last_index_of("/", 0)) + "/";
-		string folder = "/media/Data/Música/" + Path.get_dirname(song.get_uri());
+		string folder = "/media/Data/Música/" + Path.get_dirname (song.get_uri ());
 		string file = null;
 		try {
 			Dir dir = Dir.open (folder, 0);
@@ -151,7 +150,7 @@ public class Application {
 				var files = File.new_for_path (path);
 				try {
 					var file_info = files.query_info ("*", FileQueryInfoFlags.NONE);
-					if (file_info.get_content_type().substring(0, file_info.get_content_type().index_of("/", 0)) == "image" && FileUtils.test (path, FileTest.IS_REGULAR)) {
+					if (file_info.get_content_type ().substring (0, file_info.get_content_type().index_of("/", 0)) == "image" && FileUtils.test (path, FileTest.IS_REGULAR)) {
 						file = path;
 						stdout.printf ("File size: %lld bytes\n", file_info.get_size ());
 					}
@@ -163,8 +162,8 @@ public class Application {
 			stderr.printf (err.message);
 		}
 		try {
-			var albumArt = new Gdk.Pixbuf.from_file_at_size(file, 300, 300);
-			artPlay.set_from_pixbuf(albumArt);
+			var albumArt = new Gdk.Pixbuf.from_file_at_size (file, 300, 300);
+			artPlay.set_from_pixbuf (albumArt);
 		} catch (GLib.Error e) {
 			stderr.printf ("Could not load album art: %s\n", e.message);
 		}
@@ -177,8 +176,8 @@ public class Application {
 		var conn = get_conn ();
 		Mpd.Song song;
 		Mpd.Status status = conn.run_status ();
-		conn.send_list_queue_meta();
-		tree_store.clear();
+		conn.send_list_queue_meta ();
+		tree_store.clear ();
 		string album = null;
 		int parent = -1;
 		int child = -1;
@@ -212,8 +211,8 @@ public class Application {
 		if (!tree.is_row_expanded (path)) {
 			tree.expand_to_path (path);
 		}
-		tree.set_cursor(path, null, false);
-		tree.scroll_to_cell(path, null, true, 0.5f, 0);
+		tree.set_cursor (path, null, false);
+		tree.scroll_to_cell (path, null, true, 0.5f, 0);
 		tree.row_activated.connect (on_row_activated);
 		//var selection = tree.get_selection ();
 		//selection.changed.connect (on_changed);
@@ -233,7 +232,7 @@ public class Application {
 			conn.send_play_pos (pos);
 			Gtk.Image image = new Gtk.Image.from_icon_name ("media-playback-pause-symbolic", Gtk.IconSize.MENU);
 			buttonToggle.set_image (image);
-			cmd_art();
+			cmd_art ();
 		}
 	}
 	//public static void on_changed (Gtk.TreeSelection selection) {
@@ -255,7 +254,7 @@ public class Application {
 		window = new Gtk.Window ();
 		//window.set_border_width (12);
 		window.set_position (Gtk.WindowPosition.CENTER);
-		window.set_default_size (800, 600);
+		window.set_default_size (1000, 600);
 		window.destroy.connect (Gtk.main_quit);
 		try {
 			//window.icon = new Gdk.Pixbuf.from_file ("my-app.png");
@@ -300,23 +299,23 @@ public class Application {
 		var button_menu = new Gtk.Button.from_icon_name ("open-menu-symbolic", Gtk.IconSize.MENU);
 		button_menu.clicked.connect (() => {
 			var popover = new Gtk.Popover (button_menu);
-			popover.set_position(Gtk.PositionType.BOTTOM);
-			var box2 = new Gtk.Box(Gtk.Orientation.VERTICAL, 5);
-			popover.add(box2);
+			popover.set_position (Gtk.PositionType.BOTTOM);
+			var box2 = new Gtk.Box (Gtk.Orientation.VERTICAL, 5);
+			popover.add (box2);
 
 			var button_db = new Gtk.Button.with_label ("Update database");
 			button_db.clicked.connect (() => {
 				button_db.label = "Updating database...";
 				cmd_updb ();
 			});
-			box2.add(button_db);
+			box2.add (button_db);
 
-			var label = new Gtk.Label("A Label Widget");
-			box2.add(label);
-			var checkbutton = new Gtk.CheckButton.with_label("A CheckButton Widget");
-			box2.add(checkbutton);
-			var radiobutton = new Gtk.RadioButton.with_label(null, "A RadioButton Widget");
-			box2.add(radiobutton);
+			var label = new Gtk.Label ("A Label Widget");
+			box2.add (label);
+			var checkbutton = new Gtk.CheckButton.with_label ("A CheckButton Widget");
+			box2.add (checkbutton);
+			var radiobutton = new Gtk.RadioButton.with_label (null, "A RadioButton Widget");
+			box2.add (radiobutton);
 			popover.show_all ();
 		});
 		headerbar.pack_end (button_menu);
@@ -361,15 +360,18 @@ public class Application {
 		gridPlay.orientation = Gtk.Orientation.VERTICAL;
 		gridPlay.column_spacing = 0;
 		gridPlay.row_spacing = 0;
-		grid.attach(gridPlay, 0, 0, 1, 1);
+		grid.attach (gridPlay, 0, 0, 1, 1);
 
-		artPlay = new Gtk.Image();
-		cmd_art();
+		artPlay = new Gtk.Image ();
+		artPlay.set_halign (Gtk.Align.CENTER);
+		cmd_art ();
 		gridPlay.add (artPlay);
 
 		gridPlay.add (new Gtk.Separator (Gtk.Orientation.HORIZONTAL));
 
 		scrollList = new Gtk.ScrolledWindow (null, null);
+		scrollList.set_policy (Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC);
+		scrollList.set_hexpand (false);
 		gridPlay.add (scrollList);
 
 		tree_store = new Gtk.TreeStore (3, typeof (string), typeof (string), typeof (uint));
@@ -380,8 +382,8 @@ public class Application {
 		//}
 
 		tree = new Gtk.TreeView.with_model (tree_store);
-		tree.set_vexpand(true);
-		tree.set_grid_lines(Gtk.TreeViewGridLines.VERTICAL);
+		tree.set_vexpand (true);
+		tree.set_grid_lines (Gtk.TreeViewGridLines.VERTICAL);
 		scrollList.add (tree);
 
 		Gtk.CellRendererText cell = new Gtk.CellRendererText ();
@@ -390,25 +392,25 @@ public class Application {
 
 		cmd_playls ();
 
-		grid.attach((new Gtk.Separator (Gtk.Orientation.HORIZONTAL)), 1, 0, 1, 1);
+		grid.attach ((new Gtk.Separator (Gtk.Orientation.HORIZONTAL)), 1, 0, 1, 1);
 
 		Gtk.FlowBox fbox = new Gtk.FlowBox ();
-		fbox.set_hexpand(true);
-		fbox.set_vexpand(true);
-		fbox.add((new Gtk.Label ("Library")));
-		grid.attach(fbox, 2, 0, 1, 1);
+		fbox.set_hexpand (true);
+		fbox.set_vexpand (true);
+		fbox.add ((new Gtk.Label ("Library")));
+		grid.attach (fbox, 2, 0, 1, 1);
 
 		var actionbar = new Gtk.ActionBar();
-		actionbar.set_hexpand(true);
+		actionbar.set_hexpand (true);
 		//actionbar.set_margin_top(0);
 		//grid.attach(actionbar, 0, 1, 1, 1);
 		//gridPlay.add(actionbar);
 
-		var button1 = new Gtk.Button.with_label("Cut");
+		var button1 = new Gtk.Button.with_label ("Cut");
 		actionbar.pack_start(button1);
-		var button2 = new Gtk.Button.with_label("Copy");
+		var button2 = new Gtk.Button.with_label ("Copy");
 		actionbar.pack_start(button2);
-		var button3 = new Gtk.Button.with_label("Paste");
-		actionbar.pack_end(button3);
+		var button3 = new Gtk.Button.with_label ("Paste");
+		actionbar.pack_end (button3);
 	}
 }
