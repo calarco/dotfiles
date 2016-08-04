@@ -195,7 +195,7 @@ public class Application {
 				parent++;
 				child = -1;
 				tree_store.append (out itera, null);
-				tree_store.set (itera, 0, year, 1, album, 2, 0);
+				tree_store.set (itera, 0, year, 1, album, 2, pos);
 			}
 			child++;
 			if (status.get_song_pos () == pos) {
@@ -387,6 +387,7 @@ public class Application {
 		scrollList.add (tree);
 
 		Gtk.CellRendererText cell = new Gtk.CellRendererText ();
+		cell.ellipsize = Pango.EllipsizeMode.END;
 		tree.insert_column_with_attributes (-1, "#", cell, "text", 0);
 		tree.insert_column_with_attributes (-1, "Title", cell, "text", 1);
 
