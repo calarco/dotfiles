@@ -6,17 +6,22 @@ public class TopDisplay : Gtk.Grid {
 	public static Gtk.Scale scale;
 	public static double progress;
 	public static string album;
+	public static string title;
 
 	private static bool update_scale () {
 		if (current_status () == Mpd.State.PLAY) {
-			label.set_text(current_title ());
 			progress = (double)current_elapsed () / (double)current_total ();
 			scale.adjustment.value = (progress);
 			var conn = get_conn ();
 			Mpd.Song song = conn.run_current_song ();
-			if (song.get_tag (Mpd.TagType.ALBUM) != album) {
-				Application.cmd_art();
-				album = song.get_tag (Mpd.TagType.ALBUM);
+			if (song.get_tag (Mpd.TagType.TITLE) != title) {
+				label.set_text(current_title ());
+				Application.cmd_psel ();
+				title = song.get_tag (Mpd.TagType.TITLE);
+				if (song.get_tag (Mpd.TagType.ALBUM) != album) {
+					Application.cmd_art();
+					album = song.get_tag (Mpd.TagType.ALBUM);
+				}
 			}
 		}
 		return true;

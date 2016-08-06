@@ -93,6 +93,8 @@ public class Application {
 	public static Gtk.TreePath *path;
 	public static Gtk.TreeIter itera;
 	public static Gtk.TreeIter itert;
+	public static uint currp;
+	public static uint currc;
 
 	public static PlaylistEntry[] playlist = {
 		new PlaylistEntry ("1", "Billeter"),
@@ -121,6 +123,7 @@ public class Application {
 		if (current_elapsed () < 3) {
 			conn.run_previous ();
 			cmd_art ();
+			cmd_psel();
 		} else {
 			cmd_seek (0);
 			conn.run_play ();
@@ -135,12 +138,13 @@ public class Application {
 		Gtk.Image image = new Gtk.Image.from_icon_name ("media-playback-pause-symbolic", Gtk.IconSize.MENU);
 		buttonToggle.set_image (image);
 		cmd_art ();
+		cmd_psel();
 	}
 
 	public static void cmd_art () {
 		var conn = get_conn ();
 		Mpd.Song song = conn.run_current_song ();
-		string folder = "/media/Data/Música/" + Path.get_dirname (song.get_uri ());
+		string folder = GLib.Environment.get_user_special_dir(GLib.UserDirectory.MUSIC) + "/" + Path.get_dirname (song.get_uri ());
 		string file = null;
 		try {
 			Dir dir = Dir.open (folder, 0);
@@ -175,14 +179,9 @@ public class Application {
 	public static void cmd_playls () {
 		var conn = get_conn ();
 		Mpd.Song song;
-		Mpd.Status status = conn.run_status ();
 		conn.send_list_queue_meta ();
 		tree_store.clear ();
 		string album = null;
-		int parent = -1;
-		int child = -1;
-		uint currp = parent;
-		uint currc = child;
 		while ((song = conn.recv_song ()) != null) {
 			string track = song.get_tag (Mpd.TagType.TRACK);
 			track = ((track == null ) ? "00" : track.substring (0, 2));
@@ -192,30 +191,49 @@ public class Application {
 			if (album == null || song.get_tag (Mpd.TagType.ALBUM) != album) {
 				album = song.get_tag (Mpd.TagType.ALBUM);
 				string year = song.get_tag (Mpd.TagType.DATE).substring (0, 4);
-				parent++;
-				child = -1;
 				tree_store.append (out itera, null);
 				tree_store.set (itera, 0, year, 1, album, 2, pos);
-			}
-			child++;
-			if (status.get_song_pos () == pos) {
-				currp = parent;
-				currc = child;
 			}
 			tree_store.append (out itert, itera);
 			tree_store.set (itert, 0, track, 1, title, 2, pos);
 			//free(song);
 		}
 		//tree.expand_all();
+		cmd_psel();
+		tree.row_activated.connect (on_row_activated);
+		//var selection = tree.get_selection ();
+		//selection.changed.connect (on_changed);
+	}
+
+	public static void cmd_psel () {
+		var conn = get_conn ();
+		Mpd.Song song;
+		Mpd.Status status = conn.run_status ();
+		conn.send_list_queue_meta ();
+		string album = null;
+		int parent = -1;
+		int child = -1;
+		currp = parent;
+		currc = child;
+		while ((song = conn.recv_song ()) != null) {
+			uint pos = song.get_pos ();
+			if (album == null || song.get_tag (Mpd.TagType.ALBUM) != album) {
+				album = song.get_tag (Mpd.TagType.ALBUM);
+				parent++;
+				child = -1;
+			}
+			child++;
+			if (status.get_song_pos () == pos) {
+				currp = parent;
+				currc = child;
+			}
+		}
 		var path = new Gtk.TreePath.from_indices (currp, currc);
 		if (!tree.is_row_expanded (path)) {
 			tree.expand_to_path (path);
 		}
 		tree.set_cursor (path, null, false);
 		tree.scroll_to_cell (path, null, true, 0.5f, 0);
-		tree.row_activated.connect (on_row_activated);
-		//var selection = tree.get_selection ();
-		//selection.changed.connect (on_changed);
 	}
 
 	public static void on_row_activated (Gtk.TreeView treeview , Gtk.TreePath path, Gtk.TreeViewColumn column) {
@@ -240,12 +258,15 @@ public class Application {
 
 	public static void cmd_updb () {
 		var conn = get_conn ();
-		Mpd.Status status = conn.run_status ();
 		conn.run_update ();
+		Mpd.Status status = conn.run_status ();
 		//stdout.printf ("%s\n", (string)status.get_update_id ());
 		var timeout = GLib.Timeout.add (500, () => {
-			string upd = (string)status.get_update_id ();
-			stdout.printf ("%s\n", upd);
+			if (status.get_update_id () > 0) {
+				stdout.printf ("%s\n", "asd");
+				status = null;
+				status = conn.run_status ();
+			}
 			return true;
 		});
 	}
