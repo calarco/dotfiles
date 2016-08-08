@@ -95,6 +95,7 @@ public class Application {
 	public static Gtk.TreeIter itert;
 	public static uint currp;
 	public static uint currc;
+	public static Gtk.Stack stack;
 
 	public static PlaylistEntry[] playlist = {
 		new PlaylistEntry ("1", "Billeter"),
@@ -256,6 +257,38 @@ public class Application {
 	//public static void on_changed (Gtk.TreeSelection selection) {
 	//}
 
+	public static void cmd_dbartists () {
+		var conn = get_conn ();
+		Mpd.Pair pair;
+		conn.search_db_tags(Mpd.TagType.ARTIST);
+		conn.search_commit ();
+		while ((pair = conn.recv_pair_tag (Mpd.TagType.ARTIST)) != null) {
+			Mpd.Song song;
+			string artist = pair.value;
+			stdout.printf ("%s\n", artist);
+			while ((song = pair.song_begin ()) != null) {
+				string album = song.get_tag (Mpd.TagType.ALBUM);
+				stdout.printf ("%s\n", album);
+			}
+			stack.add_titled (new Gtk.Image.from_icon_name ("media-optical", Gtk.IconSize.DND), artist, artist);
+			conn.return_pair(pair);
+		}
+	}
+
+	public static void cmd_dbalbums () {
+		var conn = get_conn ();
+		Mpd.Song song;
+		conn.search_db_songs(false);
+		conn.search_db_tags(Mpd.TagType.ARTIST);
+		//conn.search_add_tag_constraint(Mpd.Operator.DEFAULT, Mpd.TagType.ARTIST, "Opeth");
+		conn.search_commit ();
+		while ((song = conn.recv_song ()) != null) {
+			string title = song.get_tag (Mpd.TagType.TITLE);
+			stdout.printf ("%s\n", title);
+			stack.add_titled (new Gtk.Image.from_icon_name ("document-open", Gtk.IconSize.DND), "open", "Öffnen");
+		}
+	}
+
 	public static void cmd_updb () {
 		var conn = get_conn ();
 		conn.run_update ();
@@ -343,7 +376,7 @@ public class Application {
 
 		var buttonSearch = new Gtk.Button.from_icon_name ("edit-find-symbolic", Gtk.IconSize.MENU);
 		buttonSearch.clicked.connect (() => {
-			cmd_art ();
+			cmd_dbartists ();
 		});
 		headerbar.pack_end (buttonSearch);
 
@@ -416,11 +449,20 @@ public class Application {
 
 		grid.attach ((new Gtk.Separator (Gtk.Orientation.HORIZONTAL)), 1, 0, 1, 1);
 
+		stack = new Gtk.Stack ();
+		stack.set_transition_type (Gtk.StackTransitionType.CROSSFADE);
+		cmd_dbartists ();
+		grid.attach (stack, 3, 0, 1, 1);
+
+		Gtk.StackSidebar sidebar = new Gtk.StackSidebar ();
+		sidebar.set_stack (stack);
+		grid.attach (sidebar, 2, 0, 1, 1);
+
 		Gtk.FlowBox fbox = new Gtk.FlowBox ();
 		fbox.set_hexpand (true);
 		fbox.set_vexpand (true);
 		fbox.add ((new Gtk.Label ("Library")));
-		grid.attach (fbox, 2, 0, 1, 1);
+		//grid.attach (fbox, 2, 0, 1, 1);
 
 		var actionbar = new Gtk.ActionBar();
 		actionbar.set_hexpand (true);
