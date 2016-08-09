@@ -199,7 +199,6 @@ public class Application {
 			tree_store.set (itert, 0, track, 1, title, 2, pos);
 			//free(song);
 		}
-		//tree.expand_all();
 		cmd_psel();
 		tree.row_activated.connect (on_row_activated);
 		//var selection = tree.get_selection ();
@@ -260,32 +259,82 @@ public class Application {
 	public static void cmd_dbartists () {
 		var conn = get_conn ();
 		Mpd.Pair pair;
-		conn.search_db_tags(Mpd.TagType.ARTIST);
+		conn.search_db_tags (Mpd.TagType.ARTIST);
 		conn.search_commit ();
 		while ((pair = conn.recv_pair_tag (Mpd.TagType.ARTIST)) != null) {
 			Mpd.Song song;
 			string artist = pair.value;
-			stdout.printf ("%s\n", artist);
+			cmd_dbalbums (artist);
 			while ((song = pair.song_begin ()) != null) {
 				string album = song.get_tag (Mpd.TagType.ALBUM);
 				stdout.printf ("%s\n", album);
 			}
-			stack.add_titled (new Gtk.Image.from_icon_name ("media-optical", Gtk.IconSize.DND), artist, artist);
-			conn.return_pair(pair);
+			stack.add_titled (scrollList, artist, artist);
+			conn.return_pair (pair);
 		}
 	}
 
-	public static void cmd_dbalbums () {
+	public static void cmd_dbalbums (string artist) {
 		var conn = get_conn ();
 		Mpd.Song song;
-		conn.search_db_songs(false);
-		conn.search_db_tags(Mpd.TagType.ARTIST);
-		//conn.search_add_tag_constraint(Mpd.Operator.DEFAULT, Mpd.TagType.ARTIST, "Opeth");
+		conn.search_db_songs (false);
+		conn.search_add_tag_constraint (Mpd.Operator.DEFAULT, Mpd.TagType.ARTIST, artist);
 		conn.search_commit ();
+
+		scrollList = new Gtk.ScrolledWindow (null, null);
+		scrollList.set_policy (Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC);
+		scrollList.set_hexpand (true);
+
+		tree_store = new Gtk.TreeStore (3, typeof (string), typeof (string), typeof (string));
+
+		tree = new Gtk.TreeView.with_model (tree_store);
+		tree.set_vexpand (true);
+		tree.set_hexpand (true);
+		tree.set_grid_lines (Gtk.TreeViewGridLines.VERTICAL);
+
+		Gtk.CellRendererText cell = new Gtk.CellRendererText ();
+		cell.ellipsize = Pango.EllipsizeMode.END;
+		tree.insert_column_with_attributes (-1, "#", cell, "text", 0);
+		tree.insert_column_with_attributes (-1, "Title", cell, "text", 1);
+		string album = null;
 		while ((song = conn.recv_song ()) != null) {
+			//stdout.printf ("%s\n", title);
+			string track = song.get_tag (Mpd.TagType.TRACK);
+			track = ((track == null ) ? "00" : track.substring (0, 2));
 			string title = song.get_tag (Mpd.TagType.TITLE);
-			stdout.printf ("%s\n", title);
-			stack.add_titled (new Gtk.Image.from_icon_name ("document-open", Gtk.IconSize.DND), "open", "Öffnen");
+			string file = song.get_uri ();
+			if (album == null || song.get_tag (Mpd.TagType.ALBUM) != album) {
+				album = song.get_tag (Mpd.TagType.ALBUM);
+				string year = song.get_tag (Mpd.TagType.DATE).substring (0, 4);
+				tree_store.append (out itera, null);
+				tree_store.set (itera, 0, year, 1, album, 2, file);
+			}
+			tree_store.append (out itert, itera);
+			tree_store.set (itert, 0, track, 1, title, 2, file);
+		}
+		tree.expand_all ();
+		tree.row_activated.connect (on_row_album);
+		scrollList.add (tree);
+	}
+
+	public static void on_row_album (Gtk.TreeView treeview , Gtk.TreePath path, Gtk.TreeViewColumn column) {
+		Gtk.TreeIter iter;
+		string track;
+		string title;
+		string file;
+		var conn = get_conn ();
+		if (tree.model.get_iter (out iter, path)) {
+			tree.model.get (iter,
+							0, out track,
+							1, out title,
+							2, out file);
+			Mpd.Song song;
+			conn.search_add_db_songs (false);
+			conn.search_add_uri_constraint (Mpd.Operator.DEFAULT, file);
+			conn.search_commit ();
+			while ((song = conn.recv_song ()) != null) {
+				stdout.printf ("%s\n", file);
+			}
 		}
 	}
 
@@ -376,7 +425,7 @@ public class Application {
 
 		var buttonSearch = new Gtk.Button.from_icon_name ("edit-find-symbolic", Gtk.IconSize.MENU);
 		buttonSearch.clicked.connect (() => {
-			cmd_dbartists ();
+			cmd_dbalbums ("king crimson");
 		});
 		headerbar.pack_end (buttonSearch);
 
