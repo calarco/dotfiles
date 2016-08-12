@@ -88,11 +88,15 @@ public class Application {
 	public static Gtk.Grid gridPlay;
 	public static Gtk.Image artPlay ;
 	public static Gtk.ScrolledWindow scrollList;
+	public static Gtk.ScrolledWindow scrollTree;
 	public static Gtk.TreeStore tree_store;
+	public static Gtk.TreeStore album_store;
 	public static Gtk.TreeView tree;
-	public static Gtk.TreePath *path;
+	public static Gtk.TreeView albums;
 	public static Gtk.TreeIter itera;
 	public static Gtk.TreeIter itert;
+	public static Gtk.TreeIter iteraa;
+	public static Gtk.TreeIter iterat;
 	public static uint currp;
 	public static uint currc;
 	public static Gtk.Stack stack;
@@ -185,13 +189,18 @@ public class Application {
 		string album = null;
 		while ((song = conn.recv_song ()) != null) {
 			string track = song.get_tag (Mpd.TagType.TRACK);
-			track = ((track == null ) ? "00" : track.substring (0, 2));
+			if (track == null || track.char_count () == 1) {
+				track = "0" + track;
+			} else {
+				track = track.substring (0, 2);
+			}
 			//track = int.parse(trackn);
 			string title = song.get_tag (Mpd.TagType.TITLE);
 			uint pos = song.get_pos ();
 			if (album == null || song.get_tag (Mpd.TagType.ALBUM) != album) {
 				album = song.get_tag (Mpd.TagType.ALBUM);
-				string year = song.get_tag (Mpd.TagType.DATE).substring (0, 4);
+				string year = song.get_tag (Mpd.TagType.DATE);
+				year = ((year == null ) ? "0000" : year.substring (0, 4));
 				tree_store.append (out itera, null);
 				tree_store.set (itera, 0, year, 1, album, 2, pos);
 			}
@@ -259,17 +268,15 @@ public class Application {
 	public static void cmd_dbartists () {
 		var conn = get_conn ();
 		Mpd.Pair pair;
+		string artist;
 		conn.search_db_tags (Mpd.TagType.ARTIST);
 		conn.search_commit ();
 		while ((pair = conn.recv_pair_tag (Mpd.TagType.ARTIST)) != null) {
-			Mpd.Song song;
-			string artist = pair.value;
-			cmd_dbalbums (artist);
-			while ((song = pair.song_begin ()) != null) {
-				string album = song.get_tag (Mpd.TagType.ALBUM);
-				stdout.printf ("%s\n", album);
+			if ((artist = pair.value) != "\0") {
+				Mpd.Song song;
+				cmd_dbalbums (artist);
+				stack.add_titled (scrollTree, artist, artist);
 			}
-			stack.add_titled (scrollList, artist, artist);
 			conn.return_pair (pair);
 		}
 	}
@@ -281,40 +288,45 @@ public class Application {
 		conn.search_add_tag_constraint (Mpd.Operator.DEFAULT, Mpd.TagType.ARTIST, artist);
 		conn.search_commit ();
 
-		scrollList = new Gtk.ScrolledWindow (null, null);
-		scrollList.set_policy (Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC);
-		scrollList.set_hexpand (true);
+		scrollTree = new Gtk.ScrolledWindow (null, null);
+		scrollTree.set_policy (Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC);
+		scrollTree.set_hexpand (true);
 
-		tree_store = new Gtk.TreeStore (3, typeof (string), typeof (string), typeof (string));
+		album_store = new Gtk.TreeStore (3, typeof (string), typeof (string), typeof (string));
 
-		tree = new Gtk.TreeView.with_model (tree_store);
-		tree.set_vexpand (true);
-		tree.set_hexpand (true);
-		tree.set_grid_lines (Gtk.TreeViewGridLines.VERTICAL);
+		albums = new Gtk.TreeView.with_model (album_store);
+		albums.set_vexpand (true);
+		albums.set_hexpand (true);
+		albums.set_grid_lines (Gtk.TreeViewGridLines.VERTICAL);
 
 		Gtk.CellRendererText cell = new Gtk.CellRendererText ();
 		cell.ellipsize = Pango.EllipsizeMode.END;
-		tree.insert_column_with_attributes (-1, "#", cell, "text", 0);
-		tree.insert_column_with_attributes (-1, "Title", cell, "text", 1);
+		albums.insert_column_with_attributes (-1, "#", cell, "text", 0);
+		albums.insert_column_with_attributes (-1, "Title", cell, "text", 1);
 		string album = null;
 		while ((song = conn.recv_song ()) != null) {
-			//stdout.printf ("%s\n", title);
 			string track = song.get_tag (Mpd.TagType.TRACK);
-			track = ((track == null ) ? "00" : track.substring (0, 2));
+			if (track == null || track.char_count () == 1) {
+				track += "0";
+			} else if (track.char_count () > 2) {
+				//track = track.substring (0, 2);
+				track = track.substring(0, track.index_of("/", 0));
+			}
 			string title = song.get_tag (Mpd.TagType.TITLE);
 			string file = song.get_uri ();
 			if (album == null || song.get_tag (Mpd.TagType.ALBUM) != album) {
 				album = song.get_tag (Mpd.TagType.ALBUM);
-				string year = song.get_tag (Mpd.TagType.DATE).substring (0, 4);
-				tree_store.append (out itera, null);
-				tree_store.set (itera, 0, year, 1, album, 2, file);
+				string year = song.get_tag (Mpd.TagType.DATE);
+				year = ((year == null ) ? "0000" : year.substring (0, 4));
+				album_store.append (out iteraa, null);
+				album_store.set (iteraa, 0, year, 1, album);
 			}
-			tree_store.append (out itert, itera);
-			tree_store.set (itert, 0, track, 1, title, 2, file);
+			album_store.append (out iterat, iteraa);
+			album_store.set (iterat, 0, track, 1, title, 2, file);
 		}
-		tree.expand_all ();
-		tree.row_activated.connect (on_row_album);
-		scrollList.add (tree);
+		albums.expand_all ();
+		albums.row_activated.connect (on_row_album);
+		scrollTree.add (albums);
 	}
 
 	public static void on_row_album (Gtk.TreeView treeview , Gtk.TreePath path, Gtk.TreeViewColumn column) {
@@ -323,18 +335,21 @@ public class Application {
 		string title;
 		string file;
 		var conn = get_conn ();
-		if (tree.model.get_iter (out iter, path)) {
-			tree.model.get (iter,
+		if (albums.model.get_iter (out iter, path)) {
+			albums.model.get (iter,
 							0, out track,
 							1, out title,
 							2, out file);
-			Mpd.Song song;
-			conn.search_add_db_songs (false);
-			conn.search_add_uri_constraint (Mpd.Operator.DEFAULT, file);
-			conn.search_commit ();
-			while ((song = conn.recv_song ()) != null) {
-				stdout.printf ("%s\n", file);
-			}
+			//Mpd.Song song;
+			//conn.search_add_db_songs (false);
+			//conn.search_add_uri_constraint (Mpd.Operator.DEFAULT, file);
+			//conn.search_add_tag_constraint(Mpd.Operator.DEFAULT, Mpd.TagType.ARTIST, "1980");
+			//conn.search_commit ();
+			stdout.printf ("%s\n", file);
+			stdout.printf ("%s\n", title);
+			//while ((song = conn.recv_song ()) != null) {
+			//	stdout.printf ("%s\n", file);
+			//}
 		}
 	}
 
