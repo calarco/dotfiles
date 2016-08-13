@@ -80,6 +80,88 @@ public class PlaylistEntry {
 	}
 }
 
+public class Albums : Gtk.TreeView {
+	private static Gtk.TreeIter iteraa;
+	private static Gtk.TreeIter iterat;
+	private static Gtk.ScrolledWindow scrollTree;
+	private static Gtk.TreeStore album_store;
+	private static Gtk.TreeView albums;
+
+	public static void cmd_dbalbums (string artist) {
+		var conn = get_conn ();
+		Mpd.Song song;
+		conn.search_db_songs (false);
+		conn.search_add_tag_constraint (Mpd.Operator.DEFAULT, Mpd.TagType.ARTIST, artist);
+		conn.search_commit ();
+
+		scrollTree = new Gtk.ScrolledWindow (null, null);
+		scrollTree.set_policy (Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC);
+		scrollTree.set_hexpand (true);
+
+		album_store = new Gtk.TreeStore (3, typeof (string), typeof (string), typeof (string));
+
+		albums = new Gtk.TreeView.with_model (album_store);
+		albums.set_vexpand (true);
+		albums.set_hexpand (true);
+		albums.set_grid_lines (Gtk.TreeViewGridLines.VERTICAL);
+
+		Gtk.CellRendererText cell = new Gtk.CellRendererText ();
+		cell.ellipsize = Pango.EllipsizeMode.END;
+		albums.insert_column_with_attributes (-1, "#", cell, "text", 1);
+		albums.insert_column_with_attributes (-1, "Title", cell, "text", 2);
+		string album = null;
+		while ((song = conn.recv_song ()) != null) {
+			string track = song.get_tag (Mpd.TagType.TRACK);
+			if (track == null || track.char_count () == 1) {
+				track = "0" + track;
+			} else if (track.char_count () > 2) {
+				track = track.substring (0, 2);
+				//track = track.substring(0, track.index_of("/", 0));
+			}
+			string title = song.get_tag (Mpd.TagType.TITLE);
+			string file = song.get_uri ();
+			if (album == null || song.get_tag (Mpd.TagType.ALBUM) != album) {
+				album = song.get_tag (Mpd.TagType.ALBUM);
+				string year = song.get_tag (Mpd.TagType.DATE);
+				year = ((year == null ) ? "0000" : year.substring (0, 4));
+				album_store.append (out iteraa, null);
+				album_store.set (iteraa, 0, null, 1, year, 2, album);
+			}
+			album_store.append (out iterat, iteraa);
+			album_store.set (iterat, 0, file, 1, track, 2, title);
+		}
+		albums.expand_all ();
+		albums.row_activated.connect (on_row_album);
+		scrollTree.add (albums);
+		Application.stack.add_titled (scrollTree, artist, artist);
+	}
+
+	private static void on_row_album (Gtk.TreeView treeview , Gtk.TreePath path, Gtk.TreeViewColumn column) {
+		Gtk.TreeIter iter;
+		string track;
+		string title;
+		string file;
+		if (treeview.model.get_iter (out iter, path)) {
+			treeview.model.get (iter,
+							0, out file,
+							1, out track,
+							2, out title);
+			//Mpd.Song song;
+			var conn = get_conn ();
+			conn.search_add_db_songs (false);
+			conn.search_add_uri_constraint (Mpd.Operator.DEFAULT, file);
+			//conn.search_add_tag_constraint(Mpd.Operator.DEFAULT, Mpd.TagType.ARTIST, "1980");
+			conn.search_commit ();
+			stdout.printf ("%s\n", file);
+			stdout.printf ("%s\n", title);
+			//while ((song = conn.recv_song ()) != null) {
+			//	stdout.printf ("%s\n", file);
+			//}
+			Application.cmd_playls ();
+		}
+	}
+}
+
 public class Application {
 
 	public static Gtk.Window window;
@@ -88,15 +170,10 @@ public class Application {
 	public static Gtk.Grid gridPlay;
 	public static Gtk.Image artPlay ;
 	public static Gtk.ScrolledWindow scrollList;
-	public static Gtk.ScrolledWindow scrollTree;
 	public static Gtk.TreeStore tree_store;
-	public static Gtk.TreeStore album_store;
 	public static Gtk.TreeView tree;
-	public static Gtk.TreeView albums;
 	public static Gtk.TreeIter itera;
 	public static Gtk.TreeIter itert;
-	public static Gtk.TreeIter iteraa;
-	public static Gtk.TreeIter iterat;
 	public static uint currp;
 	public static uint currc;
 	public static Gtk.Stack stack;
@@ -147,38 +224,40 @@ public class Application {
 	}
 
 	public static void cmd_art () {
-		var conn = get_conn ();
-		Mpd.Song song = conn.run_current_song ();
-		string folder = GLib.Environment.get_user_special_dir(GLib.UserDirectory.MUSIC) + "/" + Path.get_dirname (song.get_uri ());
-		string file = null;
-		try {
-			Dir dir = Dir.open (folder, 0);
-			string? name = null;
-			while ((name = dir.read_name ()) != null) {
-				string path = Path.build_filename (folder, name);
-				var files = File.new_for_path (path);
-				try {
-					var file_info = files.query_info ("*", FileQueryInfoFlags.NONE);
-					if (file_info.get_content_type ().substring (0, file_info.get_content_type().index_of("/", 0)) == "image" && FileUtils.test (path, FileTest.IS_REGULAR)) {
-						file = path;
-						stdout.printf ("File size: %lld bytes\n", file_info.get_size ());
+		if (current_status () != Mpd.State.STOP) {
+			var conn = get_conn ();
+			Mpd.Song song = conn.run_current_song ();
+			string folder = GLib.Environment.get_user_special_dir(GLib.UserDirectory.MUSIC) + "/" + Path.get_dirname (song.get_uri ());
+			string file = null;
+			try {
+				Dir dir = Dir.open (folder, 0);
+				string? name = null;
+				while ((name = dir.read_name ()) != null) {
+					string path = Path.build_filename (folder, name);
+					var files = File.new_for_path (path);
+					try {
+						var file_info = files.query_info ("*", FileQueryInfoFlags.NONE);
+						if (file_info.get_content_type ().substring (0, file_info.get_content_type().index_of("/", 0)) == "image" && FileUtils.test (path, FileTest.IS_REGULAR)) {
+							file = path;
+							stdout.printf ("File size: %lld bytes\n", file_info.get_size ());
+						}
+					} catch (GLib.Error e) {
+						stderr.printf ("Could not query album art info: %s\n", e.message);
 					}
-				} catch (GLib.Error e) {
-					stderr.printf ("Could not query album art info: %s\n", e.message);
 				}
+			} catch (FileError err) {
+				stderr.printf (err.message);
 			}
-		} catch (FileError err) {
-			stderr.printf (err.message);
+			try {
+				var albumArt = new Gdk.Pixbuf.from_file_at_size (file, 300, 300);
+				artPlay.set_from_pixbuf (albumArt);
+			} catch (GLib.Error e) {
+				stderr.printf ("Could not load album art: %s\n", e.message);
+			}
+			//albumArt.scale_simple(150, 150, Gdk.InterpType.BILINEAR);
+			//artPlay.set_from_file("cover.jpg");
+			//artPlay.set_from_icon_name("media-optical", Gtk.IconSize.DND);
 		}
-		try {
-			var albumArt = new Gdk.Pixbuf.from_file_at_size (file, 300, 300);
-			artPlay.set_from_pixbuf (albumArt);
-		} catch (GLib.Error e) {
-			stderr.printf ("Could not load album art: %s\n", e.message);
-		}
-		//albumArt.scale_simple(150, 150, Gdk.InterpType.BILINEAR);
-		//artPlay.set_from_file("cover.jpg");
-		//artPlay.set_from_icon_name("media-optical", Gtk.IconSize.DND);
 	}
 
 	public static void cmd_playls () {
@@ -202,10 +281,10 @@ public class Application {
 				string year = song.get_tag (Mpd.TagType.DATE);
 				year = ((year == null ) ? "0000" : year.substring (0, 4));
 				tree_store.append (out itera, null);
-				tree_store.set (itera, 0, year, 1, album, 2, pos);
+				tree_store.set (itera, 0, pos, 1, year, 2, album);
 			}
 			tree_store.append (out itert, itera);
-			tree_store.set (itert, 0, track, 1, title, 2, pos);
+			tree_store.set (itert, 0, pos, 1, track, 2, title);
 			//free(song);
 		}
 		cmd_psel();
@@ -222,8 +301,8 @@ public class Application {
 		string album = null;
 		int parent = -1;
 		int child = -1;
-		currp = parent;
-		currc = child;
+		currp = 0;
+		currc = 0;
 		while ((song = conn.recv_song ()) != null) {
 			uint pos = song.get_pos ();
 			if (album == null || song.get_tag (Mpd.TagType.ALBUM) != album) {
@@ -247,15 +326,15 @@ public class Application {
 
 	public static void on_row_activated (Gtk.TreeView treeview , Gtk.TreePath path, Gtk.TreeViewColumn column) {
 		Gtk.TreeIter iter;
+		uint pos;
 		string track;
 		string title;
-		uint pos;
 		var conn = get_conn ();
 		if (tree.model.get_iter (out iter, path)) {
 			tree.model.get (iter,
-							0, out track,
-							1, out title,
-							2, out pos);
+							0, out pos,
+							1, out track,
+							2, out title);
 			conn.send_play_pos (pos);
 			Gtk.Image image = new Gtk.Image.from_icon_name ("media-playback-pause-symbolic", Gtk.IconSize.MENU);
 			buttonToggle.set_image (image);
@@ -273,83 +352,9 @@ public class Application {
 		conn.search_commit ();
 		while ((pair = conn.recv_pair_tag (Mpd.TagType.ARTIST)) != null) {
 			if ((artist = pair.value) != "\0") {
-				Mpd.Song song;
-				cmd_dbalbums (artist);
-				stack.add_titled (scrollTree, artist, artist);
+				Albums.cmd_dbalbums (artist);
 			}
 			conn.return_pair (pair);
-		}
-	}
-
-	public static void cmd_dbalbums (string artist) {
-		var conn = get_conn ();
-		Mpd.Song song;
-		conn.search_db_songs (false);
-		conn.search_add_tag_constraint (Mpd.Operator.DEFAULT, Mpd.TagType.ARTIST, artist);
-		conn.search_commit ();
-
-		scrollTree = new Gtk.ScrolledWindow (null, null);
-		scrollTree.set_policy (Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC);
-		scrollTree.set_hexpand (true);
-
-		album_store = new Gtk.TreeStore (3, typeof (string), typeof (string), typeof (string));
-
-		albums = new Gtk.TreeView.with_model (album_store);
-		albums.set_vexpand (true);
-		albums.set_hexpand (true);
-		albums.set_grid_lines (Gtk.TreeViewGridLines.VERTICAL);
-
-		Gtk.CellRendererText cell = new Gtk.CellRendererText ();
-		cell.ellipsize = Pango.EllipsizeMode.END;
-		albums.insert_column_with_attributes (-1, "#", cell, "text", 0);
-		albums.insert_column_with_attributes (-1, "Title", cell, "text", 1);
-		string album = null;
-		while ((song = conn.recv_song ()) != null) {
-			string track = song.get_tag (Mpd.TagType.TRACK);
-			if (track == null || track.char_count () == 1) {
-				track += "0";
-			} else if (track.char_count () > 2) {
-				//track = track.substring (0, 2);
-				track = track.substring(0, track.index_of("/", 0));
-			}
-			string title = song.get_tag (Mpd.TagType.TITLE);
-			string file = song.get_uri ();
-			if (album == null || song.get_tag (Mpd.TagType.ALBUM) != album) {
-				album = song.get_tag (Mpd.TagType.ALBUM);
-				string year = song.get_tag (Mpd.TagType.DATE);
-				year = ((year == null ) ? "0000" : year.substring (0, 4));
-				album_store.append (out iteraa, null);
-				album_store.set (iteraa, 0, year, 1, album);
-			}
-			album_store.append (out iterat, iteraa);
-			album_store.set (iterat, 0, track, 1, title, 2, file);
-		}
-		albums.expand_all ();
-		albums.row_activated.connect (on_row_album);
-		scrollTree.add (albums);
-	}
-
-	public static void on_row_album (Gtk.TreeView treeview , Gtk.TreePath path, Gtk.TreeViewColumn column) {
-		Gtk.TreeIter iter;
-		string track;
-		string title;
-		string file;
-		var conn = get_conn ();
-		if (albums.model.get_iter (out iter, path)) {
-			albums.model.get (iter,
-							0, out track,
-							1, out title,
-							2, out file);
-			//Mpd.Song song;
-			//conn.search_add_db_songs (false);
-			//conn.search_add_uri_constraint (Mpd.Operator.DEFAULT, file);
-			//conn.search_add_tag_constraint(Mpd.Operator.DEFAULT, Mpd.TagType.ARTIST, "1980");
-			//conn.search_commit ();
-			stdout.printf ("%s\n", file);
-			stdout.printf ("%s\n", title);
-			//while ((song = conn.recv_song ()) != null) {
-			//	stdout.printf ("%s\n", file);
-			//}
 		}
 	}
 
@@ -440,7 +445,7 @@ public class Application {
 
 		var buttonSearch = new Gtk.Button.from_icon_name ("edit-find-symbolic", Gtk.IconSize.MENU);
 		buttonSearch.clicked.connect (() => {
-			cmd_dbalbums ("king crimson");
+			cmd_playls ();
 		});
 		headerbar.pack_end (buttonSearch);
 
@@ -492,7 +497,7 @@ public class Application {
 		scrollList.set_hexpand (false);
 		gridPlay.add (scrollList);
 
-		tree_store = new Gtk.TreeStore (3, typeof (string), typeof (string), typeof (uint));
+		tree_store = new Gtk.TreeStore (3, typeof (uint), typeof (string), typeof (string));
 
 		//for (int i = 0; i < playlist.length; i++) {
 		//	list_store.append (out iter);
@@ -506,10 +511,29 @@ public class Application {
 
 		Gtk.CellRendererText cell = new Gtk.CellRendererText ();
 		cell.ellipsize = Pango.EllipsizeMode.END;
-		tree.insert_column_with_attributes (-1, "#", cell, "text", 0);
-		tree.insert_column_with_attributes (-1, "Title", cell, "text", 1);
+		tree.insert_column_with_attributes (-1, "#", cell, "text", 1);
+		tree.insert_column_with_attributes (-1, "Title", cell, "text", 2);
 
 		cmd_playls ();
+
+		var actionbar = new Gtk.ActionBar();
+		//actionbar.set_hexpand (false);
+		//actionbar.set_margin_top(0);
+		//grid.attach(actionbar, 0, 1, 1, 1);
+		gridPlay.add(actionbar);
+
+		var up = new Gtk.Button.from_icon_name ("go-up-symbolic", Gtk.IconSize.MENU);
+		actionbar.pack_start(up);
+		var down = new Gtk.Button.from_icon_name ("go-down-symbolic", Gtk.IconSize.MENU);
+		actionbar.pack_start(down);
+		var remove = new Gtk.Button.from_icon_name ("list-remove-symbolic", Gtk.IconSize.MENU);
+		actionbar.pack_start(remove);
+		var clear = new Gtk.Button.from_icon_name ("list-remove-all-symbolic", Gtk.IconSize.MENU);
+		clear.clicked.connect (() => {
+			var conn = get_conn ();
+			conn.run_playlist_clear ("default");
+		});
+		actionbar.pack_end (clear);
 
 		grid.attach ((new Gtk.Separator (Gtk.Orientation.HORIZONTAL)), 1, 0, 1, 1);
 
@@ -522,23 +546,10 @@ public class Application {
 		sidebar.set_stack (stack);
 		grid.attach (sidebar, 2, 0, 1, 1);
 
-		Gtk.FlowBox fbox = new Gtk.FlowBox ();
-		fbox.set_hexpand (true);
-		fbox.set_vexpand (true);
-		fbox.add ((new Gtk.Label ("Library")));
+		//Gtk.FlowBox fbox = new Gtk.FlowBox ();
+		//fbox.set_hexpand (true);
+		//fbox.set_vexpand (true);
+		//fbox.add ((new Gtk.Label ("Library")));
 		//grid.attach (fbox, 2, 0, 1, 1);
-
-		var actionbar = new Gtk.ActionBar();
-		actionbar.set_hexpand (true);
-		//actionbar.set_margin_top(0);
-		//grid.attach(actionbar, 0, 1, 1, 1);
-		//gridPlay.add(actionbar);
-
-		var button1 = new Gtk.Button.with_label ("Cut");
-		actionbar.pack_start(button1);
-		var button2 = new Gtk.Button.with_label ("Copy");
-		actionbar.pack_start(button2);
-		var button3 = new Gtk.Button.with_label ("Paste");
-		actionbar.pack_end (button3);
 	}
 }
