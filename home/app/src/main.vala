@@ -125,7 +125,7 @@ public class Albums : Gtk.TreeView {
 				string year = song.get_tag (Mpd.TagType.DATE);
 				year = ((year == null ) ? "0000" : year.substring (0, 4));
 				album_store.append (out iteraa, null);
-				album_store.set (iteraa, 0, null, 1, year, 2, album);
+				album_store.set (iteraa, 0, "album", 1, year, 2, album);
 			}
 			album_store.append (out iterat, iteraa);
 			album_store.set (iterat, 0, file, 1, track, 2, title);
@@ -149,8 +149,11 @@ public class Albums : Gtk.TreeView {
 			//Mpd.Song song;
 			var conn = get_conn ();
 			conn.search_add_db_songs (false);
-			conn.search_add_uri_constraint (Mpd.Operator.DEFAULT, file);
-			//conn.search_add_tag_constraint(Mpd.Operator.DEFAULT, Mpd.TagType.ARTIST, "1980");
+			if (file == "album") {
+				conn.search_add_tag_constraint(Mpd.Operator.DEFAULT, Mpd.TagType.ALBUM, title);
+			} else {
+				conn.search_add_uri_constraint (Mpd.Operator.DEFAULT, file);
+			}
 			conn.search_commit ();
 			stdout.printf ("%s\n", file);
 			stdout.printf ("%s\n", title);
@@ -344,6 +347,41 @@ public class Application {
 	//public static void on_changed (Gtk.TreeSelection selection) {
 	//}
 
+	public static void cmd_delete (Gtk.TreeSelection selection) {
+		Gtk.TreeModel model;
+		Gtk.TreeIter iter;
+		uint pos;
+		string track;
+		string title;
+		var conn = get_conn ();
+		if (selection.get_selected (out model, out iter)) {
+			model.get (iter,
+						0, out pos,
+						1, out track,
+						2, out title);
+			stdout.printf ("%s\n", track);
+			if (track != null && track.char_count () > 2) {
+				Mpd.Song song;
+				conn.send_list_queue_meta ();
+				uint pos0 = -1;
+				uint pos1 = -1;
+				while ((song = conn.recv_song ()) != null) {
+					if (song.get_tag (Mpd.TagType.ALBUM) == title) {
+						if (pos0 == -1) {
+							pos0 = song.get_pos ();
+						}
+						pos1 = song.get_pos ();
+					}
+				}
+				pos1++;
+				conn.run_delete_range (pos0, pos1);
+			} else {
+				conn.run_delete (pos);
+			}
+			cmd_playls ();
+		}
+	}
+
 	public static void cmd_dbartists () {
 		var conn = get_conn ();
 		Mpd.Pair pair;
@@ -522,16 +560,23 @@ public class Application {
 		//grid.attach(actionbar, 0, 1, 1, 1);
 		gridPlay.add(actionbar);
 
+		var plbox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+		plbox.get_style_context ().add_class("linked");
+		actionbar.pack_start(plbox);
 		var up = new Gtk.Button.from_icon_name ("go-up-symbolic", Gtk.IconSize.MENU);
-		actionbar.pack_start(up);
-		var down = new Gtk.Button.from_icon_name ("go-down-symbolic", Gtk.IconSize.MENU);
-		actionbar.pack_start(down);
+		plbox.pack_start(up);
 		var remove = new Gtk.Button.from_icon_name ("list-remove-symbolic", Gtk.IconSize.MENU);
-		actionbar.pack_start(remove);
+		remove.clicked.connect (() => {
+			var selection = tree.get_selection ();
+			cmd_delete (selection);
+		});
+		plbox.pack_start(remove);
+		var down = new Gtk.Button.from_icon_name ("go-down-symbolic", Gtk.IconSize.MENU);
+		plbox.pack_start(down);
 		var clear = new Gtk.Button.from_icon_name ("list-remove-all-symbolic", Gtk.IconSize.MENU);
 		clear.clicked.connect (() => {
 			var conn = get_conn ();
-			conn.run_playlist_clear ("default");
+			conn.run_clear ();
 		});
 		actionbar.pack_end (clear);
 
