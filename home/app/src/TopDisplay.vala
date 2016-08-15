@@ -16,10 +16,10 @@ public class TopDisplay : Gtk.Grid {
 			Mpd.Song song = conn.run_current_song ();
 			if (song.get_tag (Mpd.TagType.TITLE) != title) {
 				label.set_text(current_title ());
-				Application.cmd_psel ();
+				Playlist.cmd_psel ();
 				title = song.get_tag (Mpd.TagType.TITLE);
 				if (song.get_tag (Mpd.TagType.ALBUM) != album) {
-					Application.cmd_art();
+					Playlist.cmd_art();
 					album = song.get_tag (Mpd.TagType.ALBUM);
 				}
 			}
