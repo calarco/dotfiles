@@ -158,6 +158,13 @@ public class Application {
 		} catch (GLib.Error e) {
 			stderr.printf ("Could not load application icon: %s\n", e.message);
 		}
+		try {
+			var provider = new Gtk.CssProvider ();
+			provider.load_from_path ("main.css");
+			Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default (), provider, Gtk.STYLE_PROVIDER_PRIORITY_USER);
+		} catch (GLib.Error e) {
+			stderr.printf ("Could not load css: %s\n", e.message);
+		}
 
 		var headerbar = new Gtk.HeaderBar ();
 		headerbar.title = "Music";
@@ -210,12 +217,17 @@ public class Application {
 		grid.column_spacing = 0;
 		grid.row_spacing = 0;
 		window.add (grid);
+
 		var mainstack = new Gtk.Stack ();
 		mainstack.set_transition_type (Gtk.StackTransitionType.CROSSFADE);
 
 		var controls = new Gtk.ActionBar();
 		var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
 		box.get_style_context ().add_class("linked");
+		box.set_margin_top (5);
+		box.set_margin_bottom (5);
+		box.set_margin_start (10);
+		box.set_margin_end (10);
 		controls.pack_start (box);
 
 		buttonToggle = new Gtk.Button.from_icon_name ("media-playback-start-symbolic", Gtk.IconSize.MENU);
@@ -241,7 +253,7 @@ public class Application {
 		box.add (buttonNext);
 
 		var topDisplay = new TopDisplay ();
-		var topDisplayBin = new FixedBin (200, -1, 600, -1);
+		var topDisplayBin = new FixedBin (700, -1, 800, -1);
 		topDisplay.margin_start = 30;
 		topDisplay.margin_end = 30;
 		topDisplayBin.set_widget (topDisplay, true, false);

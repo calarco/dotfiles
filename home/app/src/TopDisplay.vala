@@ -28,7 +28,7 @@ public class TopDisplay : Gtk.Grid {
 	}
 
 	public TopDisplay() {
-		width_request = 400;
+		width_request = 600;
 		column_spacing = 6;
 
 		label = new Gtk.Label (current_title ());

@@ -50,11 +50,10 @@ public class Database : Gtk.Grid {
 		string album = null;
 		while ((song = conn.recv_song ()) != null) {
 			string track = song.get_tag (Mpd.TagType.TRACK);
-			if (track == null || track.char_count () == 1) {
-				track = "0" + track;
-			} else if (track.char_count () > 2) {
-				track = track.substring (0, 2);
-				//track = track.substring(0, track.index_of("/", 0));
+			if (track == null) {
+				track = "0";
+			} else if (track.contains ("/")) {
+				track = track.substring (0, track.index_of ("/", 0));
 			}
 			string title = song.get_tag (Mpd.TagType.TITLE);
 			string file = song.get_uri ();

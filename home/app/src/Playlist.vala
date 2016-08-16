@@ -1,5 +1,9 @@
 public class Playlist : Gtk.Grid {
-	public static Gtk.Image artPlay ;
+	public static Gtk.Image artPlay;
+	public static Gtk.Label year;
+	public static Gtk.Label album;
+	public static Gtk.Label artist;
+	public static Gtk.Label total;
 	public static Gtk.ScrolledWindow scrollList;
 	public static Gtk.TreeStore tree_store;
 	public static Gtk.TreeView tree;
@@ -39,6 +43,9 @@ public class Playlist : Gtk.Grid {
 			} catch (GLib.Error e) {
 				stderr.printf ("Could not load album art: %s\n", e.message);
 			}
+			year.set_text (song.get_tag (Mpd.TagType.DATE));
+			album.set_text (song.get_tag (Mpd.TagType.ALBUM));
+			artist.set_text (song.get_tag (Mpd.TagType.ARTIST));
 			//albumArt.scale_simple(150, 150, Gdk.InterpType.BILINEAR);
 			//artPlay.set_from_file("cover.jpg");
 			//artPlay.set_from_icon_name("media-optical", Gtk.IconSize.DND);
@@ -54,10 +61,10 @@ public class Playlist : Gtk.Grid {
 		while ((song = conn.recv_song ()) != null) {
 			uint pos = song.get_pos ();
 			string track = song.get_tag (Mpd.TagType.TRACK);
-			if (track == null || track.char_count () == 1) {
-				track = "0" + track;
-			} else {
-				track = track.substring (0, 2);
+			if (track == null) {
+				track = "0";
+			} else if (track.contains ("/")) {
+				track = track.substring (0, track.index_of ("/", 0));
 			}
 			//track = int.parse(trackn);
 			string title = song.get_tag (Mpd.TagType.TITLE);
@@ -166,10 +173,41 @@ public class Playlist : Gtk.Grid {
 		column_spacing = 0;
 		row_spacing = 0;
 
+		var grid = new Gtk.Grid ();
+		//grid.orientation = Gtk.Orientation.VERTICAL;
+		grid.column_spacing = 10;
+		grid.row_spacing = 10;
+		grid.set_border_width (20);
+		grid.set_hexpand (false);
+		attach (grid, 0, 0, 1, 2);
+
 		artPlay = new Gtk.Image ();
 		artPlay.set_halign (Gtk.Align.CENTER);
-		cmd_art ();
-		attach (artPlay, 0, 0, 1, 2);
+		artPlay.get_style_context ().add_class ("art");
+		grid.attach (artPlay, 0, 0, 3, 1);
+
+		year = new Gtk.Label ("Year");
+		year.set_hexpand (true);
+		year.set_valign (Gtk.Align.CENTER);
+		grid.attach (year, 0, 1, 1, 2);
+
+		album = new Gtk.Label ("Album");
+		album.set_hexpand (true);
+		album.set_valign (Gtk.Align.CENTER);
+		album.get_style_context ().add_class ("h1");
+		grid.attach (album, 1, 1, 1, 1);
+
+		artist = new Gtk.Label ("Artist");
+		artist.set_hexpand (true);
+		artist.set_valign (Gtk.Align.CENTER);
+		artist.get_style_context ().add_class ("h2");
+		artist.set_opacity (0.8);
+		grid.attach (artist, 1, 2, 1, 1);
+
+		total = new Gtk.Label ("Total");
+		total.set_hexpand (true);
+		total.set_valign (Gtk.Align.CENTER);
+		grid.attach (total, 2, 1, 1, 2);
 
 		attach (new Gtk.Separator (Gtk.Orientation.HORIZONTAL), 1, 0, 1, 1 );
 
@@ -196,9 +234,12 @@ public class Playlist : Gtk.Grid {
 		celln.xalign = 1;
 		celln.xpad = 10;
 		celln.ypad = 5;
-		//cellt.ellipsize = Pango.EllipsizeMode.END;
+		cellt.ellipsize = Pango.EllipsizeMode.END;
 		tree.insert_column_with_attributes (-1, "#", celln, "text", 1);
-		tree.insert_column_with_attributes (-1, "Title", cellt, "text", 2);
+		//tree.insert_column_with_attributes (-1, "Title", cellt, "text", 2);
+		var column = new Gtk.TreeViewColumn.with_attributes ("Title", cellt, "text", 2);
+		column.set_expand (true);
+		tree.insert_column (column, 2);
 		tree.insert_column_with_attributes (-1, "Lenght", celln, "text", 3);
 
 		cmd_playls ();
