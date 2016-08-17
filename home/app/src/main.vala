@@ -231,6 +231,7 @@ public class Application {
 		controls.pack_start (box);
 
 		buttonToggle = new Gtk.Button.from_icon_name ("media-playback-start-symbolic", Gtk.IconSize.MENU);
+		buttonToggle.get_style_context ().add_class ("toggle");
 		if (current_status () == Mpd.State.PLAY) {
 			buttonToggle = new Gtk.Button.from_icon_name ("media-playback-pause-symbolic", Gtk.IconSize.MENU);
 		}

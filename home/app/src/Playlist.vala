@@ -38,7 +38,7 @@ public class Playlist : Gtk.Grid {
 				stderr.printf (err.message);
 			}
 			try {
-				var albumArt = new Gdk.Pixbuf.from_file_at_size (file, 500, 500);
+				var albumArt = new Gdk.Pixbuf.from_file_at_size (file, 400, 400);
 				artPlay.set_from_pixbuf (albumArt);
 			} catch (GLib.Error e) {
 				stderr.printf ("Could not load album art: %s\n", e.message);
@@ -175,10 +175,12 @@ public class Playlist : Gtk.Grid {
 
 		var grid = new Gtk.Grid ();
 		//grid.orientation = Gtk.Orientation.VERTICAL;
+		grid.set_valign (Gtk.Align.CENTER);
 		grid.column_spacing = 10;
 		grid.row_spacing = 10;
 		grid.set_border_width (20);
 		grid.set_hexpand (false);
+		grid.get_style_context ().add_class ("grid");
 		attach (grid, 0, 0, 1, 2);
 
 		artPlay = new Gtk.Image ();
@@ -208,6 +210,8 @@ public class Playlist : Gtk.Grid {
 		total.set_hexpand (true);
 		total.set_valign (Gtk.Align.CENTER);
 		grid.attach (total, 2, 1, 1, 2);
+
+		cmd_art ();
 
 		attach (new Gtk.Separator (Gtk.Orientation.HORIZONTAL), 1, 0, 1, 1 );
 
