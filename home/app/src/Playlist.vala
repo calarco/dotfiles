@@ -169,56 +169,87 @@ public class Playlist : Gtk.Grid {
 		}
 	}
 
-	public Playlist() {
-		column_spacing = 0;
-		row_spacing = 0;
+	public static void cmd_move (Gtk.TreeSelection selection) {
+		Gtk.TreeModel model;
+		Gtk.TreeIter iter;
+		uint pos;
+		string track;
+		string title;
+		var conn = get_conn ();
+		if (selection.get_selected (out model, out iter)) {
+			model.get (iter,
+						0, out pos,
+						1, out track,
+						2, out title);
+			stdout.printf ("%s\n", track);
+			if (track != null && track.char_count () > 2) {
+				Mpd.Song song;
+				conn.send_list_queue_meta ();
+				uint pos0 = -1;
+				uint pos1 = -1;
+				while ((song = conn.recv_song ()) != null) {
+					if (song.get_tag (Mpd.TagType.ALBUM) == title) {
+						if (pos0 == -1) {
+							pos0 = song.get_pos ();
+						}
+						pos1 = song.get_pos ();
+					}
+				}
+				pos1++;
+				conn.run_move_range (pos0, pos1, 0);
+			} else {
+				conn.run_move (pos, 0);
+			}
+			cmd_playls ();
+		}
+	}
 
-		var grid = new Gtk.Grid ();
+	public Playlist() {
+		set_border_width (20);
+		set_column_homogeneous (true);
+
+		var lgrid = new Gtk.Grid ();
 		//grid.orientation = Gtk.Orientation.VERTICAL;
-		grid.set_valign (Gtk.Align.CENTER);
-		grid.column_spacing = 10;
-		grid.row_spacing = 10;
-		grid.set_border_width (20);
-		grid.set_hexpand (false);
-		grid.get_style_context ().add_class ("grid");
-		attach (grid, 0, 0, 1, 2);
+		lgrid.set_valign (Gtk.Align.CENTER);
+		lgrid.set_halign (Gtk.Align.CENTER);
+		lgrid.column_spacing = 20;
+		lgrid.row_spacing = 10;
+		lgrid.set_border_width (20);
+		lgrid.get_style_context ().add_class ("lgrid");
+		attach (lgrid, 0, 0, 1, 2);
 
 		artPlay = new Gtk.Image ();
 		artPlay.set_halign (Gtk.Align.CENTER);
 		artPlay.get_style_context ().add_class ("art");
-		grid.attach (artPlay, 0, 0, 3, 1);
+		lgrid.attach (artPlay, 0, 0, 3, 1);
 
 		year = new Gtk.Label ("Year");
-		year.set_hexpand (true);
 		year.set_valign (Gtk.Align.CENTER);
-		grid.attach (year, 0, 1, 1, 2);
+		lgrid.attach (year, 0, 1, 1, 2);
 
 		album = new Gtk.Label ("Album");
-		album.set_hexpand (true);
 		album.set_valign (Gtk.Align.CENTER);
 		album.get_style_context ().add_class ("h1");
-		grid.attach (album, 1, 1, 1, 1);
+		lgrid.attach (album, 1, 1, 1, 1);
 
 		artist = new Gtk.Label ("Artist");
-		artist.set_hexpand (true);
 		artist.set_valign (Gtk.Align.CENTER);
 		artist.get_style_context ().add_class ("h2");
 		artist.set_opacity (0.8);
-		grid.attach (artist, 1, 2, 1, 1);
+		lgrid.attach (artist, 1, 2, 1, 1);
 
 		total = new Gtk.Label ("Total");
-		total.set_hexpand (true);
 		total.set_valign (Gtk.Align.CENTER);
-		grid.attach (total, 2, 1, 1, 2);
+		lgrid.attach (total, 2, 1, 1, 2);
 
 		cmd_art ();
 
-		attach (new Gtk.Separator (Gtk.Orientation.HORIZONTAL), 1, 0, 1, 1 );
+		//attach (new Gtk.Separator (Gtk.Orientation.HORIZONTAL), 1, 0, 1, 1 );
 
 		scrollList = new Gtk.ScrolledWindow (null, null);
 		scrollList.set_policy (Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC);
-		scrollList.set_hexpand (true);
-		attach (scrollList, 2, 0, 1, 1);
+		scrollList.set_vexpand (true);
+		attach (scrollList, 1, 0, 1, 1);
 
 		tree_store = new Gtk.TreeStore (4, typeof (uint), typeof (string), typeof (string), typeof (string));
 
@@ -229,8 +260,6 @@ public class Playlist : Gtk.Grid {
 
 		tree = new Gtk.TreeView.with_model (tree_store);
 		tree.set_vexpand (true);
-		tree.set_hexpand (true);
-		tree.set_grid_lines (Gtk.TreeViewGridLines.VERTICAL);
 		scrollList.add (tree);
 
 		Gtk.CellRendererText celln = new Gtk.CellRendererText ();
@@ -249,15 +278,17 @@ public class Playlist : Gtk.Grid {
 		cmd_playls ();
 
 		var actionbar = new Gtk.ActionBar();
-		//actionbar.set_hexpand (false);
 		//actionbar.set_margin_top(0);
-		//grid.attach(actionbar, 0, 1, 1, 1);
-		attach (actionbar, 2, 1, 1, 1);
+		attach (actionbar, 1, 1, 1, 1);
 
 		var plbox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
 		plbox.get_style_context ().add_class("linked");
 		actionbar.pack_start(plbox);
 		var up = new Gtk.Button.from_icon_name ("go-up-symbolic", Gtk.IconSize.MENU);
+		up.clicked.connect (() => {
+			var selection = tree.get_selection ();
+			cmd_move (selection);
+		});
 		plbox.pack_start(up);
 		var remove = new Gtk.Button.from_icon_name ("list-remove-symbolic", Gtk.IconSize.MENU);
 		remove.clicked.connect (() => {

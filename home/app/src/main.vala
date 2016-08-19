@@ -224,8 +224,8 @@ public class Application {
 		var controls = new Gtk.ActionBar();
 		var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
 		box.get_style_context ().add_class("linked");
-		box.set_margin_top (5);
-		box.set_margin_bottom (5);
+		box.set_margin_top (8);
+		box.set_margin_bottom (8);
 		box.set_margin_start (10);
 		box.set_margin_end (10);
 		controls.pack_start (box);
@@ -233,7 +233,8 @@ public class Application {
 		buttonToggle = new Gtk.Button.from_icon_name ("media-playback-start-symbolic", Gtk.IconSize.MENU);
 		buttonToggle.get_style_context ().add_class ("toggle");
 		if (current_status () == Mpd.State.PLAY) {
-			buttonToggle = new Gtk.Button.from_icon_name ("media-playback-pause-symbolic", Gtk.IconSize.MENU);
+			Gtk.Image image = new Gtk.Image.from_icon_name ("media-playback-pause-symbolic", Gtk.IconSize.MENU);
+			buttonToggle.set_image (image);
 		}
 		buttonToggle.clicked.connect (() => {
 			cmd_toggle ();

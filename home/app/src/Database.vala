@@ -15,18 +15,23 @@ public class Database : Gtk.Grid {
 		conn.search_commit ();
 		while ((pair = conn.recv_pair_tag (Mpd.TagType.ARTIST)) != null) {
 			if ((artist = pair.value) != "\0") {
-				cmd_dbalbums (artist);
+				var grid = new Gtk.Grid ();
+				grid.orientation = Gtk.Orientation.VERTICAL;
+				grid.set_hexpand (true);
+
+				var label = new Gtk.Label ("Albums");
+				grid.add (label);
+
+				stack.add_titled (grid, artist, artist);
+
+				label.realize.connect (album_realize);
 			}
 			conn.return_pair (pair);
 		}
 	}
 
-	public static void cmd_dbalbums (string artist) {
+	private static void album_realize (Gtk.Widget widget) {
 		var conn = get_conn ();
-		Mpd.Song song;
-		conn.search_db_songs (false);
-		conn.search_add_tag_constraint (Mpd.Operator.DEFAULT, Mpd.TagType.ARTIST, artist);
-		conn.search_commit ();
 
 		scrollTree = new Gtk.ScrolledWindow (null, null);
 		scrollTree.set_policy (Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC);
@@ -47,6 +52,12 @@ public class Database : Gtk.Grid {
 		celln.ypad = 5;
 		albums.insert_column_with_attributes (-1, "#", celln, "text", 1);
 		albums.insert_column_with_attributes (-1, "Title", cellt, "text", 2);
+
+		string artist = stack.get_visible_child_name ();
+		Mpd.Song song;
+		conn.search_db_songs (false);
+		conn.search_add_tag_constraint (Mpd.Operator.DEFAULT, Mpd.TagType.ARTIST, artist);
+		conn.search_commit ();
 		string album = null;
 		while ((song = conn.recv_song ()) != null) {
 			string track = song.get_tag (Mpd.TagType.TRACK);
@@ -70,7 +81,8 @@ public class Database : Gtk.Grid {
 		albums.expand_all ();
 		albums.row_activated.connect (on_row_album);
 		scrollTree.add (albums);
-		stack.add_titled (scrollTree, artist, artist);
+		widget.get_parent ().add (scrollTree);
+		scrollTree.show_all ();
 	}
 
 	private static void on_row_album (Gtk.TreeView treeview , Gtk.TreePath path, Gtk.TreeViewColumn column) {
@@ -85,7 +97,7 @@ public class Database : Gtk.Grid {
 							2, out title);
 			//Mpd.Song song;
 			var conn = get_conn ();
-			conn.search_add_db_songs (false);
+			conn.search_add_db_songs (true);
 			if (file == "album") {
 				conn.search_add_tag_constraint(Mpd.Operator.DEFAULT, Mpd.TagType.ALBUM, title);
 			} else {
