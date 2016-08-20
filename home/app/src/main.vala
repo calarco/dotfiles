@@ -1,12 +1,10 @@
 int main (string[] args) {
-
 	Gtk.init (ref args);
 	new Application ();
 	//return app.run (args);
 	Application.window.show_all ();
 	Gtk.main ();
 	return 0;
-
 }
 
 public static Mpd.Connection get_conn () {
@@ -203,15 +201,6 @@ public class Application {
 		});
 		headerbar.pack_end (buttonSearch);
 
-		GLib.Timeout.add (1000, () => {
-			if (current_status () == Mpd.State.PLAY || current_status () == Mpd.State.PAUSE) {
-				//headerbar.set_custom_title (topDisplayBin);
-			} else {
-				//headerbar.set_custom_title (null);
-			}
-			return true;
-		});
-
 		grid = new Gtk.Grid ();
 		//grid.orientation = Gtk.Orientation.VERTICAL;
 		grid.column_spacing = 0;
@@ -266,7 +255,16 @@ public class Application {
 		}
 		//actionbar.set_hexpand (false);
 		//actionbar.set_margin_top(0);
-		//grid.attach(actionbar, 0, 1, 1, 1);
+
+		GLib.Timeout.add (1000, () => {
+			if (current_status () == Mpd.State.PLAY || current_status () == Mpd.State.PAUSE) {
+				controls.set_center_widget (topDisplayBin);
+			} else {
+				controls.set_center_widget (null);
+			}
+			return true;
+		});
+
 		grid.attach (controls, 0, 1, 2, 1);
 
 	//	Gtk.Paned pane = new Gtk.Paned (Gtk.Orientation.HORIZONTAL);
