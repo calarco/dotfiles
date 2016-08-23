@@ -26,42 +26,63 @@ public static string to_minutes (uint seconds) {
 	return "%s:%s".printf (@"$minutes", ((seconds < 10 ) ? @"0$seconds" : @"$seconds"));
 }
 
-public class PlaylistEntry {
-	public string number;
-	public string title;
+public static void cmd_updb () {
+	var conn = get_conn ();
+	conn.run_update ();
+	Mpd.Status status = conn.run_status ();
+	GLib.Timeout.add (500, () => {
+		if (status.get_update_id () > 0) {
+			stdout.printf ("%s\n", "updating");
+			status = null;
+			status = conn.run_status ();
+			return true;
+		} else {
+			return false;
+		}
+	});
+}
 
-	public PlaylistEntry (string n, string t) {
-		this.number = n;
-		this.title = t;
+public static Gdk.Pixbuf cmd_arts (Mpd.Song song, int size) {
+	string folder = GLib.Environment.get_user_special_dir(GLib.UserDirectory.MUSIC) + "/" + Path.get_dirname (song.get_uri ());
+	string file = null;
+	try {
+		Dir dir = Dir.open (folder, 0);
+		string? name = null;
+		while ((name = dir.read_name ()) != null) {
+			string path = Path.build_filename (folder, name);
+			var files = File.new_for_path (path);
+			try {
+				var file_info = files.query_info ("*", FileQueryInfoFlags.NONE);
+				if (file_info.get_content_type ().substring (0, file_info.get_content_type().index_of("/", 0)) == "image" && FileUtils.test (path, FileTest.IS_REGULAR)) {
+					file = path;
+					stdout.printf ("File size: %lld bytes\n", file_info.get_size ());
+				}
+			} catch (GLib.Error e) {
+				stderr.printf ("Could not query album art info: %s\n", e.message);
+			}
+		}
+	} catch (FileError err) {
+		stderr.printf (err.message);
 	}
+	var albumArt = new Gdk.Pixbuf (Gdk.Colorspace.RGB, false, 8, size, size);
+	try {
+		albumArt = new Gdk.Pixbuf.from_file_at_size (file, size, size);
+	} catch (GLib.Error e) {
+		stderr.printf ("Could not load album art: %s\n", e.message);
+	}
+	return albumArt;
+	//albumArt.scale_simple(150, 150, Gdk.InterpType.BILINEAR);
+	//artPlay.set_from_file("cover.jpg");
+	//artPlay.set_from_icon_name("media-optical", Gtk.IconSize.DND);
 }
 
 public class Application : Gtk.Window {
-	public static Gtk.Grid grid;
-
-	public static PlaylistEntry[] playlist = {
-		new PlaylistEntry ("1", "Billeter"),
-		new PlaylistEntry ("2", "Schmid"),
-		new PlaylistEntry ("3", "Inca"),
-		new PlaylistEntry ("4", "Jardon"),
-		new PlaylistEntry ("5", "Clinton"),
-		new PlaylistEntry ("6", "Hacker")
-	};
-
-	public static void cmd_updb () {
-		var conn = get_conn ();
-		conn.run_update ();
-		Mpd.Status status = conn.run_status ();
-		//stdout.printf ("%s\n", (string)status.get_update_id ());
-		var timeout = GLib.Timeout.add (500, () => {
-			if (status.get_update_id () > 0) {
-				stdout.printf ("%s\n", "asd");
-				status = null;
-				status = conn.run_status ();
-			}
-			return true;
-		});
-	}
+	public static Gtk.Grid main_grid;
+	public static Gtk.Stack main_stack;
+	public static Gtk.StackSwitcher switcher;
+	public static Gtk.Grid playlist;
+	public static Gtk.Grid database;
+	public static Gtk.ActionBar controls;
 
 	public Application () {
 		set_position (Gtk.WindowPosition.CENTER);
@@ -102,12 +123,6 @@ public class Application : Gtk.Window {
 			});
 			box2.add (button_db);
 
-			var label = new Gtk.Label ("A Label Widget");
-			box2.add (label);
-			var checkbutton = new Gtk.CheckButton.with_label ("A CheckButton Widget");
-			box2.add (checkbutton);
-			var radiobutton = new Gtk.RadioButton.with_label (null, "A RadioButton Widget");
-			box2.add (radiobutton);
 			popover.show_all ();
 		});
 		headerbar.pack_end (button_menu);
@@ -118,53 +133,38 @@ public class Application : Gtk.Window {
 		});
 		headerbar.pack_end (buttonSearch);
 
-		GLib.Timeout.add (1000, () => {
-			if (current_status () == Mpd.State.PLAY || current_status () == Mpd.State.PAUSE) {
-				//headerbar.set_custom_title (topDisplayBin);
-			} else {
-				//headerbar.set_custom_title (null);
-			}
-			return true;
-		});
+		main_grid = new Gtk.Grid ();
+		main_grid.orientation = Gtk.Orientation.VERTICAL;
+		add (main_grid);
 
-		grid = new Gtk.Grid ();
-		//grid.orientation = Gtk.Orientation.VERTICAL;
-		grid.column_spacing = 0;
-		grid.row_spacing = 0;
-		add (grid);
+		main_stack = new Gtk.Stack ();
+		main_stack.set_transition_type (Gtk.StackTransitionType.CROSSFADE);
+		main_grid.attach (main_stack, 0, 0, 1, 1);
 
-		var mainstack = new Gtk.Stack ();
-		mainstack.set_transition_type (Gtk.StackTransitionType.CROSSFADE);
-
-		var controls = new Controls ();
-		controls.show_all ();
-		grid.attach (controls, 0, 1, 2, 1);
-
-	//	Gtk.Paned pane = new Gtk.Paned (Gtk.Orientation.HORIZONTAL);
-	//	pane.set_vexpand(true);
-	//	Gtk.WidgetSetSizeRequest (pane, 200, -1);
-	//	grid.attach(pane, 0, 0, 1, 1);
-
-		//grid.attach ((new Gtk.Separator (Gtk.Orientation.HORIZONTAL)), 1, 0, 1, 1);
-		var playlist = new Playlist ();
-		playlist.show_all ();
-
-		var database = new Database ();
-		database.show_all ();
-
-		mainstack.add_titled (playlist, "playlist", "Playlist");
-		mainstack.add_titled (database, "database", "Database");
-		grid.attach (mainstack, 1, 0, 1, 1);
-
-		Gtk.StackSwitcher switcher = new Gtk.StackSwitcher ();
-		switcher.set_stack (mainstack);
+		switcher = new Gtk.StackSwitcher ();
+		switcher.set_stack (main_stack);
 		headerbar.set_custom_title (switcher);
+
+		playlist = new Playlist ();
+		main_stack.add_titled (playlist, "playlist", "Playlist");
+
+		database = new Database ();
+		main_stack.add_titled (database, "database", "Database");
+
+		controls = new Controls ();
+		main_grid.attach (controls, 0, 1, 1, 1);
+
+		//Gtk.Paned pane = new Gtk.Paned (Gtk.Orientation.HORIZONTAL);
+		//pane.set_vexpand(true);
+		//Gtk.WidgetSetSizeRequest (pane, 200, -1);
+		//grid.attach(pane, 0, 0, 1, 1);
 
 		//Gtk.FlowBox fbox = new Gtk.FlowBox ();
 		//fbox.set_hexpand (true);
 		//fbox.set_vexpand (true);
 		//fbox.add ((new Gtk.Label ("Library")));
 		//grid.attach (fbox, 2, 0, 1, 1);
+
 		show_all ();
 	}
 }

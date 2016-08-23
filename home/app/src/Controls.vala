@@ -107,8 +107,8 @@ public class Controls : Gtk.ActionBar {
 	public Controls() {
 		var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
 		box.get_style_context ().add_class("linked");
-		box.set_margin_top (8);
-		box.set_margin_bottom (8);
+		box.set_margin_top (2);
+		box.set_margin_bottom (2);
 		box.set_margin_start (10);
 		box.set_margin_end (10);
 		pack_start (box);
@@ -199,5 +199,7 @@ public class Controls : Gtk.ActionBar {
 		}
 		//actionbar.set_hexpand (false);
 		//actionbar.set_margin_top(0);
+
+		show_all ();
 	}
 }

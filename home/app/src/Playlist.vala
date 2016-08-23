@@ -16,39 +16,12 @@ public class Playlist : Gtk.Grid {
 		if (current_status () != Mpd.State.STOP) {
 			var conn = get_conn ();
 			Mpd.Song song = conn.run_current_song ();
-			string folder = GLib.Environment.get_user_special_dir(GLib.UserDirectory.MUSIC) + "/" + Path.get_dirname (song.get_uri ());
-			string file = null;
-			try {
-				Dir dir = Dir.open (folder, 0);
-				string? name = null;
-				while ((name = dir.read_name ()) != null) {
-					string path = Path.build_filename (folder, name);
-					var files = File.new_for_path (path);
-					try {
-						var file_info = files.query_info ("*", FileQueryInfoFlags.NONE);
-						if (file_info.get_content_type ().substring (0, file_info.get_content_type().index_of("/", 0)) == "image" && FileUtils.test (path, FileTest.IS_REGULAR)) {
-							file = path;
-							stdout.printf ("File size: %lld bytes\n", file_info.get_size ());
-						}
-					} catch (GLib.Error e) {
-						stderr.printf ("Could not query album art info: %s\n", e.message);
-					}
-				}
-			} catch (FileError err) {
-				stderr.printf (err.message);
-			}
-			try {
-				var albumArt = new Gdk.Pixbuf.from_file_at_size (file, 400, 400);
-				artPlay.set_from_pixbuf (albumArt);
-			} catch (GLib.Error e) {
-				stderr.printf ("Could not load album art: %s\n", e.message);
-			}
+			var albumArt = cmd_arts (song, 400);
+			artPlay.set_from_pixbuf (albumArt);
+
 			year.set_text (song.get_tag (Mpd.TagType.DATE));
 			album.set_text (song.get_tag (Mpd.TagType.ALBUM));
 			artist.set_text (song.get_tag (Mpd.TagType.ARTIST));
-			//albumArt.scale_simple(150, 150, Gdk.InterpType.BILINEAR);
-			//artPlay.set_from_file("cover.jpg");
-			//artPlay.set_from_icon_name("media-optical", Gtk.IconSize.DND);
 		}
 	}
 
@@ -78,7 +51,6 @@ public class Playlist : Gtk.Grid {
 			}
 			tree_store.append (out itert, itera);
 			tree_store.set (itert, 0, pos, 1, track, 2, title, 3, lenght);
-			//free(song);
 		}
 		cmd_psel();
 		tree.row_activated.connect (on_row_activated);
@@ -216,7 +188,7 @@ public class Playlist : Gtk.Grid {
 		lgrid.row_spacing = 10;
 		lgrid.set_border_width (20);
 		lgrid.get_style_context ().add_class ("lgrid");
-		attach (lgrid, 0, 0, 1, 2);
+		attach (lgrid, 0, 0, 1, 1);
 
 		artPlay = new Gtk.Image ();
 		artPlay.set_halign (Gtk.Align.CENTER);
@@ -248,21 +220,22 @@ public class Playlist : Gtk.Grid {
 
 		//attach (new Gtk.Separator (Gtk.Orientation.HORIZONTAL), 1, 0, 1, 1 );
 
+		var pgrid = new Gtk.Grid ();
+		pgrid.set_hexpand (true);
+		pgrid.height_request = 450;
+		pgrid.set_valign (Gtk.Align.CENTER);
+		attach (pgrid, 1, 0, 1, 1);
 		scrollList = new Gtk.ScrolledWindow (null, null);
+		scrollList.set_hexpand (true);
 		scrollList.set_policy (Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC);
-		scrollList.set_vexpand (true);
-		attach (scrollList, 1, 0, 1, 1);
 
 		tree_store = new Gtk.TreeStore (4, typeof (uint), typeof (string), typeof (string), typeof (string));
 
-		//for (int i = 0; i < playlist.length; i++) {
-		//	list_store.append (out iter);
-		//	list_store.set (iter, 0, playlist[i].number, 1, playlist[i].title);
-		//}
-
 		tree = new Gtk.TreeView.with_model (tree_store);
+		tree.set_hexpand (true);
 		tree.set_vexpand (true);
 		scrollList.add (tree);
+		pgrid.attach (scrollList, 0, 0, 1, 1);
 
 		Gtk.CellRendererText celln = new Gtk.CellRendererText ();
 		Gtk.CellRendererText cellt = new Gtk.CellRendererText ();
@@ -280,8 +253,9 @@ public class Playlist : Gtk.Grid {
 		cmd_playls ();
 
 		var actionbar = new Gtk.ActionBar();
+		actionbar.set_hexpand (true);
 		//actionbar.set_margin_top(0);
-		attach (actionbar, 1, 1, 1, 1);
+		pgrid.attach (actionbar, 0, 1, 1, 1);
 
 		var plbox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
 		plbox.get_style_context ().add_class("linked");
@@ -307,5 +281,7 @@ public class Playlist : Gtk.Grid {
 			conn.run_clear ();
 		});
 		actionbar.pack_end (clear);
+
+		show_all ();
 	}
 }

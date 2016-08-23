@@ -97,37 +97,12 @@ public class Database : Gtk.Grid {
 				var argrid = new Gtk.Grid ();
 				agrid.attach (argrid, 0, 0, 1, 3);
 
+				var albumArt = cmd_arts (song, 250);
 				var art = new Gtk.Image ();
+				art.set_from_pixbuf (albumArt);
 				art.set_valign (Gtk.Align.START);
 				art.set_halign (Gtk.Align.CENTER);
 				art.get_style_context ().add_class ("art");
-				string folder = GLib.Environment.get_user_special_dir(GLib.UserDirectory.MUSIC) + "/" + Path.get_dirname (song.get_uri ());
-				string filea = null;
-				try {
-					Dir dir = Dir.open (folder, 0);
-					string? name = null;
-					while ((name = dir.read_name ()) != null) {
-						string path = Path.build_filename (folder, name);
-						var files = File.new_for_path (path);
-						try {
-							var file_info = files.query_info ("*", FileQueryInfoFlags.NONE);
-							if (file_info.get_content_type ().substring (0, file_info.get_content_type().index_of("/", 0)) == "image" && FileUtils.test (path, FileTest.IS_REGULAR)) {
-								filea = path;
-								stdout.printf ("File size: %lld bytes\n", file_info.get_size ());
-							}
-						} catch (GLib.Error e) {
-							stderr.printf ("Could not query album art info: %s\n", e.message);
-						}
-					}
-				} catch (FileError err) {
-					stderr.printf (err.message);
-				}
-				try {
-					var img = new Gdk.Pixbuf.from_file_at_size (filea, 250, 250);
-					art.set_from_pixbuf (img);
-				} catch (GLib.Error e) {
-					stderr.printf ("Could not load album art: %s\n", e.message);
-				}
 				argrid.attach (art, 0, 0, 2, 1);
 
 				var add = new Gtk.Button.from_icon_name ("list-add-symbolic", Gtk.IconSize.MENU);
@@ -237,5 +212,7 @@ public class Database : Gtk.Grid {
 		orientation = Gtk.Orientation.HORIZONTAL;
 		add (sidebar);
 		add (stack);
+
+		show_all ();
 	}
 }
