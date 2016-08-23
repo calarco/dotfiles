@@ -1,8 +1,6 @@
 int main (string[] args) {
 	Gtk.init (ref args);
 	new Application ();
-	//return app.run (args);
-	Application.window.show_all ();
 	Gtk.main ();
 	return 0;
 }
@@ -22,50 +20,10 @@ public static Mpd.State current_status () {
 	return state;
 }
 
-public static uint current_elapsed () {
-	var conn = get_conn ();
-	Mpd.Status status = conn.run_status ();
-	var elapsed = status.get_elapsed_time ();
-	return elapsed;
-}
-
-public static uint current_total () {
-	var conn = get_conn ();
-	Mpd.Status status = conn.run_status ();
-	var total = status.get_total_time ();
-	return total;
-}
-
 public static string to_minutes (uint seconds) {
 	uint minutes = seconds / 60;
 	seconds -= minutes * 60;
 	return "%s:%s".printf (@"$minutes", ((seconds < 10 ) ? @"0$seconds" : @"$seconds"));
-}
-
-public static string current_title () {
-	var conn = get_conn ();
-	Mpd.Song song = conn.run_current_song ();
-	var curr = "Title";
-	if (current_status () == Mpd.State.PLAY || current_status () == Mpd.State.PAUSE) {
-		curr = song.get_tag (Mpd.TagType.TITLE);
-	}
-	return curr;
-}
-
-public static string current_artist () {
-	var conn = get_conn ();
-	Mpd.Song song = conn.run_current_song ();
-	var curr = "Artist";
-	if (current_status () == Mpd.State.PLAY || current_status () == Mpd.State.PAUSE) {
-		curr = song.get_tag (Mpd.TagType.ARTIST);
-	}
-	return curr;
-}
-
-public static void cmd_seek (uint pos) {
-	var conn = get_conn ();
-	Mpd.Status status = conn.run_status ();
-	conn.run_seek_pos (status.get_song_pos (), pos);
 }
 
 public class PlaylistEntry {
@@ -78,10 +36,7 @@ public class PlaylistEntry {
 	}
 }
 
-public class Application {
-
-	public static Gtk.Window window;
-	public static Gtk.Button buttonToggle;
+public class Application : Gtk.Window {
 	public static Gtk.Grid grid;
 
 	public static PlaylistEntry[] playlist = {
@@ -92,42 +47,6 @@ public class Application {
 		new PlaylistEntry ("5", "Clinton"),
 		new PlaylistEntry ("6", "Hacker")
 	};
-
-	public static void cmd_toggle () {
-		var conn = get_conn ();
-		if (current_status () == Mpd.State.PLAY) {
-			conn.run_pause (true);
-			Gtk.Image image = new Gtk.Image.from_icon_name ("media-playback-start-symbolic", Gtk.IconSize.MENU);
-			buttonToggle.set_image (image);
-		} else {
-			conn.run_play ();
-			Gtk.Image image = new Gtk.Image.from_icon_name ("media-playback-pause-symbolic", Gtk.IconSize.MENU);
-			buttonToggle.set_image (image);
-		}
-	}
-
-	public static void cmd_prev () {
-		var conn = get_conn ();
-		if (current_elapsed () < 3) {
-			conn.run_previous ();
-			Playlist.cmd_art ();
-			Playlist.cmd_psel();
-		} else {
-			cmd_seek (0);
-			conn.run_play ();
-		}
-		Gtk.Image image = new Gtk.Image.from_icon_name ("media-playback-pause-symbolic", Gtk.IconSize.MENU);
-		buttonToggle.set_image (image);
-	}
-
-	public static void cmd_next () {
-		var conn = get_conn ();
-		conn.run_next ();
-		Gtk.Image image = new Gtk.Image.from_icon_name ("media-playback-pause-symbolic", Gtk.IconSize.MENU);
-		buttonToggle.set_image (image);
-		Playlist.cmd_art ();
-		Playlist.cmd_psel();
-	}
 
 	public static void cmd_updb () {
 		var conn = get_conn ();
@@ -145,14 +64,12 @@ public class Application {
 	}
 
 	public Application () {
-		window = new Gtk.Window ();
-		//window.set_border_width (12);
-		window.set_position (Gtk.WindowPosition.CENTER);
-		window.set_default_size (1000, 600);
-		window.destroy.connect (Gtk.main_quit);
+		set_position (Gtk.WindowPosition.CENTER);
+		set_default_size (1000, 600);
+		destroy.connect (Gtk.main_quit);
 		try {
-			//window.icon = new Gdk.Pixbuf.from_file ("my-app.png");
-			window.icon = Gtk.IconTheme.get_default ().load_icon ("multimedia-audio-player", 48, 0);
+			//icon = new Gdk.Pixbuf.from_file ("my-app.png");
+			icon = Gtk.IconTheme.get_default ().load_icon ("multimedia-audio-player", 48, 0);
 		} catch (GLib.Error e) {
 			stderr.printf ("Could not load application icon: %s\n", e.message);
 		}
@@ -168,8 +85,7 @@ public class Application {
 		headerbar.title = "Music";
 		//headerbar.subtitle = current_artist ();
 		headerbar.show_close_button = true;
-		//headerbar.get_style_context ().add_class ("titlebar");
-		window.set_titlebar (headerbar);
+		set_titlebar (headerbar);
 
 		var button_menu = new Gtk.Button.from_icon_name ("open-menu-symbolic", Gtk.IconSize.MENU);
 		button_menu.clicked.connect (() => {
@@ -179,6 +95,7 @@ public class Application {
 			popover.add (box2);
 
 			var button_db = new Gtk.Button.with_label ("Update database");
+			button_db.get_style_context ().add_class ("flat");
 			button_db.clicked.connect (() => {
 				button_db.label = "Updating database...";
 				cmd_updb ();
@@ -201,70 +118,26 @@ public class Application {
 		});
 		headerbar.pack_end (buttonSearch);
 
-		grid = new Gtk.Grid ();
-		//grid.orientation = Gtk.Orientation.VERTICAL;
-		grid.column_spacing = 0;
-		grid.row_spacing = 0;
-		window.add (grid);
-
-		var mainstack = new Gtk.Stack ();
-		mainstack.set_transition_type (Gtk.StackTransitionType.CROSSFADE);
-
-		var controls = new Gtk.ActionBar();
-		var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-		box.get_style_context ().add_class("linked");
-		box.set_margin_top (8);
-		box.set_margin_bottom (8);
-		box.set_margin_start (10);
-		box.set_margin_end (10);
-		controls.pack_start (box);
-
-		buttonToggle = new Gtk.Button.from_icon_name ("media-playback-start-symbolic", Gtk.IconSize.MENU);
-		buttonToggle.get_style_context ().add_class ("toggle");
-		if (current_status () == Mpd.State.PLAY) {
-			Gtk.Image image = new Gtk.Image.from_icon_name ("media-playback-pause-symbolic", Gtk.IconSize.MENU);
-			buttonToggle.set_image (image);
-		}
-		buttonToggle.clicked.connect (() => {
-			cmd_toggle ();
-		});
-
-		var buttonPrev = new Gtk.Button.from_icon_name ("media-skip-backward-symbolic", Gtk.IconSize.MENU);
-		buttonPrev.clicked.connect (() => {
-			cmd_prev ();
-		});
-
-		var buttonNext = new Gtk.Button.from_icon_name ("media-skip-forward-symbolic", Gtk.IconSize.MENU);
-		buttonNext.clicked.connect (() => {
-			cmd_next ();
-		});
-
-		box.add (buttonPrev);
-		box.add (buttonToggle);
-		box.add (buttonNext);
-
-		var topDisplay = new TopDisplay ();
-		var topDisplayBin = new FixedBin (700, -1, 800, -1);
-		topDisplay.margin_start = 30;
-		topDisplay.margin_end = 30;
-		topDisplayBin.set_widget (topDisplay, true, false);
-		topDisplayBin.show_all ();
-		if (current_status () == Mpd.State.PLAY || current_status () == Mpd.State.PAUSE) {
-			//headerbar.set_custom_title (topDisplayBin);
-			controls.set_center_widget (topDisplayBin);
-		}
-		//actionbar.set_hexpand (false);
-		//actionbar.set_margin_top(0);
-
 		GLib.Timeout.add (1000, () => {
 			if (current_status () == Mpd.State.PLAY || current_status () == Mpd.State.PAUSE) {
-				controls.set_center_widget (topDisplayBin);
+				//headerbar.set_custom_title (topDisplayBin);
 			} else {
-				controls.set_center_widget (null);
+				//headerbar.set_custom_title (null);
 			}
 			return true;
 		});
 
+		grid = new Gtk.Grid ();
+		//grid.orientation = Gtk.Orientation.VERTICAL;
+		grid.column_spacing = 0;
+		grid.row_spacing = 0;
+		add (grid);
+
+		var mainstack = new Gtk.Stack ();
+		mainstack.set_transition_type (Gtk.StackTransitionType.CROSSFADE);
+
+		var controls = new Controls ();
+		controls.show_all ();
 		grid.attach (controls, 0, 1, 2, 1);
 
 	//	Gtk.Paned pane = new Gtk.Paned (Gtk.Orientation.HORIZONTAL);
@@ -292,5 +165,6 @@ public class Application {
 		//fbox.set_vexpand (true);
 		//fbox.add ((new Gtk.Label ("Library")));
 		//grid.attach (fbox, 2, 0, 1, 1);
+		show_all ();
 	}
 }

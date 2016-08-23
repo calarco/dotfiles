@@ -129,7 +129,7 @@ public class Playlist : Gtk.Grid {
 							2, out title);
 			conn.send_play_pos (pos);
 			Gtk.Image image = new Gtk.Image.from_icon_name ("media-playback-pause-symbolic", Gtk.IconSize.MENU);
-			Application.buttonToggle.set_image (image);
+			Controls.buttonToggle.set_image (image);
 			cmd_art ();
 		}
 	}
@@ -229,11 +229,13 @@ public class Playlist : Gtk.Grid {
 
 		album = new Gtk.Label ("Album");
 		album.set_valign (Gtk.Align.CENTER);
+		album.ellipsize = Pango.EllipsizeMode.END;
 		album.get_style_context ().add_class ("h1");
 		lgrid.attach (album, 1, 1, 1, 1);
 
 		artist = new Gtk.Label ("Artist");
 		artist.set_valign (Gtk.Align.CENTER);
+		artist.ellipsize = Pango.EllipsizeMode.END;
 		artist.get_style_context ().add_class ("h2");
 		artist.set_opacity (0.8);
 		lgrid.attach (artist, 1, 2, 1, 1);
@@ -299,6 +301,7 @@ public class Playlist : Gtk.Grid {
 		var down = new Gtk.Button.from_icon_name ("go-down-symbolic", Gtk.IconSize.MENU);
 		plbox.pack_start(down);
 		var clear = new Gtk.Button.from_icon_name ("list-remove-all-symbolic", Gtk.IconSize.MENU);
+		clear.get_style_context ().add_class ("circular");
 		clear.clicked.connect (() => {
 			var conn = get_conn ();
 			conn.run_clear ();

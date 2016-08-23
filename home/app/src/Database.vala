@@ -20,9 +20,12 @@ public class Database : Gtk.Grid {
 				var grid = new Gtk.Grid ();
 				grid.orientation = Gtk.Orientation.VERTICAL;
 				grid.set_hexpand (true);
+				grid.row_spacing = 10;
 
-				var label = new Gtk.Label ("Albums");
+				var label = new Gtk.Label (artist);
+				label.get_style_context ().add_class ("h1");
 				grid.add (label);
+				grid.add (new Gtk.Separator (Gtk.Orientation.HORIZONTAL));
 
 				stack.add_titled (grid, artist, artist);
 
@@ -44,7 +47,6 @@ public class Database : Gtk.Grid {
 		asgrid.orientation = Gtk.Orientation.VERTICAL;
 		asgrid.column_spacing = 20;
 		asgrid.row_spacing = 20;
-		asgrid.set_border_width (20);
 		scrollTree.add (asgrid);
 
 		album_store = new Gtk.TreeStore (3, typeof (string), typeof (string), typeof (string));
@@ -77,6 +79,7 @@ public class Database : Gtk.Grid {
 				track = track.substring (0, track.index_of ("/", 0));
 			}
 			string title = song.get_tag (Mpd.TagType.TITLE);
+			string lenght = to_minutes (song.get_duration ());
 			string file = song.get_uri ();
 
 			if (album == null || song.get_tag (Mpd.TagType.ALBUM) != album) {
@@ -85,10 +88,9 @@ public class Database : Gtk.Grid {
 				year = ((year == null ) ? "0000" : year.substring (0, 4));
 
 				var agrid = new Gtk.Grid ();
-				agrid.column_spacing = 10;
 				agrid.row_spacing = 10;
 				agrid.column_spacing = 20;
-				agrid.set_hexpand (true);
+				agrid.set_border_width (20);
 				asgrid.add (agrid);
 				asgrid.add (new Gtk.Separator (Gtk.Orientation.HORIZONTAL));
 
@@ -129,39 +131,31 @@ public class Database : Gtk.Grid {
 				argrid.attach (art, 0, 0, 2, 1);
 
 				var add = new Gtk.Button.from_icon_name ("list-add-symbolic", Gtk.IconSize.MENU);
+				add.set_label (album);
+				add.set_always_show_image (true);
+				add.get_style_context ().add_class ("hide_label");
 				add.set_margin_start (10);
 				add.set_margin_end (10);
-				add.clicked.connect (() => {
-					conn.search_add_db_songs (true);
-					conn.search_add_tag_constraint(Mpd.Operator.DEFAULT, Mpd.TagType.ALBUM, album);
-					conn.search_commit ();
-					Playlist.cmd_playls ();
-				});
+				add.clicked.connect (add_album);
 				argrid.attach (add, 0, 1, 1, 1);
 
 				var play = new Gtk.Button.from_icon_name ("media-playback-start-symbolic", Gtk.IconSize.MENU);
 				play.set_margin_start (10);
 				play.set_margin_end (10);
-				play.clicked.connect (() => {
-					conn.search_add_db_songs (true);
-					conn.search_add_tag_constraint(Mpd.Operator.DEFAULT, Mpd.TagType.ALBUM, album);
-					conn.search_commit ();
-					Playlist.cmd_playls ();
-				});
 				argrid.attach (play, 1, 1, 1, 1);
 
 				string head = year + " | " + album;
 				var label = new Gtk.Label (head);
+				label.ellipsize = Pango.EllipsizeMode.END;
 				label.set_valign (Gtk.Align.START);
 				label.set_halign (Gtk.Align.START);
 				label.get_style_context ().add_class ("h1");
 				agrid.attach (label, 1, 0, 1, 1);
 
-				agrid.attach (new Gtk.Separator (Gtk.Orientation.HORIZONTAL), 1, 1, 1, 1 );
-
 				list = new Gtk.Grid ();
 				list.orientation = Gtk.Orientation.VERTICAL;
 				list.set_vexpand (true);
+				list.set_hexpand (true);
 				list.column_spacing = 10;
 				list.row_spacing = 10;
 				agrid.attach (list, 1, 2, 1, 1);
@@ -169,10 +163,21 @@ public class Database : Gtk.Grid {
 				album_store.append (out iteraa, null);
 				album_store.set (iteraa, 0, "album", 1, year, 2, album);
 			}
-			var label = new Gtk.Label (title);
-			label.set_valign (Gtk.Align.START);
-			label.set_halign (Gtk.Align.START);
-			list.add (label);
+			var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 20);
+			box.set_halign (Gtk.Align.START);
+			box.set_hexpand (true);
+			var nlabel = new Gtk.Label (track);
+			var tlabel = new Gtk.Label (title);
+			var llabel = new Gtk.Label (lenght);
+			nlabel.set_halign (Gtk.Align.START);
+			tlabel.set_halign (Gtk.Align.START);
+			tlabel.set_hexpand (true);
+			llabel.set_halign (Gtk.Align.END);
+			box.pack_start (nlabel);
+			box.set_center_widget (tlabel);
+			box.pack_end (llabel);
+			list.add (box);
+
 			album_store.append (out iterat, iteraa);
 			album_store.set (iterat, 0, file, 1, track, 2, title);
 		}
@@ -180,6 +185,17 @@ public class Database : Gtk.Grid {
 		albums.row_activated.connect (on_row_album);
 		widget.get_parent ().add (scrollTree);
 		scrollTree.show_all ();
+	}
+
+	private static void add_album (Gtk.Button button) {
+		var conn = get_conn ();
+		string artist = stack.get_visible_child_name ();
+		string album = button.get_label ();
+		conn.search_add_db_songs (true);
+		conn.search_add_tag_constraint(Mpd.Operator.DEFAULT, Mpd.TagType.ARTIST, artist);
+		conn.search_add_tag_constraint(Mpd.Operator.DEFAULT, Mpd.TagType.ALBUM, album);
+		conn.search_commit ();
+		Playlist.cmd_playls ();
 	}
 
 	private static void on_row_album (Gtk.TreeView treeview , Gtk.TreePath path, Gtk.TreeViewColumn column) {
