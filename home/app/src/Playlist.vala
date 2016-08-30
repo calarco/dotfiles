@@ -179,6 +179,8 @@ public class Playlist : Gtk.Grid {
 	public Playlist() {
 		set_border_width (20);
 		set_column_homogeneous (true);
+		set_vexpand (true);
+		set_valign (Gtk.Align.CENTER);
 
 		var lgrid = new Gtk.Grid ();
 		//grid.orientation = Gtk.Orientation.VERTICAL;
@@ -222,20 +224,30 @@ public class Playlist : Gtk.Grid {
 
 		var pgrid = new Gtk.Grid ();
 		pgrid.set_hexpand (true);
-		pgrid.height_request = 450;
+		pgrid.height_request = 500;
 		pgrid.set_valign (Gtk.Align.CENTER);
-		attach (pgrid, 1, 0, 1, 1);
+		var topDisplayBin = new FixedBin (300, -1, 500, -1);
+		topDisplayBin.set_widget (pgrid, true, false);
+		topDisplayBin.show_all ();
+		topDisplayBin.set_valign (Gtk.Align.CENTER);
+		attach (topDisplayBin, 1, 0, 1, 1);
+
+		pgrid.attach (new Gtk.Separator (Gtk.Orientation.VERTICAL), 0, 0, 1, 4 );
+		pgrid.attach (new Gtk.Separator (Gtk.Orientation.VERTICAL), 2, 0, 1, 4 );
+
+		pgrid.attach (new Gtk.Separator (Gtk.Orientation.HORIZONTAL), 1, 0, 1, 1 );
+
 		scrollList = new Gtk.ScrolledWindow (null, null);
-		scrollList.set_hexpand (true);
 		scrollList.set_policy (Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC);
 
 		tree_store = new Gtk.TreeStore (4, typeof (uint), typeof (string), typeof (string), typeof (string));
 
 		tree = new Gtk.TreeView.with_model (tree_store);
-		tree.set_hexpand (true);
 		tree.set_vexpand (true);
+		//tree.set_show_expanders (false);
+		tree.set_headers_visible (false);
 		scrollList.add (tree);
-		pgrid.attach (scrollList, 0, 0, 1, 1);
+		pgrid.attach (scrollList, 1, 1, 1, 1);
 
 		Gtk.CellRendererText celln = new Gtk.CellRendererText ();
 		Gtk.CellRendererText cellt = new Gtk.CellRendererText ();
@@ -252,28 +264,30 @@ public class Playlist : Gtk.Grid {
 
 		cmd_playls ();
 
-		var actionbar = new Gtk.ActionBar();
+		var actionbar = new Gtk.ActionBar ();
 		actionbar.set_hexpand (true);
 		//actionbar.set_margin_top(0);
-		pgrid.attach (actionbar, 0, 1, 1, 1);
+		pgrid.attach (actionbar, 1, 2, 1, 1);
+
+		pgrid.attach (new Gtk.Separator (Gtk.Orientation.HORIZONTAL), 1, 3, 1, 1 );
 
 		var plbox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-		plbox.get_style_context ().add_class("linked");
-		actionbar.pack_start(plbox);
+		plbox.get_style_context ().add_class ("linked");
+		actionbar.pack_start (plbox);
 		var up = new Gtk.Button.from_icon_name ("go-up-symbolic", Gtk.IconSize.MENU);
 		up.clicked.connect (() => {
 			var selection = tree.get_selection ();
 			cmd_move (selection);
 		});
-		plbox.pack_start(up);
+		plbox.pack_start (up);
 		var remove = new Gtk.Button.from_icon_name ("list-remove-symbolic", Gtk.IconSize.MENU);
 		remove.clicked.connect (() => {
 			var selection = tree.get_selection ();
 			cmd_delete (selection);
 		});
-		plbox.pack_start(remove);
+		plbox.pack_start (remove);
 		var down = new Gtk.Button.from_icon_name ("go-down-symbolic", Gtk.IconSize.MENU);
-		plbox.pack_start(down);
+		plbox.pack_start (down);
 		var clear = new Gtk.Button.from_icon_name ("list-remove-all-symbolic", Gtk.IconSize.MENU);
 		clear.get_style_context ().add_class ("circular");
 		clear.clicked.connect (() => {

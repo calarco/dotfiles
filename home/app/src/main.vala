@@ -109,20 +109,21 @@ public class Application : Gtk.Window {
 		set_titlebar (headerbar);
 
 		var button_menu = new Gtk.Button.from_icon_name ("open-menu-symbolic", Gtk.IconSize.MENU);
+
+		var popover = new Gtk.Popover (button_menu);
+		popover.set_position (Gtk.PositionType.BOTTOM);
+		var box2 = new Gtk.Box (Gtk.Orientation.VERTICAL, 5);
+		popover.add (box2);
+
+		var button_db = new Gtk.Button.with_label ("Update database");
+		button_db.get_style_context ().add_class ("flat");
+		button_db.clicked.connect (() => {
+			button_db.label = "Updating database...";
+			cmd_updb ();
+		});
+		box2.add (button_db);
+
 		button_menu.clicked.connect (() => {
-			var popover = new Gtk.Popover (button_menu);
-			popover.set_position (Gtk.PositionType.BOTTOM);
-			var box2 = new Gtk.Box (Gtk.Orientation.VERTICAL, 5);
-			popover.add (box2);
-
-			var button_db = new Gtk.Button.with_label ("Update database");
-			button_db.get_style_context ().add_class ("flat");
-			button_db.clicked.connect (() => {
-				button_db.label = "Updating database...";
-				cmd_updb ();
-			});
-			box2.add (button_db);
-
 			popover.show_all ();
 		});
 		headerbar.pack_end (button_menu);

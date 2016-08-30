@@ -140,6 +140,8 @@ public class Controls : Gtk.ActionBar {
 		var grid = new Gtk.Grid ();
 		grid.width_request = 600;
 		grid.column_spacing = 6;
+		grid.margin_start = 30;
+		grid.margin_end = 30;
 
 		label = new Gtk.Label (current_title ());
 		label.hexpand = true;
@@ -189,8 +191,6 @@ public class Controls : Gtk.ActionBar {
 		grid.attach (info, 0, 0, 1, 1);
 
 		var topDisplayBin = new FixedBin (700, -1, 800, -1);
-		grid.margin_start = 30;
-		grid.margin_end = 30;
 		topDisplayBin.set_widget (grid, true, false);
 		topDisplayBin.show_all ();
 		if (current_status () == Mpd.State.PLAY || current_status () == Mpd.State.PAUSE) {

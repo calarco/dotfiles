@@ -20,9 +20,12 @@ public class Database : Gtk.Grid {
 				var grid = new Gtk.Grid ();
 				grid.orientation = Gtk.Orientation.VERTICAL;
 				grid.set_hexpand (true);
-				grid.row_spacing = 10;
 
 				var label = new Gtk.Label (artist);
+				label.set_halign (Gtk.Align.START);
+				label.set_margin_top (10);
+				label.set_margin_bottom (10);
+				label.set_margin_start (20);
 				label.get_style_context ().add_class ("h1");
 				grid.add (label);
 				grid.add (new Gtk.Separator (Gtk.Orientation.HORIZONTAL));
