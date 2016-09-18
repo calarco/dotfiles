@@ -48,8 +48,7 @@ public class Database : Gtk.Grid {
 
 		var asgrid = new Gtk.Grid ();
 		asgrid.orientation = Gtk.Orientation.VERTICAL;
-		asgrid.column_spacing = 20;
-		asgrid.row_spacing = 20;
+		asgrid.row_spacing = 10;
 		scrollTree.add (asgrid);
 
 		album_store = new Gtk.TreeStore (3, typeof (string), typeof (string), typeof (string));
@@ -150,6 +149,7 @@ public class Database : Gtk.Grid {
 			nlabel.set_halign (Gtk.Align.START);
 			tlabel.set_halign (Gtk.Align.START);
 			tlabel.set_hexpand (true);
+			tlabel.ellipsize = Pango.EllipsizeMode.END;
 			llabel.set_halign (Gtk.Align.END);
 			box.pack_start (nlabel);
 			box.set_center_widget (tlabel);
@@ -202,6 +202,18 @@ public class Database : Gtk.Grid {
 			//}
 			Playlist.cmd_playls ();
 		}
+	}
+
+	public static void reset () {
+		//stack.destroy ();
+		//stack = new Gtk.Stack ();
+		stack.foreach (remove);
+		cmd_dbartists ();
+		sidebar.set_stack (stack);
+		//add (stack);
+		//Application.database.destroy ();
+		//Application.database = new Database ();
+		//Application.main_stack.add_titled (Application.database, "database", "Database");
 	}
 
 	public Database() {

@@ -37,6 +37,8 @@ public static void cmd_updb () {
 			status = conn.run_status ();
 			return true;
 		} else {
+			Database.reset ();
+			stdout.printf ("%s\n", "updated");
 			return false;
 		}
 	});
@@ -96,7 +98,7 @@ public class Application : Gtk.Window {
 		}
 		try {
 			var provider = new Gtk.CssProvider ();
-			provider.load_from_path ("main.css");
+			provider.load_from_path ("/home/calarco/app/src/main.css");
 			Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default (), provider, Gtk.STYLE_PROVIDER_PRIORITY_USER);
 		} catch (GLib.Error e) {
 			stderr.printf ("Could not load css: %s\n", e.message);
