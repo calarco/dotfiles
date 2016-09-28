@@ -190,13 +190,11 @@ public class Controls : Gtk.ActionBar {
 		info.attach (scale_grid, 0, 1, 1, 1);
 		grid.attach (info, 0, 0, 1, 1);
 
-		var topDisplayBin = new FixedBin (700, -1, 800, -1);
-		topDisplayBin.set_widget (grid, true, false);
-		topDisplayBin.show_all ();
-		if (current_status () == Mpd.State.PLAY || current_status () == Mpd.State.PAUSE) {
+		//if (current_status () == Mpd.State.PLAY || current_status () == Mpd.State.PAUSE) {
 			//headerbar.set_custom_title (topDisplayBin);
-			set_center_widget (topDisplayBin);
-		}
+			//set_center_widget (grid);
+		//}
+		set_center_widget (grid);
 		//actionbar.set_hexpand (false);
 		//actionbar.set_margin_top(0);
 

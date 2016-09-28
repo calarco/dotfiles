@@ -38,6 +38,7 @@ public static void cmd_updb () {
 			return true;
 		} else {
 			Database.reset ();
+			Application.button_db.label = "Updated database";
 			stdout.printf ("%s\n", "updated");
 			return false;
 		}
@@ -79,6 +80,7 @@ public static Gdk.Pixbuf cmd_arts (Mpd.Song song, int size) {
 }
 
 public class Application : Gtk.Window {
+	public static Gtk.Button button_db;
 	public static Gtk.Grid main_grid;
 	public static Gtk.Stack main_stack;
 	public static Gtk.StackSwitcher switcher;
@@ -117,7 +119,7 @@ public class Application : Gtk.Window {
 		var box2 = new Gtk.Box (Gtk.Orientation.VERTICAL, 5);
 		popover.add (box2);
 
-		var button_db = new Gtk.Button.with_label ("Update database");
+		button_db = new Gtk.Button.with_label ("Update database");
 		button_db.get_style_context ().add_class ("flat");
 		button_db.clicked.connect (() => {
 			button_db.label = "Updating database...";

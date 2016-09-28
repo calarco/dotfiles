@@ -205,11 +205,13 @@ public class Database : Gtk.Grid {
 	}
 
 	public static void reset () {
-		//stack.destroy ();
-		//stack = new Gtk.Stack ();
-		stack.foreach (remove);
+		stack.destroy ();
+		stack = new Gtk.Stack ();
+		//stack.hide ();
+		//stack.foreach ((element) => stack.remove (element));
 		cmd_dbartists ();
-		sidebar.set_stack (stack);
+		stack.show_all ();
+		//sidebar.set_stack (stack);
 		//add (stack);
 		//Application.database.destroy ();
 		//Application.database = new Database ();

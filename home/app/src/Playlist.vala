@@ -189,7 +189,6 @@ public class Playlist : Gtk.Grid {
 		lgrid.column_spacing = 20;
 		lgrid.row_spacing = 10;
 		lgrid.set_border_width (20);
-		lgrid.get_style_context ().add_class ("lgrid");
 		attach (lgrid, 0, 0, 1, 1);
 
 		artPlay = new Gtk.Image ();
@@ -223,14 +222,10 @@ public class Playlist : Gtk.Grid {
 		//attach (new Gtk.Separator (Gtk.Orientation.HORIZONTAL), 1, 0, 1, 1 );
 
 		var pgrid = new Gtk.Grid ();
-		pgrid.set_hexpand (true);
 		pgrid.height_request = 500;
+		pgrid.width_request = 500;
 		pgrid.set_valign (Gtk.Align.CENTER);
-		var topDisplayBin = new FixedBin (300, -1, 500, -1);
-		topDisplayBin.set_widget (pgrid, true, false);
-		topDisplayBin.show_all ();
-		topDisplayBin.set_valign (Gtk.Align.CENTER);
-		attach (topDisplayBin, 1, 0, 1, 1);
+		attach (pgrid, 1, 0, 1, 1);
 
 		pgrid.attach (new Gtk.Separator (Gtk.Orientation.VERTICAL), 0, 0, 1, 4 );
 		pgrid.attach (new Gtk.Separator (Gtk.Orientation.VERTICAL), 2, 0, 1, 4 );
