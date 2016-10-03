@@ -1,6 +1,7 @@
 public class Database : Gtk.Grid {
-	public static Gtk.Stack stack;
-	public static Gtk.StackSidebar sidebar;
+	private static Gtk.Grid grid;
+	private static Gtk.Stack stack;
+	private static Gtk.StackSidebar sidebar;
 	private static Gtk.TreeIter iteraa;
 	private static Gtk.TreeIter iterat;
 	private static Gtk.ScrolledWindow scrollTree;
@@ -207,18 +208,28 @@ public class Database : Gtk.Grid {
 	public static void reset () {
 		stack.destroy ();
 		stack = new Gtk.Stack ();
-		//stack.hide ();
-		//stack.foreach ((element) => stack.remove (element));
 		cmd_dbartists ();
 		stack.show_all ();
+
+		sidebar.destroy ();
+		sidebar = new Gtk.StackSidebar ();
+		sidebar.set_stack (stack);
+		sidebar.show_all ();
+		//stack.hide ();
+		//stack.foreach ((element) => stack.remove (element));
+		grid.add (sidebar);
+		grid.add (stack);
 		//sidebar.set_stack (stack);
-		//add (stack);
 		//Application.database.destroy ();
 		//Application.database = new Database ();
 		//Application.main_stack.add_titled (Application.database, "database", "Database");
 	}
 
 	public Database() {
+		grid = new Gtk.Grid ();
+		grid.orientation = Gtk.Orientation.HORIZONTAL;
+		add (grid);
+
 		stack = new Gtk.Stack ();
 		stack.set_transition_type (Gtk.StackTransitionType.CROSSFADE);
 		cmd_dbartists ();
@@ -227,8 +238,8 @@ public class Database : Gtk.Grid {
 		sidebar.set_stack (stack);
 
 		orientation = Gtk.Orientation.HORIZONTAL;
-		add (sidebar);
-		add (stack);
+		grid.add (sidebar);
+		grid.add (stack);
 
 		show_all ();
 	}
