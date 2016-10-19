@@ -51,14 +51,15 @@ public static Gdk.Pixbuf cmd_arts (Mpd.Song song, int size) {
 	try {
 		Dir dir = Dir.open (folder, 0);
 		string? name = null;
+		int64 isize = 0;
 		while ((name = dir.read_name ()) != null) {
 			string path = Path.build_filename (folder, name);
 			var files = File.new_for_path (path);
 			try {
 				var file_info = files.query_info ("*", FileQueryInfoFlags.NONE);
-				if (file_info.get_content_type ().substring (0, file_info.get_content_type().index_of("/", 0)) == "image" && FileUtils.test (path, FileTest.IS_REGULAR)) {
+				if (file_info.get_content_type ().substring (0, file_info.get_content_type().index_of("/", 0)) == "image" && FileUtils.test (path, FileTest.IS_REGULAR) && file_info.get_size () > isize) {
+					isize = file_info.get_size ();
 					file = path;
-					stdout.printf ("File size: %lld bytes\n", file_info.get_size ());
 				}
 			} catch (GLib.Error e) {
 				stderr.printf ("Could not query album art info: %s\n", e.message);

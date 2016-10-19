@@ -74,6 +74,7 @@ public class Database : Gtk.Grid {
 		conn.search_add_tag_constraint (Mpd.Operator.DEFAULT, Mpd.TagType.ARTIST, artist);
 		conn.search_commit ();
 		string album = null;
+		uint total = 0;
 		while ((song = conn.recv_song ()) != null) {
 			string track = song.get_tag (Mpd.TagType.TRACK);
 			if (track == null) {
@@ -83,6 +84,7 @@ public class Database : Gtk.Grid {
 			}
 			string title = song.get_tag (Mpd.TagType.TITLE);
 			string lenght = to_minutes (song.get_duration ());
+			total += song.get_duration ();
 			string file = song.get_uri ();
 
 			if (album == null || song.get_tag (Mpd.TagType.ALBUM) != album) {
@@ -122,13 +124,21 @@ public class Database : Gtk.Grid {
 				play.set_margin_end (10);
 				argrid.attach (play, 1, 1, 1, 1);
 
-				string head = year + " | " + album;
-				var label = new Gtk.Label (head);
-				label.ellipsize = Pango.EllipsizeMode.END;
-				label.set_valign (Gtk.Align.START);
-				label.set_halign (Gtk.Align.START);
-				label.get_style_context ().add_class ("h1");
-				agrid.attach (label, 1, 0, 1, 1);
+				var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 20);
+				var hlabel = new Gtk.Label (year + " | " + album);
+				hlabel.ellipsize = Pango.EllipsizeMode.END;
+				hlabel.set_valign (Gtk.Align.START);
+				hlabel.set_halign (Gtk.Align.START);
+				hlabel.get_style_context ().add_class ("h1");
+				box.pack_start (hlabel);
+				var tlabel = new Gtk.Label (to_minutes (total));
+				tlabel.ellipsize = Pango.EllipsizeMode.END;
+				tlabel.set_valign (Gtk.Align.START);
+				tlabel.set_halign (Gtk.Align.END);
+				tlabel.get_style_context ().add_class ("h1");
+				box.pack_end (tlabel);
+				total = 0;
+				agrid.attach (box, 1, 0, 1, 1);
 
 				list = new Gtk.Grid ();
 				list.orientation = Gtk.Orientation.VERTICAL;
@@ -206,10 +216,12 @@ public class Database : Gtk.Grid {
 	}
 
 	public static void reset () {
+		string current = stack.get_visible_child_name ();
 		stack.destroy ();
 		stack = new Gtk.Stack ();
 		cmd_dbartists ();
 		stack.show_all ();
+		stack.set_visible_child_name (current);
 
 		sidebar.destroy ();
 		sidebar = new Gtk.StackSidebar ();
