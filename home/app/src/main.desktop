@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=MPD Client
+GenericName=Music Player
+Comment=Proves that we can use Vala and Gtk
+Categories=GTK;Utility;
+Exec=mpdclient
+Icon=multimedia-audio-player
+Terminal=false
+Type=Application
+X-GNOME-Gettext-Domain=hello-again
+Keywords=Hello;World;Example;

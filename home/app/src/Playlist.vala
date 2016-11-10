@@ -22,6 +22,17 @@ public class Playlist : Gtk.Grid {
 			year.set_text (song.get_tag (Mpd.TagType.DATE));
 			album.set_text (song.get_tag (Mpd.TagType.ALBUM));
 			artist.set_text (song.get_tag (Mpd.TagType.ARTIST));
+
+			Mpd.Song songs;
+			conn.search_db_songs (true);
+			conn.search_add_tag_constraint (Mpd.Operator.DEFAULT, Mpd.TagType.ARTIST, song.get_tag (Mpd.TagType.ARTIST));
+			conn.search_add_tag_constraint (Mpd.Operator.DEFAULT, Mpd.TagType.ALBUM, song.get_tag (Mpd.TagType.ALBUM));
+			conn.search_commit ();
+			uint tot = 0;
+			while ((songs = conn.recv_song ()) != null) {
+				tot += songs.get_duration ();
+			}
+			total.set_text (to_minutes (tot));
 		}
 	}
 
@@ -176,6 +187,45 @@ public class Playlist : Gtk.Grid {
 		}
 	}
 
+	public static void cmd_last (Gtk.TreeSelection selection) {
+		Gtk.TreeModel model;
+		Gtk.TreeIter iter;
+		uint pos;
+		string track;
+		string title;
+		var conn = get_conn ();
+		if (selection.get_selected (out model, out iter)) {
+			model.get (iter,
+						0, out pos,
+						1, out track,
+						2, out title);
+			stdout.printf ("%s\n", track);
+			if (track != null && track.char_count () > 2) {
+				Mpd.Song song;
+				conn.send_list_queue_meta ();
+				uint pos0 = -1;
+				uint pos1 = -1;
+				uint total = -1;
+				while ((song = conn.recv_song ()) != null) {
+					if (song.get_tag (Mpd.TagType.ALBUM) == title) {
+						if (pos0 == -1) {
+							pos0 = song.get_pos ();
+						}
+						pos1 = song.get_pos ();
+					}
+					total++;
+				}
+				total = total - (pos1 - pos0);
+				pos1++;
+				stdout.printf ("%s\n", total.to_string());
+				conn.run_move_range (pos0, pos1, total);
+			} else {
+				conn.run_move (pos, 0);
+			}
+			cmd_playls ();
+		}
+	}
+
 	public Playlist() {
 		set_border_width (20);
 		set_column_homogeneous (true);
@@ -198,9 +248,11 @@ public class Playlist : Gtk.Grid {
 
 		year = new Gtk.Label ("Year");
 		year.set_valign (Gtk.Align.CENTER);
+		year.set_margin_start (20);
 		lgrid.attach (year, 0, 1, 1, 2);
 
 		album = new Gtk.Label ("Album");
+		album.set_hexpand (true);
 		album.set_valign (Gtk.Align.CENTER);
 		album.ellipsize = Pango.EllipsizeMode.END;
 		album.get_style_context ().add_class ("h1");
@@ -215,6 +267,7 @@ public class Playlist : Gtk.Grid {
 
 		total = new Gtk.Label ("Total");
 		total.set_valign (Gtk.Align.CENTER);
+		total.set_margin_end (20);
 		lgrid.attach (total, 2, 1, 1, 2);
 
 		cmd_art ();
@@ -282,6 +335,10 @@ public class Playlist : Gtk.Grid {
 		});
 		plbox.pack_start (remove);
 		var down = new Gtk.Button.from_icon_name ("go-down-symbolic", Gtk.IconSize.MENU);
+		down.clicked.connect (() => {
+			var selection = tree.get_selection ();
+			cmd_last (selection);
+		});
 		plbox.pack_start (down);
 		var clear = new Gtk.Button.from_icon_name ("list-remove-all-symbolic", Gtk.IconSize.MENU);
 		clear.get_style_context ().add_class ("circular");
