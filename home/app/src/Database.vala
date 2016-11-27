@@ -10,32 +10,41 @@ public class Database : Gtk.Grid {
 
 	private static Gtk.Grid list;
 
+	private static int cmpfunc (ref string x, ref string y) {
+		return Posix.strcoll (x, y);
+	}
+
 	public static void cmd_dbartists () {
 		var conn = get_conn ();
 		Mpd.Pair pair;
+		var artists = new string[] {};
 		string artist;
 		conn.search_db_tags (Mpd.TagType.ARTIST);
 		conn.search_commit ();
 		while ((pair = conn.recv_pair_tag (Mpd.TagType.ARTIST)) != null) {
 			if ((artist = pair.value) != "\0") {
-				var grid = new Gtk.Grid ();
-				grid.orientation = Gtk.Orientation.VERTICAL;
-				grid.set_hexpand (true);
-
-				var label = new Gtk.Label (artist);
-				label.set_halign (Gtk.Align.START);
-				label.set_margin_top (10);
-				label.set_margin_bottom (10);
-				label.set_margin_start (20);
-				label.get_style_context ().add_class ("h1");
-				grid.add (label);
-				grid.add (new Gtk.Separator (Gtk.Orientation.HORIZONTAL));
-
-				stack.add_titled (grid, artist, artist);
-
-				label.realize.connect (album_realize);
+				artists += artist;
 			}
 			conn.return_pair (pair);
+		}
+		Posix.qsort (artists, artists.length, sizeof (string), (Posix.compar_fn_t) cmpfunc);
+		foreach (string item in artists) {
+			var grid = new Gtk.Grid ();
+			grid.orientation = Gtk.Orientation.VERTICAL;
+			grid.set_hexpand (true);
+
+			var label = new Gtk.Label (item);
+			label.set_halign (Gtk.Align.START);
+			label.set_margin_top (10);
+			label.set_margin_bottom (10);
+			label.set_margin_start (20);
+			label.get_style_context ().add_class ("h1");
+			grid.add (label);
+			grid.add (new Gtk.Separator (Gtk.Orientation.HORIZONTAL));
+
+			stack.add_titled (grid, item, item);
+
+			label.realize.connect (album_realize);
 		}
 	}
 
