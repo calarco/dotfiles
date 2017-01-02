@@ -2,11 +2,7 @@ public class Database : Gtk.Grid {
 	private static Gtk.Grid grid;
 	private static Gtk.Stack stack;
 	private static Gtk.StackSidebar sidebar;
-	private static Gtk.TreeIter iteraa;
-	private static Gtk.TreeIter iterat;
 	private static Gtk.ScrolledWindow scrollTree;
-	private static Gtk.TreeStore album_store;
-	private static Gtk.TreeView albums;
 
 	private static Gtk.Grid list;
 
@@ -58,129 +54,136 @@ public class Database : Gtk.Grid {
 
 		var asgrid = new Gtk.Grid ();
 		asgrid.orientation = Gtk.Orientation.VERTICAL;
-		asgrid.row_spacing = 10;
 		scrollTree.add (asgrid);
 
-		album_store = new Gtk.TreeStore (3, typeof (string), typeof (string), typeof (string));
-
-		albums = new Gtk.TreeView.with_model (album_store);
-		albums.set_vexpand (true);
-		albums.set_hexpand (true);
-		albums.set_grid_lines (Gtk.TreeViewGridLines.VERTICAL);
-
-		Gtk.CellRendererText celln = new Gtk.CellRendererText ();
-		Gtk.CellRendererText cellt = new Gtk.CellRendererText ();
-		cellt.ellipsize = Pango.EllipsizeMode.END;
-		celln.xalign = 1;
-		celln.xpad = 10;
-		celln.ypad = 5;
-		albums.insert_column_with_attributes (-1, "#", celln, "text", 1);
-		albums.insert_column_with_attributes (-1, "Title", cellt, "text", 2);
-
 		string artist = stack.get_visible_child_name ();
-		Mpd.Song song;
-		conn.search_db_songs (true);
+
+		Mpd.Pair pair;
+		var albums = new string[] {};
+		string albuma;
+		conn.search_db_tags (Mpd.TagType.ALBUM);
 		conn.search_add_tag_constraint (Mpd.Operator.DEFAULT, Mpd.TagType.ARTIST, artist);
 		conn.search_commit ();
-		string album = null;
-		uint total = 0;
-		while ((song = conn.recv_song ()) != null) {
-			string track = song.get_tag (Mpd.TagType.TRACK);
-			if (track == null) {
-				track = "0";
-			} else if (track.contains ("/")) {
-				track = track.substring (0, track.index_of ("/", 0));
+		while ((pair = conn.recv_pair_tag (Mpd.TagType.ALBUM)) != null) {
+			if ((albuma = pair.value) != "\0") {
+				stdout.printf ("%s\n", albuma);
+				albums += albuma;
 			}
-			string title = song.get_tag (Mpd.TagType.TITLE);
-			string lenght = to_minutes (song.get_duration ());
-			total += song.get_duration ();
-			string file = song.get_uri ();
-
-			if (album == null || song.get_tag (Mpd.TagType.ALBUM) != album) {
-				album = song.get_tag (Mpd.TagType.ALBUM);
-				string year = song.get_tag (Mpd.TagType.DATE);
-				year = ((year == null ) ? "0000" : year.substring (0, 4));
-
-				var agrid = new Gtk.Grid ();
-				agrid.row_spacing = 10;
-				agrid.column_spacing = 20;
-				agrid.set_border_width (20);
-				asgrid.add (agrid);
-				asgrid.add (new Gtk.Separator (Gtk.Orientation.HORIZONTAL));
-
-				var argrid = new Gtk.Grid ();
-				agrid.attach (argrid, 0, 0, 1, 3);
-
-				var albumArt = cmd_arts (song, 250);
-				var art = new Gtk.Image ();
-				art.set_from_pixbuf (albumArt);
-				art.set_valign (Gtk.Align.START);
-				art.set_halign (Gtk.Align.CENTER);
-				art.get_style_context ().add_class ("art");
-				argrid.attach (art, 0, 0, 2, 1);
-
-				var add = new Gtk.Button.from_icon_name ("list-add-symbolic", Gtk.IconSize.MENU);
-				add.set_label (album);
-				add.set_always_show_image (true);
-				add.get_style_context ().add_class ("hide_label");
-				add.set_margin_start (10);
-				add.set_margin_end (10);
-				add.clicked.connect (add_album);
-				argrid.attach (add, 0, 1, 1, 1);
-
-				var play = new Gtk.Button.from_icon_name ("media-playback-start-symbolic", Gtk.IconSize.MENU);
-				play.set_margin_start (10);
-				play.set_margin_end (10);
-				argrid.attach (play, 1, 1, 1, 1);
-
-				var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 20);
-				var hlabel = new Gtk.Label (year + " | " + album);
-				hlabel.ellipsize = Pango.EllipsizeMode.END;
-				hlabel.set_valign (Gtk.Align.START);
-				hlabel.set_halign (Gtk.Align.START);
-				hlabel.get_style_context ().add_class ("h1");
-				box.pack_start (hlabel);
-				var tlabel = new Gtk.Label (to_minutes (total));
-				tlabel.ellipsize = Pango.EllipsizeMode.END;
-				tlabel.set_valign (Gtk.Align.START);
-				tlabel.set_halign (Gtk.Align.END);
-				tlabel.get_style_context ().add_class ("h1");
-				box.pack_end (tlabel);
-				total = 0;
-				agrid.attach (box, 1, 0, 1, 1);
-
-				list = new Gtk.Grid ();
-				list.orientation = Gtk.Orientation.VERTICAL;
-				list.set_vexpand (true);
-				list.set_hexpand (true);
-				list.column_spacing = 10;
-				list.row_spacing = 10;
-				agrid.attach (list, 1, 2, 1, 1);
-
-				album_store.append (out iteraa, null);
-				album_store.set (iteraa, 0, "album", 1, year, 2, album);
-			}
-			var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 20);
-			box.set_halign (Gtk.Align.START);
-			box.set_hexpand (true);
-			var nlabel = new Gtk.Label (track);
-			var tlabel = new Gtk.Label (title);
-			var llabel = new Gtk.Label (lenght);
-			nlabel.set_halign (Gtk.Align.START);
-			tlabel.set_halign (Gtk.Align.START);
-			tlabel.set_hexpand (true);
-			tlabel.ellipsize = Pango.EllipsizeMode.END;
-			llabel.set_halign (Gtk.Align.END);
-			box.pack_start (nlabel);
-			box.set_center_widget (tlabel);
-			box.pack_end (llabel);
-			list.add (box);
-
-			album_store.append (out iterat, iteraa);
-			album_store.set (iterat, 0, file, 1, track, 2, title);
+			conn.return_pair (pair);
 		}
-		albums.expand_all ();
-		albums.row_activated.connect (on_row_album);
+		foreach (string item in albums) {
+			var agrid = new Gtk.Grid ();
+			asgrid.add (agrid);
+			asgrid.add (new Gtk.Separator (Gtk.Orientation.HORIZONTAL));
+
+			var argrid = new Gtk.Grid ();
+			agrid.attach (argrid, 0, 0, 1, 3);
+			agrid.attach (new Gtk.Separator (Gtk.Orientation.HORIZONTAL), 1, 0, 1, 3);
+
+			Gdk.Pixbuf albumArt = null;
+			var art = new Gtk.Image ();
+			art.set_valign (Gtk.Align.START);
+			art.set_halign (Gtk.Align.CENTER);
+			argrid.attach (art, 0, 0, 2, 1);
+
+			argrid.attach (new Gtk.Separator (Gtk.Orientation.HORIZONTAL), 0, 1, 2, 1);
+
+			var add = new Gtk.Button.from_icon_name ("list-add-symbolic", Gtk.IconSize.MENU);
+			add.set_label (item);
+			add.set_always_show_image (true);
+			add.get_style_context ().add_class ("hide_label");
+			add.set_margin_top (10);
+			add.set_margin_bottom (10);
+			add.set_margin_start (10);
+			add.set_margin_end (10);
+			add.clicked.connect (add_album);
+			argrid.attach (add, 0, 2, 1, 1);
+
+			var play = new Gtk.Button.from_icon_name ("media-playback-start-symbolic", Gtk.IconSize.MENU);
+			play.set_margin_top (10);
+			play.set_margin_bottom (10);
+			play.set_margin_start (10);
+			play.set_margin_end (10);
+			argrid.attach (play, 1, 2, 1, 1);
+
+			var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 20);
+			box.set_margin_top (10);
+			box.set_margin_bottom (10);
+			box.set_margin_start (10);
+			box.set_margin_end (10);
+
+			string year = "year";
+			var hlabel = new Gtk.Label (year + " | " + item);
+			hlabel.ellipsize = Pango.EllipsizeMode.END;
+			hlabel.set_valign (Gtk.Align.START);
+			hlabel.set_halign (Gtk.Align.START);
+			hlabel.get_style_context ().add_class ("h1");
+			box.pack_start (hlabel);
+
+			uint total = 0;
+			var tlabel = new Gtk.Label ("total");
+			tlabel.ellipsize = Pango.EllipsizeMode.END;
+			tlabel.set_valign (Gtk.Align.START);
+			tlabel.set_halign (Gtk.Align.END);
+			tlabel.get_style_context ().add_class ("h1");
+			box.pack_end (tlabel);
+			agrid.attach (box, 2, 0, 1, 1);
+
+			list = new Gtk.Grid ();
+			list.orientation = Gtk.Orientation.VERTICAL;
+			list.set_vexpand (true);
+			list.set_hexpand (true);
+			list.column_spacing = 10;
+			list.row_spacing = 10;
+			list.set_margin_top (10);
+			list.set_margin_bottom (10);
+			list.set_margin_start (20);
+			list.set_margin_end (20);
+			agrid.attach (list, 2, 2, 1, 1);
+
+			Mpd.Song song;
+			conn.search_db_songs (true);
+			conn.search_add_tag_constraint (Mpd.Operator.DEFAULT, Mpd.TagType.ARTIST, artist);
+			conn.search_add_tag_constraint (Mpd.Operator.DEFAULT, Mpd.TagType.ALBUM, item);
+			conn.search_commit ();
+			while ((song = conn.recv_song ()) != null) {
+				string track = song.get_tag (Mpd.TagType.TRACK);
+				if (track == null) {
+					track = "0";
+				} else if (track.contains ("/")) {
+					track = track.substring (0, track.index_of ("/", 0));
+				}
+				string title = song.get_tag (Mpd.TagType.TITLE);
+				string lenght = to_minutes (song.get_duration ());
+				total += song.get_duration ();
+
+				var box1 = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 20);
+				box1.set_halign (Gtk.Align.START);
+				box1.set_hexpand (true);
+				var nlabel = new Gtk.Label (track);
+				var tlabel1 = new Gtk.Label (title);
+				var llabel = new Gtk.Label (lenght);
+				nlabel.set_halign (Gtk.Align.START);
+				tlabel1.set_halign (Gtk.Align.START);
+				tlabel1.set_hexpand (true);
+				tlabel1.ellipsize = Pango.EllipsizeMode.END;
+				llabel.set_halign (Gtk.Align.END);
+				box1.pack_start (nlabel);
+				box1.set_center_widget (tlabel1);
+				box1.pack_end (llabel);
+				list.add (box1);
+				if (albumArt == null) {
+					albumArt = cmd_arts (song, 250);
+					art.set_from_pixbuf (albumArt);
+				}
+				if (year == "year") {
+					year = song.get_tag (Mpd.TagType.DATE);
+					year = ((year == null ) ? "0000" : year.substring (0, 4));
+					hlabel.set_label (year + " | " + item);
+				}
+			}
+			tlabel.set_label (to_minutes (total));
+		}
 		widget.get_parent ().add (scrollTree);
 		scrollTree.show_all ();
 	}
@@ -194,34 +197,6 @@ public class Database : Gtk.Grid {
 		conn.search_add_tag_constraint(Mpd.Operator.DEFAULT, Mpd.TagType.ALBUM, album);
 		conn.search_commit ();
 		Playlist.cmd_playls ();
-	}
-
-	private static void on_row_album (Gtk.TreeView treeview , Gtk.TreePath path, Gtk.TreeViewColumn column) {
-		Gtk.TreeIter iter;
-		string track;
-		string title;
-		string file;
-		if (treeview.model.get_iter (out iter, path)) {
-			treeview.model.get (iter,
-							0, out file,
-							1, out track,
-							2, out title);
-			//Mpd.Song song;
-			var conn = get_conn ();
-			conn.search_add_db_songs (true);
-			if (file == "album") {
-				conn.search_add_tag_constraint(Mpd.Operator.DEFAULT, Mpd.TagType.ALBUM, title);
-			} else {
-				conn.search_add_uri_constraint (Mpd.Operator.DEFAULT, file);
-			}
-			conn.search_commit ();
-			stdout.printf ("%s\n", file);
-			stdout.printf ("%s\n", title);
-			//while ((song = conn.recv_song ()) != null) {
-			//	stdout.printf ("%s\n", file);
-			//}
-			Playlist.cmd_playls ();
-		}
 	}
 
 	public static void reset () {
