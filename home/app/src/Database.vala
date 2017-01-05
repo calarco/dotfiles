@@ -10,6 +10,18 @@ public class Database : Gtk.Grid {
 		return Posix.strcoll (x, y);
 	}
 
+	public class Songs {
+		public string track;
+		public string title;
+		public string length;
+
+		public Songs (string n, string t, string l) {
+			this.track = n;
+			this.title = t;
+			this.length = l;
+		}
+	}
+
 	public static void cmd_dbartists () {
 		var conn = get_conn ();
 		Mpd.Pair pair;
@@ -146,6 +158,8 @@ public class Database : Gtk.Grid {
 			conn.search_add_tag_constraint (Mpd.Operator.DEFAULT, Mpd.TagType.ARTIST, artist);
 			conn.search_add_tag_constraint (Mpd.Operator.DEFAULT, Mpd.TagType.ALBUM, item);
 			conn.search_commit ();
+			Songs[] songs = {
+			};
 			while ((song = conn.recv_song ()) != null) {
 				string track = song.get_tag (Mpd.TagType.TRACK);
 				if (track == null) {
@@ -154,15 +168,19 @@ public class Database : Gtk.Grid {
 					track = track.substring (0, track.index_of ("/", 0));
 				}
 				string title = song.get_tag (Mpd.TagType.TITLE);
-				string lenght = to_minutes (song.get_duration ());
+				string length = to_minutes (song.get_duration ());
 				total += song.get_duration ();
+
+				songs = {
+					new Songs (track, title, length),
+				};
 
 				var box1 = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 20);
 				box1.set_halign (Gtk.Align.START);
 				box1.set_hexpand (true);
 				var nlabel = new Gtk.Label (track);
 				var tlabel1 = new Gtk.Label (title);
-				var llabel = new Gtk.Label (lenght);
+				var llabel = new Gtk.Label (length);
 				nlabel.set_halign (Gtk.Align.START);
 				tlabel1.set_halign (Gtk.Align.START);
 				tlabel1.set_hexpand (true);
@@ -181,6 +199,9 @@ public class Database : Gtk.Grid {
 					year = ((year == null ) ? "0000" : year.substring (0, 4));
 					hlabel.set_label (year + " | " + item);
 				}
+			}
+			for (int i = 0; i < songs.length; i++) {
+				stdout.printf ("%s. %s %s\n", songs[i].track, songs[i].title, songs[i].length);
 			}
 			tlabel.set_label (to_minutes (total));
 		}
