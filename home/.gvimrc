@@ -1,10 +1,12 @@
-colorscheme base16-material-dark
+set guiheadroom=0
 set guioptions-=r
 set guioptions-=m
 set guioptions-=T
 set guioptions-=e
 set guioptions-=T
 set guioptions=a
-set linespace=10
+set guifont=Envy\ Code\ R\ for\ Powerline\ 10
+set linespace=4
 set lines=100 columns=200
-let g:airline_theme = 'hybrid'
+colorscheme pencil
+let g:airline_theme = 'pencil'
