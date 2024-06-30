@@ -1,0 +1,7 @@
+wsl = false
+multigrid = true
+vsync = true
+maximized = false
+srgb = false
+idle = true
+frame = "none"

@@ -1,0 +1,67 @@
+{
+    "npm.packageManager": "yarn",
+    "editor.fontFamily": "'Dank Mono', 'Iosevka', 'Envy Code R for Powerline', 'Noto Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
+    "editor.fontLigatures": true,
+    "git.enableSmartCommit": true,
+    "git.confirmSync": false,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "editor.smoothScrolling": true,
+    "workbench.tree.indent": 20,
+    "workbench.tree.renderIndentGuides": "always",
+    "workbench.view.alwaysShowHeaderActions": true,
+    "editor.cursorBlinking": "phase",
+    "editor.cursorSmoothCaretAnimation": "on",
+    "workbench.list.smoothScrolling": true,
+    "editor.minimap.enabled": false,
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "explorer.confirmDelete": false,
+    "window.newWindowDimensions": "maximized",
+    "npm.scriptExplorerAction": "run",
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "tabnine.experimentalAutoImports": true,
+    "prettier.jsxBracketSameLine": true,
+    "editor.linkedEditing": true,
+    "emmet.includeLanguages": {
+        "javascript": "javascriptreact"
+    },
+    "npm.enableRunFromFolder": true,
+    "npm.enableScriptExplorer": true,
+    "footsteps.highlightColor": "rgb(50, 50, 50)",
+    "customizeUI.activityBar": "bottom",
+    "customizeUI.titleBar": "frameless",
+    "customizeUI.listRowHeight": 28,
+    "window.title": "${dirty}${activeEditorShort}${separator}${rootName}",
+    "editor.focusOnHover": true,
+    "extensions.supportUntrustedWorkspaces": {
+        "iocave.monkey-patch": {
+            "supported": true
+        },
+        "iocave.customize-ui": {
+            "supported": true
+        },
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "explorer.confirmDragAndDrop": false,
+    "window.autoDetectColorScheme": true,
+    "workbench.colorTheme": "Community Material Theme High Contrast",
+    "workbench.preferredDarkColorTheme": "GitHub Dark Default",
+    "workbench.preferredLightColorTheme": "Ayu Light Bordered",
+    "window.zoomLevel": 1,
+    "accessibility.signals.terminalBell": {
+        "sound": "on"
+    },
+    "terminal.integrated.enableVisualBell": true,
+    "workbench.sideBar.location": "right",
+    "workbench.startupEditor": "none",
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "window.menuBarVisibility": "toggle",
+    "window.titleBarStyle": "custom",
+    "editor.fontVariations": true
+}
