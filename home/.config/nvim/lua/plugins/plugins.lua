@@ -6,7 +6,8 @@ return {
   -- { "Mofiqul/adwaita.nvim" },
   -- { "projekt0n/github-nvim-theme" },
   -- { "dasupradyumna/midnight.nvim" },
-  -- { "nyoom-engineering/oxocarbon.nvim" },
+  { "nyoom-engineering/oxocarbon.nvim" },
+  { "projekt0n/github-nvim-theme" },
   -- { "oxfist/night-owl.nvim" },
   {
     "oxfist/night-owl.nvim",
@@ -17,6 +18,20 @@ return {
     "LazyVim/LazyVim",
     opts = {
       colorscheme = "night-owl",
+    },
+  },
+  {
+    "f-person/auto-dark-mode.nvim",
+    opts = {
+      update_interval = 1000,
+      set_dark_mode = function()
+        vim.api.nvim_set_option("background", "dark")
+        vim.cmd("colorscheme night-owl")
+      end,
+      set_light_mode = function()
+        vim.api.nvim_set_option("background", "light")
+        vim.cmd("colorscheme catppuccin-latte")
+      end,
     },
   },
   { "folke/flash.nvim", enabled = false },
@@ -46,6 +61,8 @@ return {
   {
     "nvim-neo-tree/neo-tree.nvim",
     keys = {
+      { "<leader>E", false },
+      { "<leader>e", false },
       {
         "<leader>fE",
         function()
@@ -53,8 +70,6 @@ return {
         end,
         desc = "Explorer NeoTree (cwd)",
       },
-      { "<leader>E", "<leader>fe", desc = "Explorer NeoTree (root dir)", remap = true },
-      { "<leader>e", "<leader>fE", desc = "Explorer NeoTree (cwd)", remap = true },
       {
         "<leader>ge",
         function()
@@ -72,24 +87,31 @@ return {
     },
   },
   {
-    "nvim-telescope/telescope.nvim",
+    "echasnovski/mini.files",
     opts = {
-      defaults = {
-        layout_strategy = "vertical",
-        layout_config = { prompt_position = "top" },
-        sorting_strategy = "ascending",
-        winblend = 5,
+      options = {
+        -- Whether to use for editing directories
+        -- Disabled by default in LazyVim because neo-tree is used for that
+        use_as_default_explorer = true,
       },
     },
-  },
-  {
-    "telescope.nvim",
-    dependencies = {
-      "nvim-telescope/telescope-fzf-native.nvim",
-      build = "make",
-      config = function()
-        require("telescope").load_extension("fzf")
-      end,
+    keys = {
+      {
+        "<leader>e",
+        function()
+          require("mini.files").open(vim.api.nvim_buf_get_name(0), true)
+        end,
+        desc = "Open mini.files (Directory of Current File)",
+        remap = true
+      },
+      {
+        "<leader>E",
+        function()
+          require("mini.files").open(vim.uv.cwd(), true)
+        end,
+        desc = "Open mini.files (cwd)",
+        remap = true
+      },
     },
   },
   {
